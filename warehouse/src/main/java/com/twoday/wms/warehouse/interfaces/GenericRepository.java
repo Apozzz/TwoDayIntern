@@ -10,5 +10,6 @@ public interface GenericRepository<T, ID extends Serializable> {
     T save(T entity);
     Optional<T> findById(ID id);
     List<T> findAllById(Iterable<ID> ids);
+    void deleteAll();
     
 }

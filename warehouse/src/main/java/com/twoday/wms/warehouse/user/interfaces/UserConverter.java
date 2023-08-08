@@ -6,7 +6,7 @@ import com.twoday.wms.warehouse.user.User;
 
 public interface UserConverter extends GenericConverter<User, UserDto> {
     
-    com.twoday.wms.dto.UserDto toDto(User user);
+    UserDto toDto(User user);
     User fromDto(UserDto userDto);
 
 }

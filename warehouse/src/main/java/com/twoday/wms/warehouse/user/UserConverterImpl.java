@@ -6,7 +6,10 @@ import org.springframework.stereotype.Component;
 import com.twoday.wms.dto.UserDto;
 import com.twoday.wms.warehouse.user.interfaces.UserConverter;
 
+import lombok.AllArgsConstructor;
+
 @Component
+@AllArgsConstructor
 public class UserConverterImpl implements UserConverter {
 
     @Override
