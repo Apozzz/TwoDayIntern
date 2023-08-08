@@ -1,6 +1,7 @@
 package com.twoday.warehouse.warehousemodule.warehouse;
 
-import org.springframework.dao.DataIntegrityViolationException;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,75 +14,48 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.twoday.dto.dtomodule.ProductDto;
 import com.twoday.dto.dtomodule.WarehouseDto;
-import com.twoday.warehouse.warehousemodule.exceptions.ResourceNotFoundException;
-import com.twoday.warehouse.warehousemodule.product.Product;
-import com.twoday.warehouse.warehousemodule.product.exceptions.InsufficientProductException;
 import com.twoday.warehouse.warehousemodule.product.interfaces.ProductService;
-import com.twoday.warehouse.warehousemodule.response.ApiResponse;
 import com.twoday.warehouse.warehousemodule.warehouse.interfaces.WarehouseService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/v1/warehouses")
+@RequiredArgsConstructor
 public class WarehouseController {
 
     private final WarehouseService warehouseService;
     private final ProductService productService;
 
-    public WarehouseController(WarehouseService warehouseService, ProductService productService) {
-        this.warehouseService = warehouseService;
-        this.productService = productService;
-    }
-
     @GetMapping
-    public ResponseEntity<ApiResponse> getAllWarehouses() {
-        return new ResponseEntity<>(new ApiResponse(HttpStatus.OK.value(), null, warehouseService.getAllWarehouses()),
-                HttpStatus.OK);
+    public ResponseEntity<List<WarehouseDto>> getAllWarehouses() {
+        List<WarehouseDto> warehouses = warehouseService.getAllWarehouses();
+        return new ResponseEntity<>(warehouses, HttpStatus.OK);
     }
 
     @GetMapping("/{id}/products")
-    public ResponseEntity<ApiResponse> getWarehouseProducts(@PathVariable Long id) {
-        return new ResponseEntity<>(
-                new ApiResponse(HttpStatus.OK.value(), null, warehouseService.getProductsByWarehouseId(id)),
-                HttpStatus.OK);
+    public ResponseEntity<List<ProductDto>> getWarehouseProducts(@PathVariable Long id) {
+        List<ProductDto> productsDtos = productService.getProductsByWarehouseId(id);
+        return new ResponseEntity<>(productsDtos, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse> saveWarehouse(@RequestBody WarehouseDto warehouseDto) {
-        return new ResponseEntity<>(new ApiResponse(HttpStatus.CREATED.value(), "Warehouse was successfully created.",
-                warehouseService.saveWarehouse(warehouseDto)), HttpStatus.CREATED);
+    public ResponseEntity<WarehouseDto> saveWarehouse(@RequestBody WarehouseDto warehouseDto) {
+        WarehouseDto savedWarehouse = warehouseService.saveWarehouse(warehouseDto);
+        return new ResponseEntity<>(savedWarehouse, HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}/products")
-    public ResponseEntity<ApiResponse> saveWarehouseProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
-        try {
-            WarehouseDto warehouseDto = warehouseService.saveWarehouseProduct(id, productDto);
-            return new ResponseEntity<>(
-                    new ApiResponse(HttpStatus.CREATED.value(), "Product added to Warehouse successfully", warehouseDto),
-                    HttpStatus.CREATED);
-        } catch (ResourceNotFoundException ex) {
-            return new ResponseEntity<>(new ApiResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage(), null),
-                    HttpStatus.NOT_FOUND);
-        } catch (DataIntegrityViolationException ex) {
-            return new ResponseEntity<>(new ApiResponse(HttpStatus.CONFLICT.value(), ex.getMessage(), null),
-                    HttpStatus.CONFLICT);
-        }
+    public ResponseEntity<ProductDto> saveWarehouseProduct(@PathVariable Long id,
+            @RequestBody ProductDto productDto) {
+        return new ResponseEntity<>(warehouseService.saveWarehouseProduct(id, productDto), HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}/products/{productId}/purchase")
-    public ResponseEntity<ApiResponse> purchaseProduct(@PathVariable Long id, @PathVariable Long productId,
+    public ResponseEntity<ProductDto> purchaseProduct(@PathVariable Long id, @PathVariable Long productId,
             @RequestParam("quantity") Integer quantity) {
-        try {
-            Product product = productService.purchaseProduct(productId, quantity);
-            return new ResponseEntity<>(
-                    new ApiResponse(HttpStatus.CREATED.value(), "Product was purchased successfully", product),
-                    HttpStatus.CREATED);
-        } catch (ResourceNotFoundException ex) {
-            return new ResponseEntity<>(new ApiResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage(), null),
-                    HttpStatus.NOT_FOUND);
-        } catch (InsufficientProductException ex) {
-            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), null),
-                    HttpStatus.BAD_REQUEST);
-        }
+        ProductDto productDto = productService.purchaseProduct(productId, quantity);
+        return new ResponseEntity<>(productDto, HttpStatus.CREATED);
     }
 
 }

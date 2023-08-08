@@ -7,15 +7,13 @@ public class ProductDto {
     private String description;
     private Float price;
     private Integer quantity;
-    private Long warehouseId;
 
-    public ProductDto(Long id, String name, String description, Float price, Integer quantity, Long warehouseId) {
+    public ProductDto(Long id, String name, String description, Float price, Integer quantity) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
-        this.warehouseId = warehouseId;
     }
 
     public ProductDto() {
@@ -61,18 +59,10 @@ public class ProductDto {
         this.quantity = quantity;
     }
 
-    public Long getWarehouseId() {
-        return warehouseId;
-    }
-
-    public void setWarehouseId(Long warehouseId) {
-        this.warehouseId = warehouseId;
-    }
-
     @Override
     public String toString() {
         return "ProductDto [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price
-                + ", quantity=" + quantity + ", warehouseId=" + warehouseId + "]";
+                + ", quantity=" + quantity + "]";
     }
 
 }

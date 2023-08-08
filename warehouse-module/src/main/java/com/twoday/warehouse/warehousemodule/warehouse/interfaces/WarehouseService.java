@@ -9,7 +9,6 @@ public interface WarehouseService {
 
     List<WarehouseDto> getAllWarehouses();
     WarehouseDto saveWarehouse(WarehouseDto warehouseDto);
-    List<ProductDto> getProductsByWarehouseId(Long id);
-    WarehouseDto saveWarehouseProduct(Long id, ProductDto productDto);
+    ProductDto saveWarehouseProduct(Long id, ProductDto productDto);
 
 }

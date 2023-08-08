@@ -1,7 +1,6 @@
 package com.twoday.warehouse.warehousemodule.user;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collections;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,30 +9,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.twoday.dto.dtomodule.UserDto;
-import com.twoday.warehouse.warehousemodule.role.Role;
-import com.twoday.warehouse.warehousemodule.role.interfaces.RoleService;
 import com.twoday.warehouse.warehousemodule.user.exceptions.UserAlreadyExistsException;
 import com.twoday.warehouse.warehousemodule.user.interfaces.UserConverter;
 import com.twoday.warehouse.warehousemodule.user.interfaces.UserRepository;
 import com.twoday.warehouse.warehousemodule.user.interfaces.UserService;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
-public class DefaultUserService implements UserService, UserDetailsService {
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final RoleService roleService;
     private final UserConverter userConverter;
 
-    public DefaultUserService(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleService roleService, UserConverter userConverter) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.roleService = roleService;
-        this.userConverter = userConverter;
-    }
-
     @Override
-    public void register(UserDto userDto) {
+    public UserDto register(UserDto userDto) {
         User user = userConverter.fromDto(userDto);
 
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
@@ -41,25 +33,19 @@ public class DefaultUserService implements UserService, UserDetailsService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(getRolesSet(user));
-        userRepository.save(user);
+        return userConverter.toDto(userRepository.save(user));
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found with username: %s".formatted(username)));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                Collections.emptyList()
+        );
     }
 
-    private Set<Role> getRolesSet(User user) {
-        Set<Role> roles = new HashSet<>();
-
-        for (Role role : user.getRoles()) {
-            Role existingRole = roleService.findByName(role.getAuthority());
-            roles.add(existingRole);
-        }
-
-        return roles;
-    }
-    
 }

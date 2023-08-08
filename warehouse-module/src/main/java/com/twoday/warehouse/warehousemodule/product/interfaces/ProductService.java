@@ -1,9 +1,12 @@
 package com.twoday.warehouse.warehousemodule.product.interfaces;
 
-import com.twoday.warehouse.warehousemodule.product.Product;
+import java.util.List;
+
+import com.twoday.dto.dtomodule.ProductDto;
 
 public interface ProductService {
     
-    Product purchaseProduct(Long id, Integer quantity);
+    ProductDto purchaseProduct(Long id, Integer quantity);
+    List<ProductDto> getProductsByWarehouseId(Long id);
 
 }

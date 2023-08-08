@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.twoday.dto.dtomodule.UserDto;
-import com.twoday.warehouse.warehousemodule.exceptions.ResourceNotFoundException;
-import com.twoday.warehouse.warehousemodule.response.ApiResponse;
 import com.twoday.warehouse.warehousemodule.user.interfaces.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,16 +20,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse> register(@RequestBody UserDto userDto) {
-        try {
-            userService.register(userDto);
-            return new ResponseEntity<>(
-                    new ApiResponse(HttpStatus.CREATED.value(), "User registered successfully", userDto),
-                    HttpStatus.CREATED);
-        } catch (ResourceNotFoundException ex) {
-            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), null),
-                    HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<UserDto> register(@RequestBody UserDto userDto) {
+        UserDto registeredUser = userService.register(userDto);
+        return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
     }
 
 }

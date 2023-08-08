@@ -4,6 +4,6 @@ import com.twoday.dto.dtomodule.UserDto;
 
 public interface UserService {
     
-    void register(UserDto userDto);
+    UserDto register(UserDto userDto);
 
 }

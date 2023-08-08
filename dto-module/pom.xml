@@ -8,7 +8,7 @@
 		<artifactId>warehouse-management-system</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.twoday.dto</groupId>
+	<groupId>com.twoday.wms.dto</groupId>
 	<artifactId>dto-module</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>dto</name>

@@ -1,8 +1,6 @@
 package com.twoday.warehouse.warehousemodule.warehouse;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -16,13 +14,13 @@ import com.twoday.warehouse.warehousemodule.warehouse.interfaces.WarehouseReposi
 import com.twoday.warehouse.warehousemodule.warehouse.interfaces.WarehouseService;
 
 @Service
-public class DefaultWarehouseService implements WarehouseService {
+public class WarehouseServiceImpl implements WarehouseService {
 
     private final WarehouseRepository warehouseRepository;
     private final ProductConverter productConverter;
     private final WarehouseConverter warehouseConverter;
 
-    public DefaultWarehouseService(WarehouseRepository warehouseRepository, ProductConverter productConverter,
+    public WarehouseServiceImpl(WarehouseRepository warehouseRepository, ProductConverter productConverter,
             WarehouseConverter warehouseConverter) {
         this.warehouseRepository = warehouseRepository;
         this.productConverter = productConverter;
@@ -31,7 +29,9 @@ public class DefaultWarehouseService implements WarehouseService {
 
     @Override
     public List<WarehouseDto> getAllWarehouses() {
-        return warehouseRepository.findAll().stream().map(warehouseConverter::toDto).toList();
+        return warehouseRepository.findAll().stream()
+                .map(warehouseConverter::toDto)
+                .toList();
     }
 
     @Override
@@ -40,27 +40,14 @@ public class DefaultWarehouseService implements WarehouseService {
     }
 
     @Override
-    public List<ProductDto> getProductsByWarehouseId(Long id) {
-        Optional<Warehouse> warehouse = warehouseRepository.findById(id);
-
-        if (warehouse.isPresent()) {
-            return warehouse.get().getProducts().stream()
-                    .map(productConverter::toDto)
-                    .toList();
-        } else {
-            return Collections.emptyList();
-        }
-    }
-
-    @Override
-    public WarehouseDto saveWarehouseProduct(Long id, ProductDto productDto) {
+    public ProductDto saveWarehouseProduct(Long id, ProductDto productDto) {
         Product product = productConverter.fromDto(productDto);
         return warehouseRepository.findById(id).map(
                 warehouse -> {
                     warehouse.addProduct(product);
                     warehouseRepository.save(warehouse);
 
-                    return warehouseConverter.toDto(warehouse);
+                    return productDto;
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Warehouse with id: %s was not found".formatted(id)));
     }
