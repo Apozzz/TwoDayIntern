@@ -10,8 +10,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>dto-module</module>
-        <module>warehouse-module</module>
-        <module>shop-module</module>
+        <module>dto</module>
+        <module>warehouse</module>
+        <module>shop</module>
     </modules>
 </project>
