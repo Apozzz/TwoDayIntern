@@ -7,29 +7,26 @@ import org.springframework.stereotype.Component;
 
 import com.twoday.wms.dto.WarehouseDto;
 import com.twoday.wms.warehouse.product.Product;
-import com.twoday.wms.warehouse.product.interfaces.ProductRepository;
 import com.twoday.wms.warehouse.warehouse.interfaces.WarehouseConverter;
 
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
 public class WarehouseConverterImpl implements WarehouseConverter {
 
-    private final ProductRepository productRepository;
+    private final EntityManager entityManager;
 
     @Override
     public WarehouseDto toDto(Warehouse warehouse) {
         WarehouseDto warehouseDto = new WarehouseDto();
         BeanUtils.copyProperties(warehouse, warehouseDto);
 
-        if (warehouse.getProducts() != null) {
-            List<Long> productIds = warehouse.getProducts()
-                    .stream()
-                    .map(Product::getId)
-                    .toList();
-            warehouseDto.setProductIds(productIds);
-        }
+        List<Long> productIds = warehouse.getProducts().stream()
+                .map(Product::getId)
+                .toList();
+        warehouseDto.setProductIds(productIds);
 
         return warehouseDto;
     }
@@ -40,8 +37,11 @@ public class WarehouseConverterImpl implements WarehouseConverter {
         BeanUtils.copyProperties(warehouseDto, warehouse);
 
         if (!warehouseDto.getProductIds().isEmpty()) {
-            List<Product> products = productRepository.findAllById(warehouseDto.getProductIds());
-            warehouse.setProducts(products);
+            List<Product> productReferences = warehouseDto.getProductIds()
+                    .stream()
+                    .map(id -> entityManager.getReference(Product.class, id))
+                    .toList();
+            warehouse.setProducts(productReferences);
         }
 
         return warehouse;
