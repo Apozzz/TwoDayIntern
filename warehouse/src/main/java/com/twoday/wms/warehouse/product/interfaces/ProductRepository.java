@@ -11,5 +11,7 @@ public interface ProductRepository extends GenericRepository<Product, Long> {
     Optional<Product> findById(Long id);
     Product save(Product product);
     List<Product> findAllById(Iterable<Long> ids);
+    void deleteAllById(Iterable<? extends Long> ids);
+    Optional<Product> findByName(String name);
 
 }

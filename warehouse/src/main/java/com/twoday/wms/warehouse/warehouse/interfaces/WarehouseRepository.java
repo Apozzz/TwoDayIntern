@@ -11,5 +11,6 @@ public interface WarehouseRepository extends GenericRepository<Warehouse, Long> 
     List<Warehouse> findAll();
     Warehouse save(Warehouse warehouse);
     Optional<Warehouse> findById(Long id);
+    Optional<Warehouse> findByName(String name);
     
 }

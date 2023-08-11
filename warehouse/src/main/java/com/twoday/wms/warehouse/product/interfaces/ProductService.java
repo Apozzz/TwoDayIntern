@@ -6,7 +6,8 @@ import com.twoday.wms.dto.ProductDto;
 
 public interface ProductService {
     
-    ProductDto purchaseProduct(Long id, Integer quantity);
+    ProductDto purchaseProduct(Long id, Integer quantity, String username);
     List<ProductDto> getProductsByWarehouseId(Long id);
+    ProductDto saveProductByWarehouseId(Long id, ProductDto productDto);
 
 }
