@@ -1,0 +1,38 @@
+package com.twoday.warehouse.warehousemodule.report;
+
+import static com.twoday.warehouse.warehousemodule.report.constants.CsvConstants.NEW_LINE;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.twoday.warehouse.warehousemodule.purchase.Purchase;
+import com.twoday.warehouse.warehousemodule.report.generators.CsvHeaderGenerator;
+import com.twoday.warehouse.warehousemodule.report.generators.CsvRowGenerator;
+import com.twoday.warehouse.warehousemodule.report.interfaces.ReportGeneratorService;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class ReportGeneratorServiceImpl implements ReportGeneratorService {
+
+    private final CsvHeaderGenerator csvHeaderGenerator;
+    private final CsvRowGenerator csvRowGenerator;
+
+    @Override
+    public String generateCSV(List<Purchase> purchases) {
+        StringBuilder csvBuilder = new StringBuilder();
+
+        String header = csvHeaderGenerator.generateCSVHeader(Purchase.class);
+        csvBuilder.append(header).append(NEW_LINE);
+
+        for (Purchase purchase : purchases) {
+            String row = csvRowGenerator.generateCSVRow(purchase);
+            csvBuilder.append(row).append(NEW_LINE);
+        }
+
+        return csvBuilder.toString();
+    }
+    
+}
