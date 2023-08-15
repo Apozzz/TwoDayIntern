@@ -116,8 +116,8 @@ public class ProductServiceImplTest {
 
     @Test
     void testSaveProductByWarehouseId() {
-        when(warehouseRepository.findById(warehouse.getId())).thenReturn(Optional.of(warehouse));
         when(productConverter.fromDto(productDto)).thenReturn(product);
+        when(warehouseRepository.findById(warehouse.getId())).thenReturn(Optional.of(warehouse));
         ProductDto returnedProductDto = productService.saveProductByWarehouseId(warehouse.getId(), productDto);
         assertEquals(productDto, returnedProductDto);
     }
