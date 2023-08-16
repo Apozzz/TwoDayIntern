@@ -1,51 +1,38 @@
 package com.twoday.wms.warehouse.report;
 
+import static com.twoday.wms.warehouse.report.constants.CsvConstants.NEW_LINE;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.twoday.wms.warehouse.product.Product;
 import com.twoday.wms.warehouse.purchase.Purchase;
+import com.twoday.wms.warehouse.report.generators.CsvHeaderGenerator;
+import com.twoday.wms.warehouse.report.generators.CsvRowGenerator;
 import com.twoday.wms.warehouse.report.interfaces.ReportGeneratorService;
-import com.twoday.wms.warehouse.user.User;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class ReportGeneratorServiceImpl implements ReportGeneratorService {
 
-    private static final String CSV_HEADER = "Purchase ID,User ID,User Name,Product ID,Product Name,Quantity,Final Price,Time Stamp\n";
-    private static final String CSV_SEPARATOR = ",";
-    private static final String QUOTE = "\"";
-    private static final String DOUBLE_QUOTE = "\"\"";
-    private static final String NEW_LINE = "\n";
-    private static final String EMPTY_STRING = "";
+    private final CsvHeaderGenerator csvHeaderGenerator;
+    private final CsvRowGenerator csvRowGenerator;
 
     @Override
     public String generateCSV(List<Purchase> purchases) {
         StringBuilder csvBuilder = new StringBuilder();
-        csvBuilder.append(CSV_HEADER);
+
+        String header = csvHeaderGenerator.generateCSVHeader(Purchase.class);
+        csvBuilder.append(header).append(NEW_LINE);
 
         for (Purchase purchase : purchases) {
-            Product product = purchase.getProduct();
-            User user = purchase.getUser();
-
-            csvBuilder.append(purchase.getId()).append(CSV_SEPARATOR);
-            csvBuilder.append(user.getId()).append(CSV_SEPARATOR);
-            csvBuilder.append(user.getUsername()).append(CSV_SEPARATOR);
-            csvBuilder.append(product.getId()).append(CSV_SEPARATOR);
-            csvBuilder.append(QUOTE).append(escapeCSV(product.getName())).append(QUOTE).append(CSV_SEPARATOR);
-            csvBuilder.append(purchase.getQuantity()).append(CSV_SEPARATOR);
-            csvBuilder.append(purchase.getFinalPrice()).append(CSV_SEPARATOR);
-            csvBuilder.append(purchase.getTimeStamp()).append(NEW_LINE);
+            String row = csvRowGenerator.generateCSVRow(purchase);
+            csvBuilder.append(row).append(NEW_LINE);
         }
 
         return csvBuilder.toString();
     }
-
-    private String escapeCSV(String value) {
-        if (value == null) {
-            return EMPTY_STRING;
-        }
-        return value.replace(QUOTE, DOUBLE_QUOTE);
-    }
-
+    
 }

@@ -10,7 +10,6 @@ import com.twoday.wms.warehouse.purchase.interfaces.PurchaseService;
 import com.twoday.wms.warehouse.report.interfaces.ReportFileService;
 import com.twoday.wms.warehouse.report.interfaces.ReportGeneratorService;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,14 +18,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ReportScheduler {
 
-    private static final String HOURLY_CRON_EXPRESSION = "0 */2 * * * ?";
+    private static final String HOURLY_CRON_EXPRESSION = "0 0 * * * ?";
 
     private final PurchaseService purchaseService;
     private final ReportFileService fileService;
     private final ReportGeneratorService generatorService;
 
     @Scheduled(cron = HOURLY_CRON_EXPRESSION)
-    @Transactional
     public void generateCsvReport() {
         log.info("Scheduled report generation job started.");
         List<Purchase> purchases = purchaseService.findTop25ByOrderByIdDesc();
