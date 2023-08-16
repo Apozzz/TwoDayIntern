@@ -10,7 +10,6 @@ import com.twoday.wms.warehouse.purchase.interfaces.PurchaseService;
 import com.twoday.wms.warehouse.report.interfaces.ReportFileService;
 import com.twoday.wms.warehouse.report.interfaces.ReportGeneratorService;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
