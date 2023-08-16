@@ -50,8 +50,7 @@ public class WarehouseController {
     @PostMapping("/{id}/products")
     public ResponseEntity<ProductDto> saveWarehouseProduct(@PathVariable Long id,
             @RequestBody ProductDto productDto) {
-        ProductDto savedProduct = productService.saveProductByWarehouseId(id, productDto);
-        return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
+        return new ResponseEntity<>(productService.saveProductByWarehouseId(id, productDto), HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}/products/{productId}/purchase")

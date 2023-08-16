@@ -7,10 +7,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.twoday.wms.dto.PurchaseDto;
-import com.twoday.wms.warehouse.interfaces.ReportGeneratorService;
 import com.twoday.wms.warehouse.purchase.Purchase;
 import com.twoday.wms.warehouse.report.generators.CsvHeaderGenerator;
 import com.twoday.wms.warehouse.report.generators.CsvRowGenerator;
+import com.twoday.wms.warehouse.report.interfaces.ReportGeneratorService;
 
 import lombok.RequiredArgsConstructor;
 

@@ -19,9 +19,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import com.twoday.wms.warehouse.interfaces.ReportFileNameService;
-import com.twoday.wms.warehouse.interfaces.ReportFileService;
 import com.twoday.wms.warehouse.report.ReportController;
+import com.twoday.wms.warehouse.report.interfaces.ReportFileNameService;
+import com.twoday.wms.warehouse.report.interfaces.ReportFileService;
 
 public class ReportControllerTest {
 

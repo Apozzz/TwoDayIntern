@@ -13,9 +13,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.twoday.wms.warehouse.interfaces.ReportValidator;
 import com.twoday.wms.warehouse.report.ReportFileNameServiceImpl;
 import com.twoday.wms.warehouse.report.exceptions.InvalidDateTimeFormatException;
+import com.twoday.wms.warehouse.report.interfaces.ReportValidator;
 
 public class ReportFileNameServiceImplTest {
     

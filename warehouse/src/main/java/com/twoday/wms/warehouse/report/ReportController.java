@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.twoday.wms.warehouse.interfaces.ReportFileNameService;
-import com.twoday.wms.warehouse.interfaces.ReportFileService;
+import com.twoday.wms.warehouse.report.interfaces.ReportFileNameService;
+import com.twoday.wms.warehouse.report.interfaces.ReportFileService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,11 +29,10 @@ public class ReportController {
     @GetMapping("/purchases/csv")
     public ResponseEntity<Resource> getPurchasesReport(
             @RequestParam(name = "dateTime", required = false) String dateTime) {
-        String dateTimeOptional = dateTime == null ? null : dateTime;
-        Resource resource = new FileSystemResource(fileService.determineCorrectFile(dateTimeOptional));
+        Resource resource = new FileSystemResource(fileService.determineCorrectFile(dateTime));
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
-                        CONTENT_DISPOSITION_ATTACHMENT.formatted(fileNameService.getFileName(dateTimeOptional)))
+                        CONTENT_DISPOSITION_ATTACHMENT.formatted(fileNameService.getFileName(dateTime)))
                 .contentType(MediaType.parseMediaType(CSV_MIME_TYPE))
                 .body(resource);
     }

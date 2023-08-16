@@ -6,10 +6,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.twoday.wms.dto.PurchaseDto;
-import com.twoday.wms.warehouse.interfaces.ReportFileService;
-import com.twoday.wms.warehouse.interfaces.ReportGeneratorService;
 import com.twoday.wms.warehouse.purchase.PurchaseConverter;
 import com.twoday.wms.warehouse.purchase.interfaces.PurchaseService;
+import com.twoday.wms.warehouse.report.interfaces.ReportFileService;
+import com.twoday.wms.warehouse.report.interfaces.ReportGeneratorService;
 
 import lombok.RequiredArgsConstructor;
 
