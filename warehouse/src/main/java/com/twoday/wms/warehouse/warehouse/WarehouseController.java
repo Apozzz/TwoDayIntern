@@ -18,17 +18,13 @@ import com.twoday.wms.warehouse.product.interfaces.ProductService;
 import com.twoday.wms.warehouse.warehouse.interfaces.WarehouseService;
 import com.twoday.wms.dto.ProductDto;
 import com.twoday.wms.dto.WarehouseDto;
-import com.twoday.wms.dto.ProductDto;
-import com.twoday.wms.dto.WarehouseDto;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/v1/warehouses")
 @RequiredArgsConstructor
-@Slf4j
 @Slf4j
 public class WarehouseController {
 
@@ -38,9 +34,7 @@ public class WarehouseController {
     @GetMapping
     public ResponseEntity<List<WarehouseDto>> getAllWarehouses() {
         log.info("Fetching all warehouses...");
-        log.info("Fetching all warehouses...");
         List<WarehouseDto> warehouses = warehouseService.getAllWarehouses();
-        log.info("Fetched {} warehouses successfully.", warehouses.size());
         log.info("Fetched {} warehouses successfully.", warehouses.size());
         return new ResponseEntity<>(warehouses, HttpStatus.OK);
     }
@@ -48,9 +42,7 @@ public class WarehouseController {
     @GetMapping("/{id}/products")
     public ResponseEntity<List<ProductDto>> getWarehouseProducts(@PathVariable Long id) {
         log.info("Fetching products for warehouse ID: {}...", id);
-        log.info("Fetching products for warehouse ID: {}...", id);
         List<ProductDto> productsDtos = productService.getProductsByWarehouseId(id);
-        log.info("Fetched {} products for warehouse ID: {} successfully.", productsDtos.size(), id);
         log.info("Fetched {} products for warehouse ID: {} successfully.", productsDtos.size(), id);
         return new ResponseEntity<>(productsDtos, HttpStatus.OK);
     }
@@ -58,9 +50,7 @@ public class WarehouseController {
     @PostMapping
     public ResponseEntity<WarehouseDto> saveWarehouse(@RequestBody WarehouseDto warehouseDto) {
         log.info("Attempting to save warehouse with details: {}", warehouseDto);
-        log.info("Attempting to save warehouse with details: {}", warehouseDto);
         WarehouseDto savedWarehouse = warehouseService.saveWarehouse(warehouseDto);
-        log.info("Successfully saved warehouse with ID: {}.", savedWarehouse.getId());
         log.info("Successfully saved warehouse with ID: {}.", savedWarehouse.getId());
         return new ResponseEntity<>(savedWarehouse, HttpStatus.CREATED);
     }
@@ -68,10 +58,6 @@ public class WarehouseController {
     @PostMapping("/{id}/products")
     public ResponseEntity<ProductDto> saveWarehouseProduct(@PathVariable Long id,
             @RequestBody ProductDto productDto) {
-        log.info("Attempting to save product with details: {} for warehouse ID: {}...", productDto, id);
-        ProductDto savedProduct = productService.saveProductByWarehouseId(id, productDto);
-        log.info("Successfully saved product with ID: {} for warehouse ID: {}.", savedProduct.getId(), id);
-        return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
         log.info("Attempting to save product with details: {} for warehouse ID: {}...", productDto, id);
         ProductDto savedProduct = productService.saveProductByWarehouseId(id, productDto);
         log.info("Successfully saved product with ID: {} for warehouse ID: {}.", savedProduct.getId(), id);

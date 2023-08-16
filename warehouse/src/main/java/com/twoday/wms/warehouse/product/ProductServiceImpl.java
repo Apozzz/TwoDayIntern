@@ -77,4 +77,11 @@ public class ProductServiceImpl implements ProductService {
         return productDto;
     }
 
+    @Override
+    public ProductDto getProduct(Long id) {
+        return productConverter.toDto(
+                productRepository.findById(id).orElseThrow(
+                        () -> new ResourceNotFoundException("Product not found with id: %s".formatted(id))));
+    }
+
 }
