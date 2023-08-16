@@ -20,7 +20,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.twoday.wms.dto.ProductDto;
 import com.twoday.wms.warehouse.exceptions.ResourceNotFoundException;
 import com.twoday.wms.warehouse.product.Product;
 import com.twoday.wms.warehouse.product.ProductServiceImpl;
@@ -33,6 +32,7 @@ import com.twoday.wms.warehouse.user.User;
 import com.twoday.wms.warehouse.user.interfaces.UserRepository;
 import com.twoday.wms.warehouse.warehouse.Warehouse;
 import com.twoday.wms.warehouse.warehouse.interfaces.WarehouseRepository;
+import com.twoday.wms.dto.ProductDto;
 
 public class ProductServiceImplTest {
 
@@ -116,8 +116,8 @@ public class ProductServiceImplTest {
 
     @Test
     void testSaveProductByWarehouseId() {
-        when(warehouseRepository.findById(warehouse.getId())).thenReturn(Optional.of(warehouse));
         when(productConverter.fromDto(productDto)).thenReturn(product);
+        when(warehouseRepository.findById(warehouse.getId())).thenReturn(Optional.of(warehouse));
         ProductDto returnedProductDto = productService.saveProductByWarehouseId(warehouse.getId(), productDto);
         assertEquals(productDto, returnedProductDto);
     }

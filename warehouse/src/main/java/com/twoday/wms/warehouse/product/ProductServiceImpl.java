@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.twoday.wms.dto.ProductDto;
 import com.twoday.wms.warehouse.exceptions.ResourceNotFoundException;
 import com.twoday.wms.warehouse.product.exceptions.InsufficientProductException;
 import com.twoday.wms.warehouse.product.interfaces.ProductConverter;
@@ -19,6 +18,7 @@ import com.twoday.wms.warehouse.user.User;
 import com.twoday.wms.warehouse.user.interfaces.UserRepository;
 import com.twoday.wms.warehouse.warehouse.Warehouse;
 import com.twoday.wms.warehouse.warehouse.interfaces.WarehouseRepository;
+import com.twoday.wms.dto.ProductDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
 
         product.setQuantity(product.getQuantity() - quantity);
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+            .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
         Purchase purchase = new Purchase(user, product, quantity, LocalDateTime.now());
         purchaseRepository.save(purchase);
@@ -66,14 +66,14 @@ public class ProductServiceImpl implements ProductService {
         if (productDto == null) {
             throw new IllegalArgumentException("ProductDto cannot be null");
         }
-    
+
         Warehouse warehouse = warehouseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Warehouse with id: %s was not found".formatted(id)));
-    
+
         Product product = productConverter.fromDto(productDto);
         warehouse.addProduct(product);
         warehouseRepository.save(warehouse);
-    
+
         return productDto;
     }
 

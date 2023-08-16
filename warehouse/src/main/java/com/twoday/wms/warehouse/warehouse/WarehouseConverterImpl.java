@@ -23,8 +23,7 @@ public class WarehouseConverterImpl implements WarehouseConverter {
         WarehouseDto warehouseDto = new WarehouseDto();
         BeanUtils.copyProperties(warehouse, warehouseDto);
 
-        List<Long> productIds = warehouse.getProducts()
-                .stream()
+        List<Long> productIds = warehouse.getProducts().stream()
                 .map(Product::getId)
                 .toList();
         warehouseDto.setProductIds(productIds);

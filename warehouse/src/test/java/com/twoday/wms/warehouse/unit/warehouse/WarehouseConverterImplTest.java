@@ -14,10 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.twoday.wms.dto.WarehouseDto;
 import com.twoday.wms.warehouse.product.Product;
 import com.twoday.wms.warehouse.warehouse.Warehouse;
 import com.twoday.wms.warehouse.warehouse.WarehouseConverterImpl;
+import com.twoday.wms.dto.WarehouseDto;
 
 import jakarta.persistence.EntityManager;
 
