@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
-import com.twoday.wms.dto.ProductDto;
 import com.twoday.wms.warehouse.product.Product;
 import com.twoday.wms.warehouse.product.ProductConverterImpl;
+import com.twoday.wms.dto.ProductDto;
 
 public class ProductConverterImplTest {
     

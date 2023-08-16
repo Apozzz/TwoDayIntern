@@ -42,7 +42,7 @@ import jakarta.transaction.Transactional;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application-test.properties")
-public class WarehouseIT {
+public class WarehouseIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;

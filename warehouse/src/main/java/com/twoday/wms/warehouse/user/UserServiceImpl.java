@@ -8,11 +8,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.twoday.wms.dto.UserDto;
 import com.twoday.wms.warehouse.user.exceptions.UserAlreadyExistsException;
 import com.twoday.wms.warehouse.user.interfaces.UserConverter;
 import com.twoday.wms.warehouse.user.interfaces.UserRepository;
 import com.twoday.wms.warehouse.user.interfaces.UserService;
+import com.twoday.wms.dto.UserDto;
 
 import lombok.RequiredArgsConstructor;
 

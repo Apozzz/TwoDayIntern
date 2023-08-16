@@ -3,8 +3,8 @@ package com.twoday.wms.warehouse.user;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
-import com.twoday.wms.dto.UserDto;
 import com.twoday.wms.warehouse.user.interfaces.UserConverter;
+import com.twoday.wms.dto.UserDto;
 
 import lombok.AllArgsConstructor;
 

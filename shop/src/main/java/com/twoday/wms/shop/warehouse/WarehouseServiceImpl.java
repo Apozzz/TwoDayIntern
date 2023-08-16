@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.twoday.wms.dto.ProductDto;
 import com.twoday.wms.shop.warehouse.interfaces.WarehouseService;
+import com.twoday.wms.dto.ProductDto;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;

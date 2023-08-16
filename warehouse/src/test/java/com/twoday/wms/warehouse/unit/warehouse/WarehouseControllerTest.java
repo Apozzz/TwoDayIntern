@@ -27,12 +27,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.twoday.wms.dto.ProductDto;
-import com.twoday.wms.dto.WarehouseDto;
 import com.twoday.wms.warehouse.product.interfaces.ProductService;
 import com.twoday.wms.warehouse.unit.configs.TestAuthConfig;
 import com.twoday.wms.warehouse.warehouse.WarehouseController;
 import com.twoday.wms.warehouse.warehouse.interfaces.WarehouseService;
+import com.twoday.wms.dto.ProductDto;
+import com.twoday.wms.dto.WarehouseDto;
 
 @WebMvcTest(WarehouseController.class)
 @Import(TestAuthConfig.class)

@@ -14,16 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.twoday.wms.dto.ProductDto;
-import com.twoday.wms.dto.WarehouseDto;
 import com.twoday.wms.warehouse.product.interfaces.ProductService;
 import com.twoday.wms.warehouse.warehouse.interfaces.WarehouseService;
+import com.twoday.wms.dto.ProductDto;
+import com.twoday.wms.dto.WarehouseDto;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/v1/warehouses")
 @RequiredArgsConstructor
+@Slf4j
 public class WarehouseController {
 
     private final WarehouseService warehouseService;
@@ -31,26 +33,35 @@ public class WarehouseController {
 
     @GetMapping
     public ResponseEntity<List<WarehouseDto>> getAllWarehouses() {
+        log.info("Fetching all warehouses...");
         List<WarehouseDto> warehouses = warehouseService.getAllWarehouses();
+        log.info("Fetched {} warehouses successfully.", warehouses.size());
         return new ResponseEntity<>(warehouses, HttpStatus.OK);
     }
 
     @GetMapping("/{id}/products")
     public ResponseEntity<List<ProductDto>> getWarehouseProducts(@PathVariable Long id) {
+        log.info("Fetching products for warehouse ID: {}...", id);
         List<ProductDto> productsDtos = productService.getProductsByWarehouseId(id);
+        log.info("Fetched {} products for warehouse ID: {} successfully.", productsDtos.size(), id);
         return new ResponseEntity<>(productsDtos, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<WarehouseDto> saveWarehouse(@RequestBody WarehouseDto warehouseDto) {
+        log.info("Attempting to save warehouse with details: {}", warehouseDto);
         WarehouseDto savedWarehouse = warehouseService.saveWarehouse(warehouseDto);
+        log.info("Successfully saved warehouse with ID: {}.", savedWarehouse.getId());
         return new ResponseEntity<>(savedWarehouse, HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}/products")
     public ResponseEntity<ProductDto> saveWarehouseProduct(@PathVariable Long id,
             @RequestBody ProductDto productDto) {
-        return new ResponseEntity<>(productService.saveProductByWarehouseId(id, productDto), HttpStatus.CREATED);
+        log.info("Attempting to save product with details: {} for warehouse ID: {}...", productDto, id);
+        ProductDto savedProduct = productService.saveProductByWarehouseId(id, productDto);
+        log.info("Successfully saved product with ID: {} for warehouse ID: {}.", savedProduct.getId(), id);
+        return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}/products/{productId}/purchase")
@@ -58,7 +69,11 @@ public class WarehouseController {
             @RequestParam("quantity") Integer quantity) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
+        log.info("User {} is attempting to purchase product ID: {} from warehouse ID: {} with quantity: {}...",
+                currentPrincipalName, productId, id, quantity);
         ProductDto productDto = productService.purchaseProduct(productId, quantity, currentPrincipalName);
+        log.info("User {} successfully purchased product ID: {} from warehouse ID: {}.", currentPrincipalName,
+                productId, id);
         return new ResponseEntity<>(productDto, HttpStatus.CREATED);
     }
 
