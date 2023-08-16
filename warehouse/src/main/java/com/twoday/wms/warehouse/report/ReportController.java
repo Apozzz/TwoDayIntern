@@ -1,7 +1,5 @@
 package com.twoday.wms.warehouse.report;
 
-import java.util.Optional;
-
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -39,7 +37,7 @@ public class ReportController {
         log.info("Fetching report file: {}", resource.getFilename());
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
-                        CONTENT_DISPOSITION_ATTACHMENT.formatted(fileNameService.getFileName(dateTimeOptional)))
+                        CONTENT_DISPOSITION_ATTACHMENT.formatted(fileNameService.getFileName(dateTime)))
                 .contentType(MediaType.parseMediaType(CSV_MIME_TYPE))
                 .body(resource);
     }

@@ -1,8 +1,8 @@
-package com.twoday.wms.warehouse.report.interfaces;
+package com.twoday.wms.warehouse.interfaces;
 
 import java.lang.reflect.Field;
 
-import com.twoday.wms.warehouse.annotations.CsvField;
+import com.twoday.wms.dto.annotations.CsvField;
 
 @FunctionalInterface
 public interface NestedFieldAction {

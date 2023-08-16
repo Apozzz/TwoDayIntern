@@ -1,4 +1,4 @@
-package com.twoday.wms.warehouse.annotations;
+package com.twoday.wms.dto.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

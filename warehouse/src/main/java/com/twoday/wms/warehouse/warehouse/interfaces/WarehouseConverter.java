@@ -7,6 +7,6 @@ import com.twoday.wms.dto.WarehouseDto;
 public interface WarehouseConverter extends GenericConverter<Warehouse, WarehouseDto> {
     
     WarehouseDto toDto(Warehouse warehouse);
-    Warehouse fromDto(WarehouseDto WarehouseDto);
+    Warehouse fromDto(WarehouseDto warehouseDto);
 
 }

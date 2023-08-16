@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.twoday.wms.dto.PurchaseDto;
 import com.twoday.wms.warehouse.purchase.Purchase;
 import com.twoday.wms.warehouse.report.generators.CsvHeaderGenerator;
 import com.twoday.wms.warehouse.report.generators.CsvRowGenerator;
@@ -21,13 +22,13 @@ public class ReportGeneratorServiceImpl implements ReportGeneratorService {
     private final CsvRowGenerator csvRowGenerator;
 
     @Override
-    public String generateCSV(List<Purchase> purchases) {
+    public String generateCSV(List<PurchaseDto> purchases) {
         StringBuilder csvBuilder = new StringBuilder();
 
         String header = csvHeaderGenerator.generateCSVHeader(Purchase.class);
         csvBuilder.append(header).append(NEW_LINE);
 
-        for (Purchase purchase : purchases) {
+        for (PurchaseDto purchase : purchases) {
             String row = csvRowGenerator.generateCSVRow(purchase);
             csvBuilder.append(row).append(NEW_LINE);
         }

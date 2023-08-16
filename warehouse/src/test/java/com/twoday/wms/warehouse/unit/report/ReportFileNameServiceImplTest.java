@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +39,7 @@ public class ReportFileNameServiceImplTest {
     public void testGetFilenameWhenDateTimeNotPresent() {
         String expectedFilename = FILENAME_FORMAT.formatted(reportFilename, 
             LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_TIME_PATTERN)));
-        String actualFilename = reportFileNameService.getFileName(Optional.empty());
+        String actualFilename = reportFileNameService.getFileName(null);
         assertEquals(expectedFilename, actualFilename);
     }
 
@@ -49,7 +48,7 @@ public class ReportFileNameServiceImplTest {
         String validDateTime = "20230808-1200";
         when(validator.validate(validDateTime)).thenReturn(true);
         String expectedFilename = FILENAME_FORMAT.formatted(reportFilename, validDateTime);
-        String actualFilename = reportFileNameService.getFileName(Optional.of(validDateTime));
+        String actualFilename = reportFileNameService.getFileName(validDateTime);
         assertEquals(expectedFilename, actualFilename);
     }
 
@@ -58,7 +57,7 @@ public class ReportFileNameServiceImplTest {
         String invalidDateTime = "invalid-date-time";
         when(validator.validate(invalidDateTime)).thenReturn(false);
         assertThrows(InvalidDateTimeFormatException.class, () -> {
-            reportFileNameService.getFileName(Optional.of(invalidDateTime));
+            reportFileNameService.getFileName(invalidDateTime);
         });
     }
 

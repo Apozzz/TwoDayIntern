@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
-import com.twoday.wms.warehouse.annotations.CsvField;
+import com.twoday.wms.dto.annotations.CsvField;
 import com.twoday.wms.warehouse.report.formatters.CsvFormatter;
 
 class CsvFormatterTest {
