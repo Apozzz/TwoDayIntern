@@ -26,12 +26,11 @@ public class ReportScheduler {
 
     @Scheduled(cron = "${report.cron.expression}")
     public void generateCsvReport() {
+        log.info("Scheduled report generation job started.");
         List<PurchaseDto> purchases = purchaseService.findTop25ByOrderByIdDesc()
                 .stream()
                 .map(purchaseConverter::toDto)
                 .toList();
-        log.info("Scheduled report generation job started.");
-        List<Purchase> purchases = purchaseService.findTop25ByOrderByIdDesc();
         log.info("Fetched {} purchases for report generation.", purchases.size());
         String csvData = generatorService.generateCSV(purchases);
         fileService.saveToFile(csvData);

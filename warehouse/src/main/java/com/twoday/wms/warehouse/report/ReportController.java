@@ -32,8 +32,7 @@ public class ReportController {
     public ResponseEntity<Resource> getPurchasesReport(
             @RequestParam(name = "dateTime", required = false) String dateTime) {
                 log.info("Received request to fetch purchases report. Date-Time: {}", dateTime);
-        Optional<String> dateTimeOptional = Optional.ofNullable(dateTime);
-        Resource resource = new FileSystemResource(fileService.determineCorrectFile(dateTimeOptional));
+        Resource resource = new FileSystemResource(fileService.determineCorrectFile(dateTime));
         log.info("Fetching report file: {}", resource.getFilename());
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
