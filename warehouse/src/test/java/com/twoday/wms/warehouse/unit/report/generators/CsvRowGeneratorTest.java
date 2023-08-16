@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.twoday.wms.warehouse.annotations.CsvField;
+import com.twoday.wms.dto.annotations.CsvField;
 import com.twoday.wms.warehouse.report.exceptions.ReportFileException;
 import com.twoday.wms.warehouse.report.formatters.CsvFormatter;
 import com.twoday.wms.warehouse.report.generators.CsvRowGenerator;

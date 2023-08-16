@@ -13,11 +13,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.twoday.wms.dto.WarehouseDto;
 import com.twoday.wms.warehouse.warehouse.Warehouse;
 import com.twoday.wms.warehouse.warehouse.WarehouseServiceImpl;
 import com.twoday.wms.warehouse.warehouse.interfaces.WarehouseConverter;
 import com.twoday.wms.warehouse.warehouse.interfaces.WarehouseRepository;
+import com.twoday.wms.dto.WarehouseDto;
 
 public class WarehouseServiceImplTest {
 

@@ -6,7 +6,7 @@ import java.util.TreeMap;
 
 import org.springframework.stereotype.Service;
 
-import com.twoday.wms.warehouse.annotations.CsvField;
+import com.twoday.wms.dto.annotations.CsvField;
 import com.twoday.wms.warehouse.report.utils.CsvAnnotationProcessor;
 
 @Service

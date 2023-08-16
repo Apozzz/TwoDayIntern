@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.twoday.wms.dto.PurchaseDto;
 import com.twoday.wms.warehouse.purchase.Purchase;
 import com.twoday.wms.warehouse.report.ReportGeneratorServiceImpl;
 import com.twoday.wms.warehouse.report.generators.CsvHeaderGenerator;
@@ -39,7 +40,7 @@ public class ReportGeneratorServiceImplTest {
 
     @Test
     void testGenerateCSV() {
-        Purchase mockPurchase = new Purchase();
+        PurchaseDto mockPurchase = new PurchaseDto();
         when(csvHeaderGenerator.generateCSVHeader(Purchase.class)).thenReturn("mock-header");
         when(csvRowGenerator.generateCSVRow(mockPurchase)).thenReturn("mock-row");
 

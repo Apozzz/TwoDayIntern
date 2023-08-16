@@ -1,7 +1,12 @@
 package com.twoday.wms.warehouse.report.utils;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
+import org.springframework.beans.BeanUtils;
+
+import com.twoday.wms.warehouse.report.exceptions.ReportFileException;
 
 public class ReflectionUtils {
 
@@ -9,10 +14,15 @@ public class ReflectionUtils {
         throw new IllegalStateException("Utility class");
     }
     
-    public static Method findGetter(Field field) throws NoSuchMethodException {
-        String base = field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
-        String getterName = field.getType() == boolean.class || field.getType() == Boolean.class ? "is" + base : "get" + base;
-        return field.getDeclaringClass().getMethod(getterName);
+    public static Method findGetter(Field field) {
+        String fieldName = field.getName();
+        PropertyDescriptor pd = BeanUtils.getPropertyDescriptor(field.getDeclaringClass(), fieldName);
+        
+        if (pd == null || pd.getReadMethod() == null) {
+            throw new ReportFileException("Failed to find getter method for field: %s".formatted(fieldName));
+        }
+
+        return pd.getReadMethod();
     }
 
 }

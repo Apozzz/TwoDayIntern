@@ -17,12 +17,12 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.twoday.wms.dto.UserDto;
 import com.twoday.wms.warehouse.user.User;
 import com.twoday.wms.warehouse.user.UserServiceImpl;
 import com.twoday.wms.warehouse.user.exceptions.UserAlreadyExistsException;
 import com.twoday.wms.warehouse.user.interfaces.UserConverter;
 import com.twoday.wms.warehouse.user.interfaces.UserRepository;
+import com.twoday.wms.dto.UserDto;
 
 public class UserServiceImplTest {
 

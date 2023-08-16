@@ -2,7 +2,7 @@ package com.twoday.wms.warehouse.report.validators;
 
 import org.springframework.stereotype.Service;
 
-import com.twoday.wms.warehouse.report.interfaces.ReportValidator;
+import com.twoday.wms.warehouse.interfaces.ReportValidator;
 
 @Service
 public class ReportDateTimeValidator implements ReportValidator {

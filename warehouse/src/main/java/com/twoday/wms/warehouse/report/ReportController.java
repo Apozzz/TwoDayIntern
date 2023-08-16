@@ -1,7 +1,5 @@
 package com.twoday.wms.warehouse.report;
 
-import java.util.Optional;
-
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -12,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.twoday.wms.warehouse.report.interfaces.ReportFileNameService;
-import com.twoday.wms.warehouse.report.interfaces.ReportFileService;
+import com.twoday.wms.warehouse.interfaces.ReportFileNameService;
+import com.twoday.wms.warehouse.interfaces.ReportFileService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,7 +29,7 @@ public class ReportController {
     @GetMapping("/purchases/csv")
     public ResponseEntity<Resource> getPurchasesReport(
             @RequestParam(name = "dateTime", required = false) String dateTime) {
-        Optional<String> dateTimeOptional = Optional.ofNullable(dateTime);
+        String dateTimeOptional = dateTime == null ? null : dateTime;
         Resource resource = new FileSystemResource(fileService.determineCorrectFile(dateTimeOptional));
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
