@@ -26,7 +26,6 @@ public class ReportScheduler {
     private final ReportGeneratorService generatorService;
 
     @Scheduled(cron = HOURLY_CRON_EXPRESSION)
-    @Transactional
     public void generateCsvReport() {
         log.info("Scheduled report generation job started.");
         List<Purchase> purchases = purchaseService.findTop25ByOrderByIdDesc();

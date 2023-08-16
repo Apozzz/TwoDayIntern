@@ -1,25 +1,36 @@
 package com.twoday.wms.warehouse.unit.report;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.twoday.wms.warehouse.product.Product;
 import com.twoday.wms.warehouse.purchase.Purchase;
 import com.twoday.wms.warehouse.report.ReportGeneratorServiceImpl;
-import com.twoday.wms.warehouse.user.User;
+import com.twoday.wms.warehouse.report.generators.CsvHeaderGenerator;
+import com.twoday.wms.warehouse.report.generators.CsvRowGenerator;
 
 public class ReportGeneratorServiceImplTest {
+
+    private final static String NEW_LINE = "\n";
     
     @InjectMocks
     private ReportGeneratorServiceImpl service;
+
+    @Mock
+    private CsvHeaderGenerator csvHeaderGenerator;
+
+    @Mock
+    private CsvRowGenerator csvRowGenerator;
+    
 
     @BeforeEach
     public void setUp() {
@@ -27,24 +38,17 @@ public class ReportGeneratorServiceImplTest {
     }
 
     @Test
-    public void testGenerateCSV() {
-        Product product1 = new Product(1L, "Laptop", "New", 999.00f, 2);
-        User user1 = new User(10L, "JohnDoe", "123456");
-        Purchase purchase1 = new Purchase(100L, user1, product1, 1, LocalDateTime.parse("2023-01-01T10:10:10"));
+    void testGenerateCSV() {
+        Purchase mockPurchase = new Purchase();
+        when(csvHeaderGenerator.generateCSVHeader(Purchase.class)).thenReturn("mock-header");
+        when(csvRowGenerator.generateCSVRow(mockPurchase)).thenReturn("mock-row");
 
-        Product product2 = new Product(2L, "Phone\"Special", "New", 499.00f, 2);
-        User user2 = new User(20L, "JaneSmith", "1234");
-        Purchase purchase2 = new Purchase(101L, user2, product2, 2, LocalDateTime.parse("2023-01-02T10:10:10"));
+        String result = service.generateCSV(Arrays.asList(mockPurchase));
 
-        List<Purchase> purchases = Arrays.asList(purchase1, purchase2);
-        String result = service.generateCSV(purchases);
-        
-        String expected = 
-            "Purchase ID,User ID,User Name,Product ID,Product Name,Quantity,Time Stamp\n" +
-            "100,10,JohnDoe,1,\"Laptop\",1,2023-01-01T10:10:10\n" +
-            "101,20,JaneSmith,2,\"Phone\"\"Special\",2,2023-01-02T10:10:10\n";
+        assertEquals("mock-header" + NEW_LINE + "mock-row" + NEW_LINE, result);
 
-        assertEquals(expected, result);
+        verify(csvHeaderGenerator, times(1)).generateCSVHeader(Purchase.class);
+        verify(csvRowGenerator, times(1)).generateCSVRow(mockPurchase);
     }
 
 }
