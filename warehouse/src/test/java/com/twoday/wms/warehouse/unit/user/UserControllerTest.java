@@ -16,10 +16,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.twoday.wms.dto.UserDto;
 import com.twoday.wms.warehouse.unit.configs.TestAuthConfig;
 import com.twoday.wms.warehouse.user.UserController;
 import com.twoday.wms.warehouse.user.interfaces.UserService;
+import com.twoday.wms.dto.UserDto;
 
 @WebMvcTest(UserController.class)
 @Import(TestAuthConfig.class)

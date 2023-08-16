@@ -16,9 +16,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import com.twoday.wms.dto.ProductDto;
 import com.twoday.wms.shop.warehouse.WarehouseController;
 import com.twoday.wms.shop.warehouse.interfaces.WarehouseService;
+import com.twoday.wms.dto.ProductDto;
 
 import reactor.core.publisher.Mono;
 
@@ -41,7 +41,7 @@ public class WarehouseControllerTest {
     @Test
     public void testGetProducts() {
         Long warehouseId = 1L;
-        ProductDto mockProduct = new ProductDto(1L, "Name", "Desc", 0.99f, 10);
+        ProductDto mockProduct = new ProductDto(1L, "Name", "Desc", 0.99f, 0.99f, 10);
         List<ProductDto> mockProducts = Arrays.asList(mockProduct);
         when(warehouseService.getProducts(warehouseId)).thenReturn(Mono.just(ResponseEntity.ok(mockProducts)));
 
@@ -68,7 +68,7 @@ public class WarehouseControllerTest {
         Long warehouseId = 1L;
         Long productId = 2L;
         Integer quantity = 5;
-        ProductDto mockProduct = new ProductDto(1L, "Name", "Desc", 0.99f, 10);
+        ProductDto mockProduct = new ProductDto(1L, "Name", "Desc", 0.99f, 0.99f, 10);
         when(warehouseService.purchaseProduct(warehouseId, productId, quantity))
                 .thenReturn(Mono.just(ResponseEntity.ok(mockProduct)));
 

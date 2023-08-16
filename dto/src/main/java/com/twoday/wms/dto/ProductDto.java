@@ -6,13 +6,15 @@ public class ProductDto {
     private String name;
     private String description;
     private Float price;
+    private Float finalPrice;
     private Integer quantity;
 
-    public ProductDto(Long id, String name, String description, Float price, Integer quantity) {
+    public ProductDto(Long id, String name, String description, Float price, Float finalPrice, Integer quantity) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+        this.finalPrice = finalPrice;
         this.quantity = quantity;
     }
 
@@ -51,6 +53,14 @@ public class ProductDto {
         this.price = price;
     }
 
+    public Float getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(Float finalPrice) {
+        this.finalPrice = finalPrice;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }
@@ -62,7 +72,7 @@ public class ProductDto {
     @Override
     public String toString() {
         return "ProductDto [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price
-                + ", quantity=" + quantity + "]";
+                + ", final price=" + finalPrice + ", quantity=" + quantity + "]";
     }
 
 }

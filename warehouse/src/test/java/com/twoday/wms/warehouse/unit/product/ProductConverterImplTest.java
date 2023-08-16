@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
-import com.twoday.wms.dto.ProductDto;
 import com.twoday.wms.warehouse.product.Product;
 import com.twoday.wms.warehouse.product.ProductConverterImpl;
+import com.twoday.wms.dto.ProductDto;
 
 public class ProductConverterImplTest {
     
@@ -36,7 +36,7 @@ public class ProductConverterImplTest {
 
     @Test
     public void testFromDto() {
-        ProductDto ProductDto = new ProductDto(1L, "Sample Name", "Sample Desc", 9.99f, 10);
+        ProductDto ProductDto = new ProductDto(1L, "Sample Name", "Sample Desc", 9.99f, 9.99f, 10);
         Product product = productConverter.fromDto(ProductDto);
         assertNotNull(product);
         assertEquals(ProductDto.getId(), product.getId());

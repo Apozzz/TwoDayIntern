@@ -14,9 +14,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import com.twoday.wms.dto.UserDto;
 import com.twoday.wms.shop.user.UserController;
 import com.twoday.wms.shop.user.interfaces.UserService;
+import com.twoday.wms.dto.UserDto;
 
 import reactor.core.publisher.Mono;
 

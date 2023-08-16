@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
-import com.twoday.wms.dto.UserDto;
 import com.twoday.wms.warehouse.user.User;
 import com.twoday.wms.warehouse.user.UserConverterImpl;
+import com.twoday.wms.dto.UserDto;
 
 public class UserConverterImplTest {
     

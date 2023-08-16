@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.twoday.wms.dto.ProductDto;
 import com.twoday.wms.warehouse.exceptions.ResourceNotFoundException;
 import com.twoday.wms.warehouse.product.exceptions.InsufficientProductException;
 import com.twoday.wms.warehouse.product.interfaces.ProductConverter;
@@ -19,6 +18,7 @@ import com.twoday.wms.warehouse.user.User;
 import com.twoday.wms.warehouse.user.interfaces.UserRepository;
 import com.twoday.wms.warehouse.warehouse.Warehouse;
 import com.twoday.wms.warehouse.warehouse.interfaces.WarehouseRepository;
+import com.twoday.wms.dto.ProductDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
     private final PurchaseRepository purchaseRepository;
 
     @Override
-    public ProductDto purchaseProduct(Long id, Integer quantity, String username) {
+    public ProductDto purchaseProduct(Long id, Integer quantity, String username, Float finalPrice) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: %s".formatted(id)));
 
@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
-        Purchase purchase = new Purchase(user, product, quantity, LocalDateTime.now());
+        Purchase purchase = new Purchase(user, product, quantity, finalPrice * quantity, LocalDateTime.now());
         purchaseRepository.save(purchase);
 
         return productConverter.toDto(productRepository.save(product));
@@ -63,18 +63,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto saveProductByWarehouseId(Long id, ProductDto productDto) {
-        if (productDto == null) {
-            throw new IllegalArgumentException("ProductDto cannot be null");
-        }
-    
-        Warehouse warehouse = warehouseRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Warehouse with id: %s was not found".formatted(id)));
-    
         Product product = productConverter.fromDto(productDto);
-        warehouse.addProduct(product);
-        warehouseRepository.save(warehouse);
-    
-        return productDto;
+        return warehouseRepository.findById(id).map(
+                warehouse -> {
+                    warehouse.addProduct(product);
+                    warehouseRepository.save(warehouse);
+
+                    return productDto;
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("Warehouse with id: %s was not found".formatted(id)));
+    }
+
+    @Override
+    public ProductDto getProduct(Long id) {
+        return productConverter.toDto(
+                productRepository.findById(id).orElseThrow(
+                        () -> new ResourceNotFoundException("Product not found with id: %s".formatted(id))));
     }
 
 }
