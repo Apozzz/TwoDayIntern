@@ -14,12 +14,10 @@ import com.twoday.wms.warehouse.report.interfaces.ReportFileNameService;
 import com.twoday.wms.warehouse.report.interfaces.ReportFileService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/v1/reports")
 @RequiredArgsConstructor
-@Slf4j
 public class ReportController {
 
     static final String CSV_MIME_TYPE = "text/csv";

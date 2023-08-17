@@ -61,7 +61,7 @@ public class WarehouseControllerTest {
 
         @BeforeEach
         public void setUp() {
-                sampleProductDto = new ProductDto(1L, "Scissors", "Very sharp", 9.99f, 10);
+                sampleProductDto = new ProductDto(1L, "Scissors", "Very sharp", 9.99f, 9.99f, 10);
                 sampleWarehouseDto = new WarehouseDto(1L, "Amazon-WW-2", "Paneriu. g, 23", Arrays.asList(1L));
                 UserDetails userDetails = new User("ra", passwordEncoder.encode("ra"), Collections.emptyList());
                 Mockito.when(userDetailsService.loadUserByUsername("ra")).thenReturn(userDetails);
@@ -153,7 +153,7 @@ public class WarehouseControllerTest {
                 Long productId = 2L;
                 Integer quantity = 5;
                 when(productService.purchaseProduct(Mockito.any(Long.class), Mockito.any(Integer.class),
-                                Mockito.any(String.class))).thenReturn(sampleProductDto);
+                                Mockito.any(String.class), Mockito.anyFloat())).thenReturn(sampleProductDto);
                 mockMvc.perform(
                                 MockMvcRequestBuilders
                                                 .post("/v1/warehouses/%s/products/%s/purchase".formatted(warehouseId,
@@ -169,7 +169,7 @@ public class WarehouseControllerTest {
                                 .andExpect(jsonPath("$.quantity", is(10)));
 
                 Mockito.verify(productService, Mockito.times(1)).purchaseProduct(Mockito.any(Long.class),
-                                Mockito.any(Integer.class), Mockito.any(String.class));
+                                Mockito.any(Integer.class), Mockito.any(String.class), Mockito.anyFloat());
         }
 
 }

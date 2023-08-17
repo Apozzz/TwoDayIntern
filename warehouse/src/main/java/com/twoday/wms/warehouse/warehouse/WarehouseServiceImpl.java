@@ -20,7 +20,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public List<WarehouseDto> getAllWarehouses() {
-        return warehouseRepository.findAll().stream()
+        return warehouseRepository.findAll()
+                .stream()
                 .map(warehouseConverter::toDto)
                 .toList();
     }
