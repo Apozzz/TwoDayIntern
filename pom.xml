@@ -13,5 +13,6 @@
         <module>dto</module>
         <module>warehouse</module>
         <module>shop</module>
+        <module>ui</module>
     </modules>
 </project>

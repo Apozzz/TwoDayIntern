@@ -1,0 +1,23 @@
+<table>
+  <caption>Products Results From Warehouse</caption>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Final Price</th>
+      <th>Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <td>ID: {{product.id}}</td>
+      <td>Name: {{product.name}}</td>
+      <td>Description: {{product.description}}</td>
+      <td>Price: ${{product.price}}</td>
+      <td>Final Price: ${{product.finalPrice}}</td>
+      <td>Available Quantity: {{product.quantity}}</td>
+    </tr>
+  </tbody>
+</table>

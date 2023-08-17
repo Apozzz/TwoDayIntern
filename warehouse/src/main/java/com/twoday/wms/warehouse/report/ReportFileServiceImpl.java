@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -36,7 +35,7 @@ public class ReportFileServiceImpl implements ReportFileService {
 
     @Override
     public void saveToFile(String data) {
-        File file = new File(pathService.getFullPath(Optional.empty(), fileNameService.getFileName(Optional.empty())));
+        File file = new File(pathService.getFullPath(null, fileNameService.getFileName(null)));
 
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
@@ -50,7 +49,7 @@ public class ReportFileServiceImpl implements ReportFileService {
     }
 
     @Override
-    public File getFile(Optional<String> dateTime) {
+    public File getFile(String dateTime) {
         return new File(pathService.getFullPath(dateTime, fileNameService.getFileName(dateTime)));
     }
 
@@ -65,9 +64,9 @@ public class ReportFileServiceImpl implements ReportFileService {
     }
 
     @Override
-    public File determineCorrectFile(Optional<String> dateTime) {
+    public File determineCorrectFile(String dateTime) {
         try {
-            File file = dateTime.isPresent() ? getFile(dateTime) : getLatestFile();
+            File file = dateTime != null ? getFile(dateTime) : getLatestFile();
 
             if (!file.exists()) {
                 throw new ReportFileException(FILE_DOES_NOT_EXIST);

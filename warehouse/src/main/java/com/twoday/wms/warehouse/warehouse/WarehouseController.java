@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.twoday.wms.warehouse.product.interfaces.ProductService;
-import com.twoday.wms.warehouse.warehouse.interfaces.WarehouseService;
 import com.twoday.wms.dto.ProductDto;
 import com.twoday.wms.dto.WarehouseDto;
+import com.twoday.wms.warehouse.product.interfaces.ProductService;
+import com.twoday.wms.warehouse.warehouse.interfaces.WarehouseService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

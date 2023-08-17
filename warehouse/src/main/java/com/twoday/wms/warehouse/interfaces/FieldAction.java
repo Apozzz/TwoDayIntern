@@ -1,4 +1,4 @@
-package com.twoday.wms.warehouse.report.interfaces;
+package com.twoday.wms.warehouse.interfaces;
 
 import java.lang.reflect.Field;
 
