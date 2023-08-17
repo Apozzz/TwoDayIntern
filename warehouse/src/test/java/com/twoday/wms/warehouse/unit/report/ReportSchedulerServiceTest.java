@@ -21,6 +21,7 @@ import com.twoday.wms.warehouse.purchase.Purchase;
 import com.twoday.wms.warehouse.purchase.PurchaseConverter;
 import com.twoday.wms.warehouse.purchase.interfaces.PurchaseService;
 import com.twoday.wms.warehouse.report.ReportScheduler;
+import com.twoday.wms.warehouse.report.ReportSchedulerService;
 import com.twoday.wms.warehouse.report.interfaces.ReportFileService;
 import com.twoday.wms.warehouse.report.interfaces.ReportGeneratorService;
 
@@ -28,7 +29,7 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
 
-class ReportSchedulerTest {
+class ReportSchedulerServiceTest {
 
     @Mock
     private PurchaseService purchaseService;
@@ -43,14 +44,14 @@ class ReportSchedulerTest {
     private PurchaseConverter purchaseConverter;
 
     @InjectMocks
-    private ReportScheduler reportScheduler;
+    private ReportSchedulerService reportScheduler;
 
     private ListAppender<ILoggingEvent> listAppender;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        Logger logger = (Logger) LoggerFactory.getLogger(ReportScheduler.class);
+        Logger logger = (Logger) LoggerFactory.getLogger(ReportSchedulerService.class);
         listAppender = new ListAppender<>();
         listAppender.start();
         logger.addAppender(listAppender);
