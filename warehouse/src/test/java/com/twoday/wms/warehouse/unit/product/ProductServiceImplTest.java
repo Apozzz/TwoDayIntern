@@ -63,7 +63,7 @@ public class ProductServiceImplTest {
         MockitoAnnotations.openMocks(this);
         product = new Product(1L, "Name", "Desc", 9.99f, 10);
         warehouse = new Warehouse(1L, "Name", "Location", new ArrayList<>());
-        productDto = new ProductDto(1L, "Name", "Desc", 9.99f, 5);
+        productDto = new ProductDto(1L, "Name", "Desc", 9.99f, 9.99f, 5);
     }
 
     @Test
@@ -73,7 +73,7 @@ public class ProductServiceImplTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
         when(productRepository.save(product)).thenReturn(product);
         when(productConverter.toDto(any(Product.class))).thenReturn(productDto);
-        ProductDto result = productService.purchaseProduct(product.getId(), 5, user.getUsername());
+        ProductDto result = productService.purchaseProduct(product.getId(), 5, user.getUsername(), 9.99f);
         assertEquals(productDto, result);
         verify(purchaseRepository, times(1)).save(any(Purchase.class));
     }
@@ -82,7 +82,7 @@ public class ProductServiceImplTest {
     void testPurchaseProductProductNotFound() {
         when(productRepository.findById(product.getId())).thenReturn(Optional.empty());
         assertThrows(ResourceNotFoundException.class, () -> {
-            productService.purchaseProduct(product.getId(), 5, "testUser");
+            productService.purchaseProduct(product.getId(), 5, "testUser", 9.99f);
         });
     }
 
@@ -90,7 +90,7 @@ public class ProductServiceImplTest {
     void testPurchaseProductInsufficientQuantity() {
         when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
         assertThrows(InsufficientProductException.class, () -> {
-            productService.purchaseProduct(product.getId(), product.getQuantity() + 5, "testUser");
+            productService.purchaseProduct(product.getId(), product.getQuantity() + 5, "testUser", 9.99f);
         });
     }
 
@@ -100,7 +100,7 @@ public class ProductServiceImplTest {
         String username = "nonExistentUser";
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
         assertThrows(UsernameNotFoundException.class, () -> {
-            productService.purchaseProduct(product.getId(), 5, username);
+            productService.purchaseProduct(product.getId(), 5, username, 9.99f);
         });
     }
 
@@ -108,7 +108,7 @@ public class ProductServiceImplTest {
     void testGetProductsByWarehouseId() {
         warehouse.setProducts(Arrays.asList(product));
         when(warehouseRepository.findById(warehouse.getId())).thenReturn(Optional.of(warehouse));
-        ProductDto productDto = new ProductDto(1L, "Name", "Desc", 9.99f, 5);
+        ProductDto productDto = new ProductDto(1L, "Name", "Desc", 9.99f, 9.99f, 5);
         when(productConverter.toDto(product)).thenReturn(productDto);
         List<ProductDto> result = productService.getProductsByWarehouseId(warehouse.getId());
         assertTrue(result.contains(productDto));

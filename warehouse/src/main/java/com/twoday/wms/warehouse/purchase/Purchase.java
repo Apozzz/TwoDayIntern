@@ -34,14 +34,16 @@ public class Purchase {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
     private Integer quantity;
+    private Float finalPrice;
 
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime timeStamp;
 
-    public Purchase(User user, Product product, Integer quantity, LocalDateTime timeStamp) {
+    public Purchase(User user, Product product, Integer quantity, Float finalPrice, LocalDateTime timeStamp) {
         this.user = user;
         this.product = product;
         this.quantity = quantity;
+        this.finalPrice = finalPrice;
         this.timeStamp = timeStamp;
     }
 

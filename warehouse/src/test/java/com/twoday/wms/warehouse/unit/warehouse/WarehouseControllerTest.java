@@ -70,7 +70,7 @@ public class WarehouseControllerTest {
 
         @BeforeEach
         public void setUp() {
-                sampleProductDto = new ProductDto(1L, "Scissors", "Very sharp", 9.99f, 10);
+                sampleProductDto = new ProductDto(1L, "Scissors", "Very sharp", 9.99f, 9.99f, 10);
                 sampleWarehouseDto = new WarehouseDto(1L, "Amazon-WW-2", "Paneriu. g, 23", Arrays.asList(1L));
                 UserDetails userDetails = new User("ra", passwordEncoder.encode("ra"), Collections.emptyList());
                 Mockito.when(userDetailsService.loadUserByUsername("ra")).thenReturn(userDetails);
@@ -178,7 +178,7 @@ public class WarehouseControllerTest {
                 Long productId = 2L;
                 Integer quantity = 5;
                 when(productService.purchaseProduct(Mockito.any(Long.class), Mockito.any(Integer.class),
-                                Mockito.any(String.class))).thenReturn(sampleProductDto);
+                                Mockito.any(String.class), Mockito.anyFloat())).thenReturn(sampleProductDto);
                 mockMvc.perform(
                                 MockMvcRequestBuilders
                                                 .post("/v1/warehouses/%s/products/%s/purchase".formatted(warehouseId,
@@ -196,7 +196,14 @@ public class WarehouseControllerTest {
                                 "User ra is attempting to purchase product ID: 2 from warehouse ID: 1 with quantity: 5...",
                                 "User ra successfully purchased product ID: 2 from warehouse ID: 1.");
                 Mockito.verify(productService, Mockito.times(1)).purchaseProduct(Mockito.any(Long.class),
-                                Mockito.any(Integer.class), Mockito.any(String.class));
+                                Mockito.any(Integer.class), Mockito.any(String.class), Mockito.anyFloat());
+        }
+
+        private void assertLogMessages(String expectedStartLog, String expectedEndLog) {
+                List<ILoggingEvent> logsList = listAppender.list;
+                assertEquals(2, logsList.size());
+                assertEquals(expectedStartLog, logsList.get(0).getFormattedMessage());
+                assertEquals(expectedEndLog, logsList.get(1).getFormattedMessage());
         }
 
         private void assertLogMessages(String expectedStartLog, String expectedEndLog) {
