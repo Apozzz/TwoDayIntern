@@ -20,7 +20,6 @@ import com.twoday.wms.dto.PurchaseDto;
 import com.twoday.wms.warehouse.purchase.Purchase;
 import com.twoday.wms.warehouse.purchase.PurchaseConverter;
 import com.twoday.wms.warehouse.purchase.interfaces.PurchaseService;
-import com.twoday.wms.warehouse.report.ReportScheduler;
 import com.twoday.wms.warehouse.report.ReportSchedulerService;
 import com.twoday.wms.warehouse.report.interfaces.ReportFileService;
 import com.twoday.wms.warehouse.report.interfaces.ReportGeneratorService;

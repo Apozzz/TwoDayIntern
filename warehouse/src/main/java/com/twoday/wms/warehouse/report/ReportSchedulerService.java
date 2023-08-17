@@ -2,7 +2,6 @@ package com.twoday.wms.warehouse.report;
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.twoday.wms.dto.PurchaseDto;
