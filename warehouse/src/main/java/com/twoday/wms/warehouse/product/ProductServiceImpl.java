@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
 
         product.setQuantity(product.getQuantity() - quantity);
         User user = userRepository.findByUsername(username)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
         Purchase purchase = new Purchase(user, product, quantity, finalPrice * quantity, LocalDateTime.now());
         purchaseRepository.save(purchase);
@@ -80,8 +80,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto getProduct(Long id) {
         return productConverter.toDto(
-                productRepository.findById(id).orElseThrow(
-                        () -> new ResourceNotFoundException("Product not found with id: %s".formatted(id))));
+                productRepository.findById(id)
+                        .orElseThrow(
+                                () -> new ResourceNotFoundException("Product not found with id: %s".formatted(id))));
     }
 
 }
