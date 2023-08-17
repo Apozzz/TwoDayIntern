@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface LogMessage {
     String before() default "";
     String after() default "";
+    Class<?> loggerClass() default Void.class;
 }

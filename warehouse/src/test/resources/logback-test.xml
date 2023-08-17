@@ -1,0 +1,11 @@
+<configuration>
+    <appender name="LIST" class="ch.qos.logback.core.read.ListAppender">
+        <encoder>
+            <pattern>%msg</pattern>
+        </encoder>
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="LIST" />
+    </root>
+</configuration>

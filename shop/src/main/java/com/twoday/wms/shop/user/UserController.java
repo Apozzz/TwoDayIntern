@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.twoday.wms.dto.UserDto;
 import com.twoday.wms.shop.logging.annotations.LogMessage;
 import com.twoday.wms.shop.user.interfaces.UserService;
-import com.twoday.wms.dto.UserDto;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -24,7 +24,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    @LogMessage(before = BEFORE_REGISTER_LOG, after = AFTER_REGISTER_LOG)
+    @LogMessage(before = BEFORE_REGISTER_LOG, after = AFTER_REGISTER_LOG, loggerClass = UserController.class)
     public Mono<ResponseEntity<UserDto>> register(@RequestBody UserDto userDto) {
         return userService.registerUser(userDto);
     }

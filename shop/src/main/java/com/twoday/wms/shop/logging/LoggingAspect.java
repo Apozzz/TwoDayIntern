@@ -1,53 +1,48 @@
 package com.twoday.wms.shop.logging;
 
-import java.util.function.Consumer;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.twoday.wms.shop.logging.interfaces.LoggerInterface;
-
-import lombok.RequiredArgsConstructor;
+import com.twoday.wms.shop.interfaces.LogAction;
 
 @Aspect
 @Component
-@RequiredArgsConstructor
 public class LoggingAspect {
 
     private static final String CONTROLLER_METHODS_POINTCUT = "within(@org.springframework.web.bind.annotation.RestController *)";
 
-    private final LoggerFactory loggerFactory;
-
-    @Pointcut(CONTROLLER_METHODS_POINTCUT)
-    public void allControllerMethods() {
-    }
-
-    @Before("allControllerMethods()")
+    @Before(CONTROLLER_METHODS_POINTCUT)
     public void logBeforeCall(JoinPoint joinPoint) {
-        handleLog(joinPoint, logger -> logger.logBeforeCall(joinPoint));
+        handleLog(joinPoint, LoggingHelper::logBefore);
     }
 
-    @After("allControllerMethods()")
+    @After(CONTROLLER_METHODS_POINTCUT)
     public void logAfterCall(JoinPoint joinPoint) {
-        handleLog(joinPoint, logger -> logger.logAfterCall(joinPoint));
+        handleLog(joinPoint, LoggingHelper::logAfter);
     }
 
-    @AfterThrowing(pointcut = "allControllerMethods()", throwing = "ex")
-    public void logException(JoinPoint joinPoint, Throwable ex) {
-        handleLog(joinPoint, logger -> logger.logException(joinPoint, ex));
+    @AfterThrowing(pointcut = CONTROLLER_METHODS_POINTCUT, throwing = "ex")
+    public void handleException(JoinPoint joinPoint, Throwable ex) {
+        Class<?> loggerClass = getEffectiveLoggerClass(joinPoint);
+        Logger logger = LoggerFactory.getLogger(loggerClass);
+        LoggingHelper.logException(joinPoint, logger, ex);
     }
 
-    private void handleLog(JoinPoint joinPoint, Consumer<LoggerInterface> logMethod) {
-        LoggerInterface loggerInstance = loggerFactory.getLogger(joinPoint.getTarget().getClass());
-        
-        if (loggerInstance != null) {
-            logMethod.accept(loggerInstance);
-        }
+    private void handleLog(JoinPoint joinPoint, LogAction action) {
+        Class<?> loggerClass = getEffectiveLoggerClass(joinPoint);
+        Logger logger = LoggerFactory.getLogger(loggerClass);
+        action.log(joinPoint, logger);
+    }
+    
+    private Class<?> getEffectiveLoggerClass(JoinPoint joinPoint) {
+        Class<?> loggerClass = LoggingHelper.getLogMessageAnnotation(joinPoint).loggerClass();
+        return loggerClass == Void.class ? joinPoint.getTarget().getClass() : loggerClass;
     }
 
 }

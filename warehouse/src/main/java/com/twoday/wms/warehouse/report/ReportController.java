@@ -29,7 +29,9 @@ public class ReportController {
     @GetMapping("/purchases/csv")
     public ResponseEntity<Resource> getPurchasesReport(
             @RequestParam(name = "dateTime", required = false) String dateTime) {
+                log.info("Received request to fetch purchases report. Date-Time: {}", dateTime);
         Resource resource = new FileSystemResource(fileService.determineCorrectFile(dateTime));
+        log.info("Fetching report file: {}", resource.getFilename());
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         CONTENT_DISPOSITION_ATTACHMENT.formatted(fileNameService.getFileName(dateTime)))
