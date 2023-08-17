@@ -1,7 +1,6 @@
 package com.twoday.wms.warehouse.warehouse;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -41,7 +40,7 @@ public class WarehouseConverterImpl implements WarehouseConverter {
             List<Product> productReferences = warehouseDto.getProductIds()
                     .stream()
                     .map(id -> entityManager.getReference(Product.class, id))
-                    .collect(Collectors.toList());
+                    .toList();
             warehouse.setProducts(productReferences);
         }
 

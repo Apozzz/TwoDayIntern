@@ -13,7 +13,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.twoday.wms.dto.PurchaseDto;
 import com.twoday.wms.warehouse.purchase.Purchase;
+import com.twoday.wms.warehouse.purchase.PurchaseConverter;
 import com.twoday.wms.warehouse.purchase.interfaces.PurchaseService;
 import com.twoday.wms.warehouse.report.ReportScheduler;
 import com.twoday.wms.warehouse.report.interfaces.ReportFileService;
@@ -30,6 +32,9 @@ class ReportSchedulerTest {
     @Mock
     private ReportGeneratorService generatorService;
 
+    @Mock
+    private PurchaseConverter purchaseConverter;
+
     @InjectMocks
     private ReportScheduler reportScheduler;
 
@@ -41,15 +46,17 @@ class ReportSchedulerTest {
     @Test
     void testGenerateCsvReport() {
         Purchase mockPurchase = new Purchase(); // A mock Purchase instance
-
+        PurchaseDto mockPurchaseDto = new PurchaseDto();
         List<Purchase> mockPurchases = Arrays.asList(mockPurchase);
         when(purchaseService.findTop25ByOrderByIdDesc()).thenReturn(mockPurchases);
-        when(generatorService.generateCSV(mockPurchases)).thenReturn("mock-csv-data");
+        List<PurchaseDto> mockPurchasesDto = Arrays.asList(mockPurchaseDto);
+        when(purchaseConverter.toDto(mockPurchase)).thenReturn(mockPurchaseDto);
+        when(generatorService.generateCSV(mockPurchasesDto)).thenReturn("mock-csv-data");
 
         reportScheduler.generateCsvReport();
 
         verify(purchaseService, times(1)).findTop25ByOrderByIdDesc();
-        verify(generatorService, times(1)).generateCSV(mockPurchases);
+        verify(generatorService, times(1)).generateCSV(mockPurchasesDto);
         verify(fileService, times(1)).saveToFile("mock-csv-data");
     }
 }

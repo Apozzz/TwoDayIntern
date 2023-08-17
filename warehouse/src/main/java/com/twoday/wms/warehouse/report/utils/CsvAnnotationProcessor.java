@@ -2,10 +2,10 @@ package com.twoday.wms.warehouse.report.utils;
 
 import java.lang.reflect.Field;
 
-import com.twoday.wms.warehouse.annotations.CsvField;
-import com.twoday.wms.warehouse.annotations.CsvFields;
-import com.twoday.wms.warehouse.report.interfaces.FieldAction;
-import com.twoday.wms.warehouse.report.interfaces.NestedFieldAction;
+import com.twoday.wms.dto.annotations.CsvField;
+import com.twoday.wms.dto.annotations.CsvFields;
+import com.twoday.wms.warehouse.interfaces.FieldAction;
+import com.twoday.wms.warehouse.interfaces.NestedFieldAction;
 
 public class CsvAnnotationProcessor {
 

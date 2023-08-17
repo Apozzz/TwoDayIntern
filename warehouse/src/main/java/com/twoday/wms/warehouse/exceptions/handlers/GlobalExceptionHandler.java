@@ -16,11 +16,6 @@ import com.twoday.wms.warehouse.user.exceptions.UserAlreadyExistsException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger globalLogger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-    private static final Logger productLogger = LoggerFactory.getLogger("com.twoday.wms.warehouse.product");
-    private static final Logger userLogger = LoggerFactory.getLogger("com.twoday.wms.warehouse.user");
-    private static final Logger reportLogger = LoggerFactory.getLogger("com.twoday.wms.warehouse.report");
-
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<String> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
         userLogger.error("User Already Exists exception: {}", ex.getMessage(), ex);

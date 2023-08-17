@@ -27,7 +27,8 @@ public class SecurityConfig {
 
     private void configureGlobal() {
         try {
-            auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+            auth.userDetailsService(userDetailsService)
+                    .passwordEncoder(passwordEncoder);
         } catch (Exception e) {
             e.printStackTrace();
         }

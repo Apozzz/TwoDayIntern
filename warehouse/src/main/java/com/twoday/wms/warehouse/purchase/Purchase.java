@@ -2,8 +2,6 @@ package com.twoday.wms.warehouse.purchase;
 
 import java.time.LocalDateTime;
 
-import com.twoday.wms.warehouse.annotations.CsvField;
-import com.twoday.wms.warehouse.annotations.CsvFields;
 import com.twoday.wms.warehouse.product.Product;
 import com.twoday.wms.warehouse.user.User;
 
@@ -26,31 +24,19 @@ public class Purchase {
     
     @Id
     @GeneratedValue
-    @CsvField(name = "Purchase ID", order = 1)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @CsvFields({
-        @CsvField(name = "User ID", nestedField = "id", order = 2),
-        @CsvField(name = "User Name", nestedField = "username", quote = true, order = 3)
-    })
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
-    @CsvFields({
-        @CsvField(name = "Product ID", nestedField = "id", order = 4),
-        @CsvField(name = "Product Name", nestedField = "name", quote = true, order = 5)
-    })
     private Product product;
-
-    @CsvField(name = "Quantity", order = 6)
     private Integer quantity;
     private Float finalPrice;
 
     @Column(columnDefinition = "TIMESTAMP")
-    @CsvField(name = "Time Stamp", order = 7)
     private LocalDateTime timeStamp;
 
     public Purchase(User user, Product product, Integer quantity, Float finalPrice, LocalDateTime timeStamp) {
