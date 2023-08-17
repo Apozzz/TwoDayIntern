@@ -66,15 +66,24 @@ public class WarehouseController {
 
     @PostMapping("/{id}/products/{productId}/purchase")
     public ResponseEntity<ProductDto> purchaseProduct(@PathVariable Long id, @PathVariable Long productId,
-            @RequestParam("quantity") Integer quantity) {
+            @RequestParam("quantity") Integer quantity, @RequestParam("finalPrice") Float finalPrice) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        log.info("User {} is attempting to purchase product ID: {} from warehouse ID: {} with quantity: {}...",
-                currentPrincipalName, productId, id, quantity);
-        ProductDto productDto = productService.purchaseProduct(productId, quantity, currentPrincipalName);
+        log.info(
+                "User {} is attempting to purchase product ID: {} from warehouse ID: {} with quantity: {} and final product price: {}...",
+                currentPrincipalName, productId, id, quantity, finalPrice);
+        ProductDto productDto = productService.purchaseProduct(productId, quantity, currentPrincipalName, finalPrice);
         log.info("User {} successfully purchased product ID: {} from warehouse ID: {}.", currentPrincipalName,
                 productId, id);
         return new ResponseEntity<>(productDto, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}/products/{productId}")
+    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id, @PathVariable Long productId) {
+        log.info("Fetching product with ID: {} for warehouse ID: {}...", productId, id);
+        ProductDto productsDto = productService.getProduct(productId);
+        log.info("Fetched product with ID: {} for warehouse ID: {} successfully.", productId, id);
+        return new ResponseEntity<>(productsDto, HttpStatus.OK);
     }
 
 }

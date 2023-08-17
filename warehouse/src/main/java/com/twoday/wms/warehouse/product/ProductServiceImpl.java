@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
     private final PurchaseRepository purchaseRepository;
 
     @Override
-    public ProductDto purchaseProduct(Long id, Integer quantity, String username) {
+    public ProductDto purchaseProduct(Long id, Integer quantity, String username, Float finalPrice) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: %s".formatted(id)));
 
@@ -43,9 +43,9 @@ public class ProductServiceImpl implements ProductService {
 
         product.setQuantity(product.getQuantity() - quantity);
         User user = userRepository.findByUsername(username)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
-        Purchase purchase = new Purchase(user, product, quantity, LocalDateTime.now());
+        Purchase purchase = new Purchase(user, product, quantity, finalPrice * quantity, LocalDateTime.now());
         purchaseRepository.save(purchase);
 
         return productConverter.toDto(productRepository.save(product));
@@ -75,6 +75,14 @@ public class ProductServiceImpl implements ProductService {
         warehouseRepository.save(warehouse);
 
         return productDto;
+    }
+
+    @Override
+    public ProductDto getProduct(Long id) {
+        return productConverter.toDto(
+                productRepository.findById(id)
+                        .orElseThrow(
+                                () -> new ResourceNotFoundException("Product not found with id: %s".formatted(id))));
     }
 
 }

@@ -22,23 +22,24 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ReportController {
 
-    static final String CSV_MIME_TYPE = "text/csv";
-    static final String CONTENT_DISPOSITION_ATTACHMENT = "attachment; filename=%s";
+        static final String CSV_MIME_TYPE = "text/csv";
+        static final String CONTENT_DISPOSITION_ATTACHMENT = "attachment; filename=%s";
 
-    private final ReportFileService fileService;
-    private final ReportFileNameService fileNameService;
+        private final ReportFileService fileService;
+        private final ReportFileNameService fileNameService;
 
-    @GetMapping("/purchases/csv")
-    public ResponseEntity<Resource> getPurchasesReport(
-            @RequestParam(name = "dateTime", required = false) String dateTime) {
+        @GetMapping("/purchases/csv")
+        public ResponseEntity<Resource> getPurchasesReport(
+                        @RequestParam(name = "dateTime", required = false) String dateTime) {
                 log.info("Received request to fetch purchases report. Date-Time: {}", dateTime);
-        Resource resource = new FileSystemResource(fileService.determineCorrectFile(dateTime));
-        log.info("Fetching report file: {}", resource.getFilename());
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        CONTENT_DISPOSITION_ATTACHMENT.formatted(fileNameService.getFileName(dateTime)))
-                .contentType(MediaType.parseMediaType(CSV_MIME_TYPE))
-                .body(resource);
-    }
+                Resource resource = new FileSystemResource(fileService.determineCorrectFile(dateTime));
+                log.info("Fetching report file: {}", resource.getFilename());
+                return ResponseEntity.ok()
+                                .header(HttpHeaders.CONTENT_DISPOSITION,
+                                                CONTENT_DISPOSITION_ATTACHMENT
+                                                                .formatted(fileNameService.getFileName(dateTime)))
+                                .contentType(MediaType.parseMediaType(CSV_MIME_TYPE))
+                                .body(resource);
+        }
 
 }
