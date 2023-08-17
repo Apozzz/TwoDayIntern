@@ -1,0 +1,39 @@
+/* Variables */
+@primary-color: #3498db;
+@text-color: #2c3e50;
+@padding-standard: 15px;
+
+/* Main container */
+.product-list-container {
+    padding: @padding-standard;
+    background-color: #f5f5f5;
+}
+
+/* Product item styles */
+.product-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: @padding-standard;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+
+    &:hover {
+        background-color: #f0f0f0;
+    }
+
+    .product-name {
+        color: @primary-color;
+        font-weight: bold;
+    }
+
+    .product-description {
+        color: @text-color;
+    }
+
+    .product-price {
+        color: @text-color;
+        font-size: 1.2em;
+    }
+}
