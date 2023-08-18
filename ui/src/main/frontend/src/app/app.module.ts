@@ -5,16 +5,30 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from '@material/material.module';
+import { PurchaseComponent } from '@components/purchase/purchase.component';
+import { FormsModule } from '@angular/forms';
+import { ReportComponent } from './components/report/report.component';
+import { ProductFilterComponent } from './components/product-filter/product-filter.component';
+import { ProductSortComponent } from './components/product-sort/product-sort.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductListComponent
+    ProductListComponent,
+    PurchaseComponent,
+    ReportComponent,
+    ProductFilterComponent,
+    ProductSortComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

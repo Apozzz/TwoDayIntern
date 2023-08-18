@@ -7,19 +7,24 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class PricingService {
-    
+
     private final PricingProperties pricingProperties;
 
     public Float calculatePriceWithMargin(Float basePrice) {
-        return basePrice + (basePrice * pricingProperties.getProfitMargin());
+        Float result = basePrice + (basePrice * pricingProperties.getProfitMargin());
+        return Math.round(result * 100.0f) / 100.0f;
     }
 
     public Float calculateDiscountedPrice(Float price, Integer quantity) {
+        Float discountedPrice;
+        
         if (quantity >= pricingProperties.getDiscountQuantity()) {
-            return price - (price * pricingProperties.getDiscountAmount());
+            discountedPrice = price - (price * pricingProperties.getDiscountAmount());
+        } else {
+            discountedPrice = price;
         }
 
-        return price;
+        return Math.round(discountedPrice * 100.0f) / 100.0f;
     }
 
     public Float getFinalPrice(Float basePrice, Float finalPrice) {

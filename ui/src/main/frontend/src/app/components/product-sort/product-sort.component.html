@@ -1,0 +1,12 @@
+<div class="sorting-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Sort By</mat-label>
+      <mat-select [(value)]="sortOption" (selectionChange)="onSortChange()">
+        <mat-option value="id-asc">ID (Low to High)</mat-option>
+        <mat-option value="price-asc">Price (Low to High)</mat-option>
+        <mat-option value="price-desc">Price (High to Low)</mat-option>
+        <mat-option value="quantity-asc">Quantity (Low to High)</mat-option>
+        <mat-option value="quantity-desc">Quantity (High to Low)</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>

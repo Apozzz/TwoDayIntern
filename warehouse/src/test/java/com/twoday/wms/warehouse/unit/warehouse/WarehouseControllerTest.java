@@ -206,11 +206,4 @@ public class WarehouseControllerTest {
                 assertEquals(expectedEndLog, logsList.get(1).getFormattedMessage());
         }
 
-        private void assertLogMessages(String expectedStartLog, String expectedEndLog) {
-                List<ILoggingEvent> logsList = listAppender.list;
-                assertEquals(2, logsList.size());
-                assertEquals(expectedStartLog, logsList.get(0).getFormattedMessage());
-                assertEquals(expectedEndLog, logsList.get(1).getFormattedMessage());
-        }
-
 }
