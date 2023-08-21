@@ -15,7 +15,7 @@ public class CsvHeaderGenerator {
     public String generateCSVHeader(Class<?> clazz) {
         TreeMap<Integer, String> headers = new TreeMap<>();
     
-        CsvAnnotationProcessor.processFields(clazz, 
+        CsvAnnotationProcessor.processFields(clazz,
             (field, annotation) -> headers.put(annotation.order(), annotation.name()), 
             (field, nestedFields) -> {
                 for (CsvField nestedField : nestedFields) {

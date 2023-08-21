@@ -1,6 +1,8 @@
 package com.twoday.wms.warehouse.report.interfaces;
 
 import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
 
 public interface ReportFileService {
     
@@ -8,6 +10,7 @@ public interface ReportFileService {
     File getFile(String dateTime);
     File getLatestFile();
     File determineCorrectFile(String dateTime);
-    String getLastGeneratedReportDate();
+    String getLastGeneratedBasicReportDate();
+    LocalDateTime getLastGeneratedStandardReportDate() throws IOException;
 
 }

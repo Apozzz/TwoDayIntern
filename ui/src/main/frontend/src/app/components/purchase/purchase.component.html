@@ -2,21 +2,25 @@
     <div class="form-container">
         <form (ngSubmit)="executePurchase()">
             <mat-form-field>
-                <mat-label>Choose a Product</mat-label>
+                <mat-label>{{ 'CHOOSE_PRODUCT' | translate }}</mat-label>
                 <mat-select [ngModel]="selectedProductId" (selectionChange)="onProductSelect($event.value)"
                     name="product">
                     <mat-option *ngFor="let product of products" [value]="product.id">
-                        {{ product.name }}, Quantity - {{ product.quantity }}
+                        {{ product.name }} - {{ 'QUANTITY' | translate }} {{ product.quantity }}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
+            
             <mat-form-field>
-                <mat-label>Quantity</mat-label>
+                <mat-label>{{ 'QUANTITY' | translate }}</mat-label>
                 <input matInput type="number" [(ngModel)]="purchaseQuantity" name="quantity">
             </mat-form-field>
 
-            <button mat-button [disabled]="!productAvailableForPurchase" (click)="executePurchase()">Purchase</button>
-            <p *ngIf="!productAvailableForPurchase">Sorry, this product is out of stock.</p>
+            <button mat-button [disabled]="!productAvailableForPurchase" (click)="executePurchase()">
+                {{ 'PURCHASE' | translate }}
+            </button>
+            
+            <p *ngIf="!productAvailableForPurchase">{{ 'OUT_OF_STOCK' | translate }}</p>
         </form>
     </div>
 
@@ -26,10 +30,10 @@
         </mat-card-header>
 
         <mat-card-content>
-            <p><strong>Description:</strong> {{selectedProduct.description}}</p>
-            <p><strong>Price:</strong> ${{selectedProduct.price}}</p>
-            <p><strong>Final Price:</strong> ${{selectedProduct.finalPrice}}</p>
-            <p><strong>Quantity:</strong> {{selectedProduct.quantity}}</p>
+            <p><strong>{{ 'DESCRIPTION' | translate }}:</strong> {{selectedProduct.description}}</p>
+            <p><strong>{{ 'PRICE' | translate }}:</strong> ${{selectedProduct.price}}</p>
+            <p><strong>{{ 'FINAL_PRICE' | translate }}:</strong> ${{selectedProduct.finalPrice}}</p>
+            <p><strong>{{ 'QUANTITY' | translate }}:</strong> {{selectedProduct.quantity}}</p>
         </mat-card-content>
     </mat-card>
 </div>

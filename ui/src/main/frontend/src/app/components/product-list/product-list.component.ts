@@ -49,7 +49,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   selectProductForPurchase(productId: number): void {
-    this.router.navigate(['/purchase', productId]);
+    this.router.navigate(['/purchases', productId]);
   }
 
   private sortProductsByDefault(): void {

@@ -2,21 +2,21 @@
     <mat-sidenav mode="side" opened class="filter-sidenav">
         <div class="filter-section">
             <mat-form-field appearance="outline">
-                <mat-label>Search</mat-label>
-                <input matInput placeholder="Search Name" [(ngModel)]="searchName" (ngModelChange)="onFilterChange()">
+                <mat-label>{{ 'SEARCH' | translate }}</mat-label>
+                <input matInput placeholder="{{ 'SEARCH_NAME' | translate }}" [(ngModel)]="searchName" (ngModelChange)="onFilterChange()">
                 <mat-icon matPrefix>search</mat-icon>
             </mat-form-field>
         </div>
         <div class="filter-section">
-            <div class="filter-title">Price</div>
+            <div class="filter-title">{{ 'PRICE' | translate }}</div>
             
             <mat-form-field appearance="outline" class="filter-input">
-                <mat-label>From</mat-label>
+                <mat-label>{{ 'FROM' | translate }}</mat-label>
                 <input matInput type="text" [(ngModel)]="priceRange[0]" (ngModelChange)="onFilterChange()">
             </mat-form-field>
         
             <mat-form-field appearance="outline" class="filter-input">
-                <mat-label>To</mat-label>
+                <mat-label>{{ 'TO' | translate }}</mat-label>
                 <input matInput type="text" [(ngModel)]="priceRange[1]" (ngModelChange)="onFilterChange()">
             </mat-form-field>
 
@@ -28,15 +28,15 @@
             </div>
         </div>
         <div class="filter-section">
-            <div class="filter-title">Quantity</div>
+            <div class="filter-title">{{ 'QUANTITY' | translate }}</div>
             
             <mat-form-field appearance="outline" class="filter-input">
-                <mat-label>From</mat-label>
+                <mat-label>{{ 'FROM' | translate }}</mat-label>
                 <input matInput type="text" [(ngModel)]="quantityRange[0]" (ngModelChange)="onFilterChange()">
             </mat-form-field>
         
             <mat-form-field appearance="outline" class="filter-input">
-                <mat-label>To</mat-label>
+                <mat-label>{{ 'TO' | translate }}</mat-label>
                 <input matInput type="text" [(ngModel)]="quantityRange[1]" (ngModelChange)="onFilterChange()">
             </mat-form-field>
         
