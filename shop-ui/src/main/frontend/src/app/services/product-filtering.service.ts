@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { ProductDto } from '../shared/models/productDto.interface';
+import { ProductDto } from '../shared/models/product-dto.interface';
+import { FilterData } from '../shared/models/filter-data.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductFilteringService {
 
-  filterProducts(products: ProductDto[], filters: { searchName: string, quantityRange: [number, number], priceRange: [number, number] }): Observable<ProductDto[]> {
+  filterProducts(products: ProductDto[], filters: FilterData): Observable<ProductDto[]> {
     let filtered = products;
 
     if (filters.searchName) {

@@ -2,7 +2,8 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { ProductFilteringService } from '@services/product-filtering.service';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { ProductDto } from 'src/app/shared/models/productDto.interface';
+import { FilterData } from 'src/app/shared/models/filter-data.interface';
+import { ProductDto } from 'src/app/shared/models/product-dto.interface';
 
 @Component({
   selector: 'app-product-filter',
@@ -11,7 +12,7 @@ import { ProductDto } from 'src/app/shared/models/productDto.interface';
 })
 export class ProductFilterComponent implements OnInit {
 
-  private filterChangedSubject = new Subject<{ searchName: string, quantityRange: [number, number], priceRange: [number, number] }>();
+  private filterChangedSubject = new Subject<FilterData>();
   
   @Output() filterChanged = this.filterChangedSubject.pipe(debounceTime(1000));
   @Input() productData: ProductDto[] = [];
@@ -27,7 +28,7 @@ export class ProductFilterComponent implements OnInit {
   constructor(private filterService: ProductFilteringService) { }
 
   ngOnInit() {
-    if (this.productData && this.productData.length) {
+    if (this.productData?.length) {
       this.minPrice = this.filterService.getMinPrice(this.productData);
       this.maxPrice = this.filterService.getMaxPrice(this.productData);
       this.minQuantity = this.filterService.getMinQuantity(this.productData);
@@ -39,11 +40,13 @@ export class ProductFilterComponent implements OnInit {
   }
 
   onFilterChange() {
-    this.filterChangedSubject.next({
+    const data: FilterData = {
       searchName: this.searchName,
       quantityRange: this.quantityRange,
       priceRange: this.priceRange
-   });
+    };
+  
+    this.filterChangedSubject.next(data);
   }
 
 }

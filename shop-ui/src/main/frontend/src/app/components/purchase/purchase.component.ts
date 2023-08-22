@@ -1,7 +1,7 @@
 import { Component, OnInit, } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '@services/product.service';
-import { ProductDto } from 'src/app/shared/models/productDto.interface';
+import { ProductDto } from 'src/app/shared/models/product-dto.interface';
 
 @Component({
   selector: 'app-purchase',

@@ -4,7 +4,8 @@ import { ProductFilteringService } from '@services/product-filtering.service';
 import { ProductSortingService } from '@services/product-sorting.service';
 import { ProductService } from '@services/product.service';
 import { Subject, takeUntil } from 'rxjs';
-import { ProductDto } from 'src/app/shared/models/productDto.interface';
+import { FilterData } from 'src/app/shared/models/filter-data.interface';
+import { ProductDto } from 'src/app/shared/models/product-dto.interface';
 
 @Component({
   selector: 'app-product-list',
@@ -33,7 +34,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       });
   }
 
-  onFilterChange(filters: { searchName: string, quantityRange: [number, number], priceRange: [number, number] }) {
+  onFilterChange(filters: FilterData) {
     this.productFilteringService.filterProducts(this.products, filters)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(filteredProducts => {
@@ -54,7 +55,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   private sortProductsByDefault(): void {
-    this.onSortChange('id-asc');
+    this.onSortChange('name-asc');
   }
 
   ngOnDestroy(): void {

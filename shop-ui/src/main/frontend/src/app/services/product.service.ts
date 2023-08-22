@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
-import { ProductDto } from '../shared/models/productDto.interface';
+import { ProductDto } from '../shared/models/product-dto.interface';
 
 @Injectable({
   providedIn: 'root'
