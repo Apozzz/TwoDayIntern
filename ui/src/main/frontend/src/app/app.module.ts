@@ -17,6 +17,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguageComponent } from '@components/language/language.component';
 import { ProfitGraphComponent } from '@components/profit-graph/profit-graph.component';
 import { NgChartsModule } from 'ng2-charts';
+import { ToastrModule } from 'ngx-toastr';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -47,7 +48,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    NgChartsModule
+    NgChartsModule,
+    ToastrModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -10,7 +10,7 @@ import { debounceTime } from 'rxjs/operators';
 export class ProductSortComponent {
 
   private sortChangedSubject = new Subject<string>();
-  @Output() sortChanged = this.sortChangedSubject.pipe(debounceTime(1500));
+  @Output() sortChanged = this.sortChangedSubject.pipe(debounceTime(1000));
   sortOption: string = 'id-asc';
 
   onSortChange() {

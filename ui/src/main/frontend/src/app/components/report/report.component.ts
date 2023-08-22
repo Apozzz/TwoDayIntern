@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReportService } from '@services/report.service';
 import { formatDateForReport } from '@utils/date-util';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-report',
@@ -13,7 +14,7 @@ export class ReportComponent implements OnInit {
   selectedDate: Date | null = null;
   reportForm!: FormGroup;
 
-  constructor(private reportService: ReportService, private fb: FormBuilder) {}
+  constructor(private reportService: ReportService, private fb: FormBuilder, private toastr: ToastrService) {}
 
   ngOnInit() {
     this.reportForm = this.fb.group({
@@ -25,7 +26,7 @@ export class ReportComponent implements OnInit {
     const selectedDateTime = this.reportForm.get('dateTime')?.value;
     
     if (!selectedDateTime) {
-      alert('Please select a date first!');
+      this.toastr.error('Please select a date first!', 'Error');
       return;
     }
 
@@ -33,9 +34,8 @@ export class ReportComponent implements OnInit {
 
     this.reportService.downloadCsvReport(formattedDate).subscribe({
       next: response => this.promptUserToDownloadFile(response),
-      error: (error) => {
-        console.error('Error downloading report:', error);
-        alert('Error downloading report. Please try again later.');
+      error: error => {
+        this.toastr.error(error, 'Error');
       },
     });
   }

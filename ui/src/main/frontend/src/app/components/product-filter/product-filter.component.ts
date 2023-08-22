@@ -13,7 +13,7 @@ export class ProductFilterComponent implements OnInit {
 
   private filterChangedSubject = new Subject<{ searchName: string, quantityRange: [number, number], priceRange: [number, number] }>();
   
-  @Output() filterChanged = this.filterChangedSubject.pipe(debounceTime(1500));
+  @Output() filterChanged = this.filterChangedSubject.pipe(debounceTime(1000));
   @Input() productData: ProductDto[] = [];
 
   minPrice: number = 0;
