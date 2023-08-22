@@ -1,6 +1,5 @@
 package com.twoday.wms.shop.report;
 
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +23,7 @@ public class ReportController {
 
     @GetMapping("/purchases/csv")
     @LogMessage(before = BEFORE_GET_PURCHASES_REPORT_LOG, after = AFTER_GET_PURCHASES_REPORT_LOG, loggerClass = ReportController.class)
-    public Mono<ResponseEntity<ByteArrayResource>> getPurchasesReport(
+    public Mono<ResponseEntity<?>> getPurchasesReport(
             @RequestParam(name = "dateTime", required = false) String dateTime) {
         return reportService.getPurchaseReport(dateTime);
     }
