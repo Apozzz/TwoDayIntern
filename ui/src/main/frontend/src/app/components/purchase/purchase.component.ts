@@ -1,6 +1,7 @@
 import { Component, OnInit, } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService, ProductDto } from '@services/product.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-purchase',
@@ -16,7 +17,7 @@ export class PurchaseComponent implements OnInit {
   purchaseSuccess: boolean | null = null;
   productAvailableForPurchase: boolean = true;
 
-  constructor(private productService: ProductService, private route: ActivatedRoute) { }
+  constructor(private productService: ProductService, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('productId');
@@ -26,9 +27,15 @@ export class PurchaseComponent implements OnInit {
       this.updateSelectedProduct();
     }
 
-    this.productService.getProducts().subscribe(data => {
-      this.products = data;
-      this.updateSelectedProduct();
+    this.productService.getProducts().subscribe({
+      next: data => {
+        this.products = data;
+        this.updateSelectedProduct();
+      },
+      error: error => {
+        let errorMessage = error?.message || 'Something went wrong!';
+        this.toastr.error(errorMessage, 'Error');
+      }
     });
   }
 
@@ -56,7 +63,8 @@ export class PurchaseComponent implements OnInit {
           },
           error: (error) => {
             this.purchaseSuccess = false;
-            console.error('Purchase failed:', error);
+            let errorMessage = error?.message || 'Something went wrong!';
+            this.toastr.error(errorMessage, 'Error');
           },
         });
     }

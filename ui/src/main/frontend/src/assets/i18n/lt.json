@@ -26,5 +26,20 @@
   "SEARCH_NAME": "Paieškos Pavadinimas",
   "FROM": "Nuo",
   "TO": "Iki",
-  "PROFIT": "Pelnas"
+  "PROFIT": "Pelnas",
+  "MONTHS": {
+    "January": "Sausis",
+    "February": "Vasaris",
+    "March": "Kovas",
+    "April": "Balandis",
+    "May": "Gegužė",
+    "June": "Birželis",
+    "July": "Liepa",
+    "August": "Rugpjūtis",
+    "September": "Rugsėjis",
+    "October": "Spalis",
+    "November": "Lapkritis",
+    "December": "Gruodis"
+  },
+  "MONTHLY_PROFITS": "Mėnesio Pelnas"
 }

@@ -49,7 +49,11 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     }),
     NgChartsModule,
-    ToastrModule
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-center',
+      preventDuplicates: true,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
