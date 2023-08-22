@@ -13,23 +13,23 @@ export class PurchaseService {
 
   constructor(private http: HttpClient) { }
 
-  getMonthlyTotalProfit(): Observable<Record<string, number>> {
-    return this.http.get<PurchaseDto[]>(this.baseUrl).pipe(
-      map(purchases => this.aggregateMonthlyTotal(purchases))
-    );
+  getMonthlyPurchases(): Observable<Record<string, PurchaseDto[]>> {
+    return this.http.get<PurchaseDto[]>(this.baseUrl)
+      .pipe(map(purchases => this.aggregateMonthly(purchases))
+      );
   }
 
-  private aggregateMonthlyTotal(purchases: PurchaseDto[]): Record<string, number> {
-    const totals: Record<string, number> = {};
+  private aggregateMonthly(purchases: PurchaseDto[]): Record<string, PurchaseDto[]> {
+    const aggregated: Record<string, PurchaseDto[]> = {};
 
     purchases.forEach(purchase => {
       const month = new Date(purchase.timeStamp).getMonth() + 1;
 
-      if (!totals[month]) totals[month] = 0;
-      totals[month] += purchase.totalPrice;
+      if (!aggregated[month]) aggregated[month] = [];
+      aggregated[month].push(purchase);
     });
 
-    return totals;
+    return aggregated;
   }
 
 }

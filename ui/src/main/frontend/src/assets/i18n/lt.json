@@ -41,5 +41,6 @@
     "November": "Lapkritis",
     "December": "Gruodis"
   },
-  "MONTHLY_PROFITS": "Mėnesio Pelnas"
+  "MONTHLY_TOTAL_PRICE_PROFIT": "Mėnesio Bendras Pelnas",
+  "MONTHLY_PRODUCTS_PURCHASE_QUANTITY": "Mėnesio Nupirktų Produktų Skaičius"
 }

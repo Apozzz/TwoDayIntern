@@ -41,5 +41,6 @@
     "November": "November",
     "December": "December"
   },
-  "MONTHLY_PROFITS": "Monthly Profits"
+  "MONTHLY_TOTAL_PRICE_PROFIT": "Monthly Total Price Profit",
+  "MONTHLY_PRODUCTS_PURCHASE_QUANTITY": "Monthly Products Purchase Quantity"
 }
