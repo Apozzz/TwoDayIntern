@@ -8,6 +8,6 @@ import com.twoday.wms.dto.PurchaseDto;
 public interface PurchaseService {
     
     List<PurchaseDto> findAllWithTimestampBetween(LocalDateTime startDate, LocalDateTime endDate);
-    List<PurchaseDto> getAllPurchasesForYearRangeFromCurrentMonth();
+    List<PurchaseDto> getAllPurchasesForYearRangeFromGivenYear(Integer yearDate);
 
 }

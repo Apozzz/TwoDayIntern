@@ -11,6 +11,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDatetimepickerModule, MatNativeDatetimeModule } from '@mat-datetimepicker/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatMomentDatetimeModule } from '@mat-datetimepicker/moment';
 
 @NgModule({
   imports: [
@@ -27,6 +29,8 @@ import { MatDatetimepickerModule, MatNativeDatetimeModule } from '@mat-datetimep
     MatDatetimepickerModule,
     MatNativeDatetimeModule,
     ReactiveFormsModule,
+    MatMomentDateModule,
+    MatMomentDatetimeModule,
   ],
   exports: [
     MatToolbarModule,
@@ -42,6 +46,8 @@ import { MatDatetimepickerModule, MatNativeDatetimeModule } from '@mat-datetimep
     MatDatetimepickerModule,
     MatNativeDatetimeModule,
     ReactiveFormsModule,
+    MatMomentDateModule,
+    MatMomentDatetimeModule,
   ]
 })
 export class MaterialModule { }

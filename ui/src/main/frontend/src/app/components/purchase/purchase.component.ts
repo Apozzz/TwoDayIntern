@@ -1,14 +1,15 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnDestroy, OnInit, } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService, ProductDto } from '@services/product.service';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-purchase',
   templateUrl: './purchase.component.html',
   styleUrls: ['./purchase.component.less']
 })
-export class PurchaseComponent implements OnInit {
+export class PurchaseComponent implements OnInit, OnDestroy {
 
   products: ProductDto[] = [];
   selectedProductId: number | null = null;
@@ -16,6 +17,7 @@ export class PurchaseComponent implements OnInit {
   purchaseQuantity: number = 1;
   purchaseSuccess: boolean | null = null;
   productAvailableForPurchase: boolean = true;
+  private unsubscribe$ = new Subject<void>();
 
   constructor(private productService: ProductService, private route: ActivatedRoute, private toastr: ToastrService) { }
 
@@ -27,16 +29,27 @@ export class PurchaseComponent implements OnInit {
       this.updateSelectedProduct();
     }
 
-    this.productService.getProducts().subscribe({
-      next: data => {
-        this.products = data;
-        this.updateSelectedProduct();
-      },
-      error: error => {
-        let errorMessage = error?.message || 'Something went wrong!';
-        this.toastr.error(errorMessage, 'Error');
-      }
-    });
+    this.loadProducts();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  loadProducts(): void {
+    this.productService.getProducts()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: data => {
+          this.products = data;
+          this.updateSelectedProduct();
+        },
+        error: error => {
+          let errorMessage = error?.message || 'Something went wrong!';
+          this.toastr.error(errorMessage, 'Error');
+        }
+      });
   }
 
   onProductSelect(productId: number): void {
@@ -56,6 +69,7 @@ export class PurchaseComponent implements OnInit {
   executePurchase(): void {
     if (this.selectedProductId !== null) {
       this.productService.purchaseProduct(this.selectedProductId, this.purchaseQuantity)
+        .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: () => {
             this.purchaseSuccess = true;

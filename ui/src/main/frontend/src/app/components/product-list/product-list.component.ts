@@ -16,6 +16,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   products: ProductDto[] = [];
   filteredProducts: ProductDto[] = [];
   private unsubscribe$ = new Subject<void>();
+  currentSortOption: string = 'id-asc';
 
   constructor(private productService: ProductService, private productFilteringService: ProductFilteringService, private productSortingService: ProductSortingService, private router: Router, private toastr: ToastrService) { }
 
@@ -45,6 +46,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       .subscribe({
         next: filteredProducts => {
           this.filteredProducts = filteredProducts;
+          this.onSortChange(this.currentSortOption)
         },
         error: error => {
           let errorMessage = error?.message || 'Something went wrong!';
@@ -54,6 +56,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   onSortChange(sortOption: string) {
+    this.currentSortOption = sortOption;
     this.productSortingService.sortProducts(this.filteredProducts, sortOption)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
@@ -71,7 +74,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   private sortProductsByDefault(): void {
-    this.onSortChange('id-asc');
+    this.onSortChange(this.currentSortOption);
   }
 
   ngOnDestroy(): void {

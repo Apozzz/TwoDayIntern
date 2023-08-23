@@ -1,24 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { GRAPHS_ATTRIBUTE_LABEL } from '@constants/graphs-attribute-label.constants';
 import { MONTH_NAMES } from '@constants/month-names.constants';
 import { TranslateService } from '@ngx-translate/core';
 import { LineGraphService } from '@services/line-graph.service';
 import { PurchaseService } from '@services/purchase.service';
 import { ChartConfiguration } from 'chart.js';
 import { ToastrService } from 'ngx-toastr';
-import { GRAPHS_ATTRIBUTE_LABEL } from '@constants/graphs-attribute-label.constants';
+
 
 @Component({
   selector: 'app-profit-graph',
   templateUrl: './profit-graph.component.html',
-  styleUrls: ['./profit-graph.component.less']
+  styleUrls: ['./profit-graph.component.less'],
 })
-export class ProfitGraphComponent implements OnInit {
+export class ProfitGraphComponent implements OnInit, OnChanges {
 
+  @Input() selectedYear!: number;
   attributes: string[] = ['totalPrice', 'quantity'];
   lineChartType: any = 'line';
   lineChartLegend = true;
   lineChartPlugins = [];
-  dataCache: any;
+  dataCache: Record<number, any> = {};
   lineChartData: { labels: string[], datasets: { data: number[], label: string, fill: boolean, tension: number, borderColor: string, backgroundColor: string }[] } = {
     labels: [],
     datasets: [
@@ -39,6 +41,12 @@ export class ProfitGraphComponent implements OnInit {
 
   constructor(private purchaseService: PurchaseService, private toastr: ToastrService, private translate: TranslateService, private lineGraphService: LineGraphService) { }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedYear']) {
+      this.populateChartData();
+    }
+  }
+
   ngOnInit(): void {
     this.translate.onLangChange.subscribe(() => {
       this.updateGraphLabels();
@@ -54,9 +62,14 @@ export class ProfitGraphComponent implements OnInit {
   }
 
   populateChartData(): void {
-    this.purchaseService.getMonthlyPurchases().subscribe({
+    if (this.dataCache[this.selectedYear]) {
+      this.setChartData(this.dataCache[this.selectedYear]);
+      return;
+    }
+
+    this.purchaseService.getMonthlyPurchases(this.selectedYear).subscribe({
       next: profits => {
-        this.dataCache = profits;
+        this.dataCache[this.selectedYear] = profits;
         this.setChartData(profits);
       },
       error: error => {
@@ -73,7 +86,7 @@ export class ProfitGraphComponent implements OnInit {
 
     const datasets = GRAPHS_ATTRIBUTE_LABEL.map(pair => this.lineGraphService.generateDataset(pair.attribute, this.translate.instant(pair.label), profits));
     this.lineChartData = {
-      labels: Object.keys(profits).map(monthNumber => this.lineChartLabels[+monthNumber - 1]),
+      labels: this.lineChartLabels,
       datasets: datasets,
     }
   }

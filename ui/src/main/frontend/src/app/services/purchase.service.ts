@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { Observable, map } from 'rxjs';
@@ -13,8 +13,13 @@ export class PurchaseService {
 
   constructor(private http: HttpClient) { }
 
-  getMonthlyPurchases(): Observable<Record<string, PurchaseDto[]>> {
-    return this.http.get<PurchaseDto[]>(this.baseUrl)
+  getMonthlyPurchases(yearDate: number): Observable<Record<string, PurchaseDto[]>> {
+    let params = new HttpParams()
+      .set('dateTime', yearDate.toString());
+
+    console.log(params);
+
+    return this.http.get<PurchaseDto[]>(this.baseUrl, { params: params })
       .pipe(map(purchases => this.aggregateMonthly(purchases))
       );
   }

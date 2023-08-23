@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.twoday.wms.dto.PurchaseDto;
@@ -25,8 +26,8 @@ public class PurchaseController {
 
     @GetMapping("/current-year-range")
     @LogMessage(before = BEFORE_GET_CURRENT_YEAR_RANGE_PURCHASES_LOG, after = AFTER_GET_CURRENT_YEAR_RANGE_PURCHASES_LOG, loggerClass = PurchaseController.class)
-    public Mono<ResponseEntity<List<PurchaseDto>>> getCurrentYearRangePurchases() {
-        return purchaseService.getCurrentYearRangePurchases();
+    public Mono<ResponseEntity<List<PurchaseDto>>> getCurrentYearRangePurchases(@RequestParam(name = "dateTime", required = true) Integer dateYear) {
+        return purchaseService.getCurrentYearRangePurchases(dateYear);
     }
 
 }

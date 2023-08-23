@@ -18,10 +18,11 @@ public class PurchaseService {
 
     private final WebClient webClient;
 
-    public Mono<ResponseEntity<List<PurchaseDto>>> getCurrentYearRangePurchases() {
+    public Mono<ResponseEntity<List<PurchaseDto>>> getCurrentYearRangePurchases(Integer dateYear) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/v1/purchases/current-year-range")
+                        .queryParam("dateTime", dateYear)
                         .build())
                 .header("Accept", "application/json")
                 .retrieve()

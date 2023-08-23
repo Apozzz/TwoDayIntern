@@ -1,8 +1,7 @@
 package com.twoday.wms.warehouse.purchase;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.Month;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -29,9 +28,9 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public List<PurchaseDto> getAllPurchasesForYearRangeFromCurrentMonth() {
-        LocalDateTime startOfRange = LocalDateTime.of(LocalDate.now().minusYears(1).withDayOfMonth(1), LocalTime.MIN);
-        LocalDateTime endOfRange = LocalDateTime.now();
+    public List<PurchaseDto> getAllPurchasesForYearRangeFromGivenYear(Integer yearDate) {
+        LocalDateTime startOfRange = LocalDateTime.of(yearDate, Month.JANUARY, 1, 0, 0);
+        LocalDateTime endOfRange = LocalDateTime.of(yearDate, Month.DECEMBER, 31, 23, 59, 59);
         return purchaseRepository.findAllWithTimestampBetween(startOfRange, endOfRange)
                 .stream()
                 .map(purchaseConverter::toDto)

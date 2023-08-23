@@ -11,10 +11,19 @@ export class LineGraphService {
       return purchases.reduce((acc, purchase) => acc + purchase[attribute], 0);
     }
 
-    const extractedData = Object.values(data).map(purchases => sumByAttribute(purchases, attribute));
+    const extractedData = [];
+
+    for (let i = 1; i <= 12; i++) {
+      if (data[i]) {
+        extractedData.push(sumByAttribute(data[i], attribute));
+      } else {
+        extractedData.push(0);
+      }
+    }
+
     const randomBorderColor = this.getRandomColor();
     const transparentBackgroundColor = this.getTransparentColor(randomBorderColor);
-  
+
     return {
       data: extractedData,
       label: label,
