@@ -1,15 +1,15 @@
 <div class="main-container">
   <app-product-filter *ngIf="products?.length" [productData]="products"
-    (filterChanged)="onFilterChange($event)"></app-product-filter>
+    (filterChanged)="onFilterChange($event)" class="app-product-filter"></app-product-filter>
   <div class="products-container">
     <div class="products-list">
-      <h1>Products Results From Warehouse</h1>
+      <h1 class="product-list-header">Products Results From Warehouse</h1>
       <app-product-sort (sortChanged)="onSortChange($event)"></app-product-sort>
       <div class="cards-container">
         <mat-card *ngFor="let product of filteredProducts" class="product-card">
           <mat-card-header>
             <mat-card-title>Name: {{product.name}}</mat-card-title>
-            <mat-card-subtitle>Description: {{product.description}}</mat-card-subtitle>
+            <mat-card-subtitle>Description: {{product.description || 'No Description'}}</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
             <p>Price: ${{product.price}}</p>

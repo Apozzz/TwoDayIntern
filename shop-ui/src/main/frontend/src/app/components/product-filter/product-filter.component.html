@@ -21,7 +21,7 @@
             </mat-form-field>
 
             <div class="slider-container">
-                <mat-slider [min]="minPrice" [max]="maxPrice" step="1" class="price-slider">
+                <mat-slider [min]="minPrice" [max]="maxPrice" step="1" class="product-filter-slider">
                     <input matSliderStartThumb [(ngModel)]="priceRange[0]" (ngModelChange)="onFilterChange()">
                     <input matSliderEndThumb [(ngModel)]="priceRange[1]" (ngModelChange)="onFilterChange()">
                 </mat-slider>
@@ -41,7 +41,7 @@
             </mat-form-field>
         
             <div class="slider-container">
-                <mat-slider [min]="minQuantity" [max]="maxQuantity" step="1" class="quantity-slider">
+                <mat-slider [min]="minQuantity" [max]="maxQuantity" step="1" class="product-filter-slider">
                     <input matSliderStartThumb [(ngModel)]="quantityRange[0]" (ngModelChange)="onFilterChange()">
                     <input matSliderEndThumb [(ngModel)]="quantityRange[1]" (ngModelChange)="onFilterChange()">
                 </mat-slider>

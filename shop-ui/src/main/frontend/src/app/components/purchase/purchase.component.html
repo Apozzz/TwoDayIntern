@@ -1,7 +1,7 @@
 <div class="main-container">
     <div class="form-container">
-        <form (ngSubmit)="executePurchase()">
-            <mat-form-field>
+        <form (ngSubmit)="executePurchase()" class="purchase-form">
+            <mat-form-field class="purchase-form-field">
                 <mat-label>Choose a Product</mat-label>
                 <mat-select [ngModel]="selectedProductId" (selectionChange)="onProductSelect($event.value)"
                     name="product">
@@ -15,21 +15,21 @@
                 <input matInput type="number" [(ngModel)]="purchaseQuantity" name="quantity">
             </mat-form-field>
 
-            <button mat-button [disabled]="!productAvailableForPurchase" (click)="executePurchase()">Purchase</button>
-            <p *ngIf="!productAvailableForPurchase">Sorry, this product is out of stock.</p>
+            <button mat-button [disabled]="!productAvailableForPurchase" (click)="executePurchase()" class="purchase-button">Purchase</button>
+            <p *ngIf="!productAvailableForPurchase" class="purchase-paragraph">Sorry, this product is out of stock.</p>
         </form>
     </div>
 
-    <mat-card *ngIf="selectedProduct">
+    <mat-card *ngIf="selectedProduct" class="purchase-product-card">
         <mat-card-header>
             <mat-card-title>{{selectedProduct.name}}</mat-card-title>
         </mat-card-header>
 
         <mat-card-content>
-            <p><strong>Description:</strong> {{selectedProduct.description}}</p>
-            <p><strong>Price:</strong> ${{selectedProduct.price}}</p>
-            <p><strong>Final Price:</strong> ${{selectedProduct.finalPrice}}</p>
-            <p><strong>Quantity:</strong> {{selectedProduct.quantity}}</p>
+            <p class="purchase-paragraph"><strong class="purchase-strong">Description:</strong> {{selectedProduct.description}}</p>
+            <p class="purchase-paragraph"><strong class="purchase-strong">Price:</strong> ${{selectedProduct.price}}</p>
+            <p class="purchase-paragraph"><strong class="purchase-strong">Final Price:</strong> ${{selectedProduct.finalPrice}}</p>
+            <p class="purchase-paragraph"><strong class="purchase-strong">Quantity:</strong> {{selectedProduct.quantity}}</p>
         </mat-card-content>
     </mat-card>
 </div>

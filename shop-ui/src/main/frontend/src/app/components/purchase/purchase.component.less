@@ -16,7 +16,7 @@ body, html {
 }
 
 .form-container {
-    form {
+    .purchase-form {
         width: 100%;
         max-width: 500px;
         padding: 20px;
@@ -24,7 +24,7 @@ body, html {
         border-radius: 8px;
         box-shadow: 0 4px 8px @color-shadow-light;
 
-        mat-form-field {
+        .purchase-form-field {
             width: 100%;
             margin-bottom: 16px;
 
@@ -33,23 +33,23 @@ body, html {
             }
         }
 
-        button {
+        .purchase-button {
             width: 100%;
         }
     }
 }
 
-mat-card {
+.purchase-product-card {
     max-width: 400px;
     border: 1px solid @color-border;
     box-shadow: 0 4px 8px @color-shadow-light;
 
     &-content {
-        p {
+        .purchase-paragraph {
             margin: 10px 0;
             font-size: 16px;
 
-            strong {
+            .purchase-strong {
                 font-weight: 600;
             }
         }

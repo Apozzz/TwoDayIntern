@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: flex-start;
     padding: 1em;
-    background: @color-white;
+    background: @primary-backgroud-color;
     border-radius: 8px;
     box-shadow: 0 4px 6px @color-shadow-light;
     transition: all 0.3s ease;
@@ -14,27 +14,13 @@
         box-shadow: 0 6px 8px @color-shadow-dark;
     }
 
-    label {
+    .sort-label {
         font-size: 16px;
         margin-right: 1em;
         font-weight: 500;
     }
 
-    select {
-        border: none;
+    .sort-option {
         padding: 0.5em 1em;
-        border-radius: 4px;
-        background: @color-light-gray;
-        color: @color-gray;
-        cursor: pointer;
-
-        &:focus {
-            outline: none;
-            background: @color-dark-gray;
-        }
-
-        option {
-            padding: 0.5em 1em;
-        }
     }
 }
