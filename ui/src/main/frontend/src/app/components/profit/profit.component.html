@@ -1,9 +1,14 @@
 <form class="graph-container">
     <mat-form-field>
-            <mat-label>Select Year</mat-label>
-            <input matInput [matDatepicker]="picker" [formControl]="date" placeholder="Choose a year">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker startView="multi-year" (yearSelected)="chosenYearHandler($event, picker)"></mat-datepicker>
+        <mat-label>Select Year</mat-label>
+        <input matInput [matDatepicker]="picker" [formControl]="date" placeholder="Choose a year">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker startView="multi-year"
+            (yearSelected)="chosenYearHandler($event, picker)"></mat-datepicker>
     </mat-form-field>
 </form>
-<app-profit-graph *ngIf="date.value" [selectedYear]="date.value.year()"></app-profit-graph>
+<app-profit-graph [chartData]="profitData" [chartType]="'pie'" [attributes]="attributeLabel"></app-profit-graph>
+<app-profit-table 
+    [columns]="['id', 'name', 'age']"
+    [data]="[{id: 1, name: 'Alice', age: 30}, {id: 2, name: 'Bob', age: 25}]">
+</app-profit-table>

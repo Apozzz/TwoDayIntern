@@ -17,8 +17,6 @@ export class PurchaseService {
     let params = new HttpParams()
       .set('dateTime', yearDate.toString());
 
-    console.log(params);
-
     return this.http.get<PurchaseDto[]>(this.baseUrl, { params: params })
       .pipe(map(purchases => this.aggregateMonthly(purchases))
       );

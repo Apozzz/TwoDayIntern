@@ -13,6 +13,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDatetimepickerModule, MatNativeDatetimeModule } from '@mat-datetimepicker/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatMomentDatetimeModule } from '@mat-datetimepicker/moment';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   imports: [
@@ -31,6 +34,9 @@ import { MatMomentDatetimeModule } from '@mat-datetimepicker/moment';
     ReactiveFormsModule,
     MatMomentDateModule,
     MatMomentDatetimeModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
   ],
   exports: [
     MatToolbarModule,
@@ -48,6 +54,9 @@ import { MatMomentDatetimeModule } from '@mat-datetimepicker/moment';
     ReactiveFormsModule,
     MatMomentDateModule,
     MatMomentDatetimeModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
   ]
 })
 export class MaterialModule { }
