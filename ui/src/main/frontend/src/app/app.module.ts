@@ -18,7 +18,7 @@ import { LanguageComponent } from '@components/language/language.component';
 import { ProfitGraphComponent } from '@components/profit-graph/profit-graph.component';
 import { NgChartsModule } from 'ng2-charts';
 import { ToastrModule } from 'ngx-toastr';
-import { ProfitTableComponent } from './components/profit-table/profit-table.component';
+import { GenericTableComponent } from './components/profit-table/profit-table.component';
 import { ProfitComponent } from './components/profit/profit.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -35,7 +35,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProductSortComponent,
     LanguageComponent,
     ProfitGraphComponent,
-    ProfitTableComponent,
+    GenericTableComponent,
     ProfitComponent,
   ],
   imports: [

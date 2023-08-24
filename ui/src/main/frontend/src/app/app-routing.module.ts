@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'purchases/:productId', component: PurchaseComponent },
   { path: 'graphs', pathMatch: 'full', redirectTo: `/graphs/${new Date().getFullYear()}` },
   { path: 'graphs/:year', component: ProfitComponent, resolve: { profitData: profitResolver } },
+  { path: 'graphs/:year/:month', component: ProfitComponent, resolve: { profitData: profitResolver } },
   { path: '', redirectTo: '/products', pathMatch: 'full' },
 ];
 

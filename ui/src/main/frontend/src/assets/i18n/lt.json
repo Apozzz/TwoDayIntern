@@ -42,5 +42,7 @@
     "December": "Gruodis"
   },
   "MONTHLY_TOTAL_PRICE_PROFIT": "Mėnesio Bendras Pelnas",
-  "MONTHLY_PRODUCTS_PURCHASE_QUANTITY": "Mėnesio Nupirktų Produktų Skaičius"
+  "MONTHLY_PRODUCTS_PURCHASE_QUANTITY": "Mėnesio Nupirktų Produktų Skaičius",
+  "DAILY_TOTAL_PRICE_PROFIT": "Dienos Bendras Pelnas",
+  "DAILY_PRODUCTS_PURCHASE_QUANTITY": "Dienos Nupirktų Produktų Skaičius"
 }

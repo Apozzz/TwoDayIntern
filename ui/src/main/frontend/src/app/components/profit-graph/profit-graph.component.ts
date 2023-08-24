@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class ProfitGraphComponent implements OnInit, OnDestroy, OnChanges {
 
+  @Input() isYearlyViewMode: boolean = true;
   @Input() chartData: any;
   @Input() chartType: any = 'line';
   @Input() attributes: { attribute: string; label: string; }[] = [];
@@ -32,7 +33,7 @@ export class ProfitGraphComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private translate: TranslateService,
     private lineGraphService: LineGraphService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(
@@ -56,7 +57,9 @@ export class ProfitGraphComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   updateGraphLabels(): void {
-    this.chartDisplayData.labels = MONTH_NAMES.map(month => this.translate.instant(`MONTHS.${month}`));
+    this.isYearlyViewMode ?
+      this.chartDisplayData.labels = MONTH_NAMES.map(month => this.translate.instant(`MONTHS.${month}`))
+      : this.chartDisplayData.labels = Array.from({ length: 31 }, (_, i) => (i + 1).toString());
   }
 
   populateChartData(): void {
@@ -64,7 +67,10 @@ export class ProfitGraphComponent implements OnInit, OnDestroy, OnChanges {
       return;
     }
 
-    const datasets = this.attributes.map(pair => this.lineGraphService.generateDataset(pair.attribute, this.translate.instant(pair.label), this.chartData));
+    const datasets = this.isYearlyViewMode ? 
+      this.attributes.map(pair => this.lineGraphService.generateYearlyDataset(pair.attribute, this.translate.instant(pair.label), this.chartData))
+      : this.attributes.map(pair => this.lineGraphService.generateMonthlyDataset(pair.attribute, this.translate.instant(pair.label), this.chartData));
+    
 
     this.chartDisplayData = {
       ...this.chartDisplayData,

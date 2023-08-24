@@ -16,6 +16,7 @@ import { MatMomentDatetimeModule } from '@mat-datetimepicker/moment';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatSlideToggleModule,
   ],
   exports: [
     MatToolbarModule,
@@ -57,6 +59,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatSlideToggleModule,
   ]
 })
 export class MaterialModule { }

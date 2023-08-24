@@ -42,5 +42,7 @@
     "December": "December"
   },
   "MONTHLY_TOTAL_PRICE_PROFIT": "Monthly Total Price Profit",
-  "MONTHLY_PRODUCTS_PURCHASE_QUANTITY": "Monthly Products Purchase Quantity"
+  "MONTHLY_PRODUCTS_PURCHASE_QUANTITY": "Monthly Products Purchase Quantity",
+  "DAILY_TOTAL_PRICE_PROFIT": "Daily Total Price Profit",
+  "DAILY_PRODUCTS_PURCHASE_QUANTITY": "Daily Products Purchase Quantity"
 }
