@@ -23,10 +23,24 @@ public class PurchaseController {
     
     private final PurchaseService purchaseService;
 
-    @GetMapping("/current-year-range")
+    @GetMapping("/year-range")
     public ResponseEntity<List<PurchaseDto>> getCurrentYearRangePurchases(@RequestParam(name = "dateTime", required = true) Integer dateYear) {
         log.info("Received request to fetch purchases for the year: {}.", dateYear);
         List<PurchaseDto> purchases = purchaseService.getAllPurchasesForYearRangeFromGivenYear(dateYear);
+
+        if (purchases.isEmpty()) {
+            log.info("No purchases found for the current year range.");
+        } else {
+            log.info("Fetched {} purchases for the current year range.", purchases.size());
+        }
+
+        return new ResponseEntity<>(purchases, HttpStatus.OK);
+    }
+
+    @GetMapping("/month-range")
+    public ResponseEntity<List<PurchaseDto>> getCurrentMonthRangePurchases(@RequestParam(name = "dateTime", required = true) String dateMonth) {
+        log.info("Received request to fetch purchases for the year: {}.", dateMonth);
+        List<PurchaseDto> purchases = purchaseService.getAllPurchasesForMonthRangeFromGivenMonth(dateMonth);
 
         if (purchases.isEmpty()) {
             log.info("No purchases found for the current year range.");

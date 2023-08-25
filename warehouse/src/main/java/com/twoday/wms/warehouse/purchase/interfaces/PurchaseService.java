@@ -9,5 +9,6 @@ public interface PurchaseService {
     
     List<PurchaseDto> findAllWithTimestampBetween(LocalDateTime startDate, LocalDateTime endDate);
     List<PurchaseDto> getAllPurchasesForYearRangeFromGivenYear(Integer yearDate);
+    List<PurchaseDto> getAllPurchasesForMonthRangeFromGivenMonth(String monthDate);
 
 }

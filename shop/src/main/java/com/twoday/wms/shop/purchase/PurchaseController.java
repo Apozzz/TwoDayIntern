@@ -19,15 +19,23 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class PurchaseController {
 
-    private static final String BEFORE_GET_CURRENT_YEAR_RANGE_PURCHASES_LOG = "Fetching purchases for the current year range.";
-    private static final String AFTER_GET_CURRENT_YEAR_RANGE_PURCHASES_LOG = "Finished fetching purchases for the current year range.";
+    private static final String BEFORE_GET_CURRENT_YEAR_RANGE_PURCHASES_LOG = "Fetching purchases for the year range.";
+    private static final String AFTER_GET_CURRENT_YEAR_RANGE_PURCHASES_LOG = "Finished fetching purchases for the year range.";
+    private static final String BEFORE_GET_CURRENT_MONTH_RANGE_PURCHASES_LOG = "Fetching purchases for the month range.";
+    private static final String AFTER_GET_CURRENT_MONTH_RANGE_PURCHASES_LOG = "Finished fetching purchases for the month range.";
 
     private final PurchaseService purchaseService;
 
-    @GetMapping("/current-year-range")
+    @GetMapping("/year-range")
     @LogMessage(before = BEFORE_GET_CURRENT_YEAR_RANGE_PURCHASES_LOG, after = AFTER_GET_CURRENT_YEAR_RANGE_PURCHASES_LOG, loggerClass = PurchaseController.class)
-    public Mono<ResponseEntity<List<PurchaseDto>>> getCurrentYearRangePurchases(@RequestParam(name = "dateTime", required = true) Integer dateYear) {
-        return purchaseService.getCurrentYearRangePurchases(dateYear);
+    public Mono<ResponseEntity<List<PurchaseDto>>> getYearRangePurchases(@RequestParam(name = "dateTime", required = true) Integer yearDate) {
+        return purchaseService.getYearRangePurchases(yearDate);
+    }
+
+    @GetMapping("/month-range")
+    @LogMessage(before = BEFORE_GET_CURRENT_MONTH_RANGE_PURCHASES_LOG, after = AFTER_GET_CURRENT_MONTH_RANGE_PURCHASES_LOG, loggerClass = PurchaseController.class)
+    public Mono<ResponseEntity<List<PurchaseDto>>> getMonthRangePurchases(@RequestParam(name = "dateTime", required = true) String monthDate) {
+        return purchaseService.getMonthRangePurchases(monthDate);
     }
 
 }
