@@ -1,11 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProductFilteringService } from '@services/product-filtering.service';
-import { ProductSortingService } from '@services/product-sorting.service';
+import { GenericSortComponent } from '@components/generic-sort/generic-sort.component';
 import { ProductService } from '@services/product.service';
 import { Subject, takeUntil } from 'rxjs';
-import { FilterData } from 'src/app/shared/models/filter-data.interface';
 import { ProductDto } from 'src/app/shared/models/product-dto.interface';
+import { SortConfig } from 'src/app/shared/models/sort-config.interface';
+import { SortOption } from 'src/app/shared/models/sort-options.interface';
 
 @Component({
   selector: 'app-product-list',
@@ -14,53 +14,91 @@ import { ProductDto } from 'src/app/shared/models/product-dto.interface';
 })
 export class ProductListComponent implements OnInit, OnDestroy {
 
-  products: ProductDto[] = [];
-  filteredProducts: ProductDto[] = [];
+  originalData: ProductDto[] = [];
+  filteredAndSortedProducts: ProductDto[] = [];
+  sortOptions: SortOption[] = [];
+  sortConfigs: SortConfig<ProductDto>[] = [];
+  filterFields: Array<keyof ProductDto> = [];
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private productService: ProductService, private productFilteringService: ProductFilteringService, private productSortingService: ProductSortingService, private router: Router) { }
+  @ViewChild('sortComp', { static: false }) sortComponent!: GenericSortComponent<any>;
+
+  constructor(
+    private productService: ProductService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.fetchProducts();
+    this.setSortOptions();
+    this.setSortConfigs();
+    this.setFilterFields();
   }
 
   fetchProducts(): void {
     this.productService.getProducts()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(data => {
-        this.products = data;
-        this.filteredProducts = [...this.products];
-        this.sortProductsByDefault();
+        this.originalData = data;
+        this.filteredAndSortedProducts = [...this.originalData];
       });
   }
 
-  onFilterChange(filters: FilterData) {
-    this.productFilteringService.filterProducts(this.products, filters)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(filteredProducts => {
-        this.filteredProducts = filteredProducts;
-      });
+  handleFilterChange(filteredProducts: ProductDto[]) {
+    this.filteredAndSortedProducts = filteredProducts;
+    //this.sortComponent.handleSortChange();
   }
 
-  onSortChange(sortOption: string) {
-    this.productSortingService.sortProducts(this.filteredProducts, sortOption)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(sortedProducts => {
-        this.filteredProducts = sortedProducts;
-      });
+  handleSortChange(sortedProducts: ProductDto[]): void {
+    this.filteredAndSortedProducts = sortedProducts;
   }
 
   selectProductForPurchase(productId: number): void {
     this.router.navigate(['/purchase', productId]);
   }
 
-  private sortProductsByDefault(): void {
-    this.onSortChange('name-asc');
-  }
-
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  setFilterFields(): void {
+    this.filterFields = ['name', 'quantity', 'finalPrice'];
+  }
+
+  setSortOptions(): void {
+    this.sortOptions = [
+      { value: 'name-asc', label: 'Name (Low to High)' },
+      { value: 'quantity-asc', label: 'Quantity (Low to High)' },
+      { value: 'quantity-desc', label: 'Quantity (High to Low)' },
+      { value: 'final-price-asc', label: 'FinalPrice (Low to High)' },
+      { value: 'final-price-desc', label: 'FinalPrice (High to Low)' },
+    ];
+  }
+
+  setSortConfigs(): void {
+    this.sortConfigs = [
+      {
+        value: 'name-asc',
+        comparator: (a, b) => a.name.localeCompare(b.name)
+      },
+      {
+        value: 'quantity-asc',
+        comparator: (a, b) => a.quantity - b.quantity
+      },
+      {
+        value: 'quantity-desc',
+        comparator: (a, b) => b.quantity - a.quantity
+      },
+      {
+        value: 'final-price-asc',
+        comparator: (a, b) => a.finalPrice - b.finalPrice
+      },
+      {
+        value: 'final-price-desc',
+        comparator: (a, b) => b.finalPrice - a.finalPrice
+      },
+    ];
   }
 
 }

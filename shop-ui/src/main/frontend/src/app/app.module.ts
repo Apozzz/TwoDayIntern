@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { ReportComponent } from './components/report/report.component';
 import { ProductFilterComponent } from './components/product-filter/product-filter.component';
 import { ProductSortComponent } from './components/product-sort/product-sort.component';
+import { GenericFilterComponent } from './components/generic-filter/generic-filter.component';
+import { GenericSortComponent } from './components/generic-sort/generic-sort.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { ProductSortComponent } from './components/product-sort/product-sort.com
     ReportComponent,
     ProductFilterComponent,
     ProductSortComponent,
+    GenericFilterComponent,
+    GenericSortComponent,
   ],
   imports: [
     BrowserModule,

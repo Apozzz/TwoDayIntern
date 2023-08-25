@@ -1,12 +1,15 @@
 <div class="main-container">
-  <app-product-filter *ngIf="products?.length" [productData]="products"
-    (filterChanged)="onFilterChange($event)" class="app-product-filter"></app-product-filter>
+  <app-generic-filter *ngIf="originalData?.length" [data]="originalData" [fields]="filterFields"
+    (filterChanged)="handleFilterChange($event)">
+  </app-generic-filter>
   <div class="products-container">
     <div class="products-list">
       <h1 class="product-list-header">Products Results From Warehouse</h1>
-      <app-product-sort (sortChanged)="onSortChange($event)"></app-product-sort>
+      <app-generic-sort #sortComp *ngIf="originalData?.length" [data]="filteredAndSortedProducts"
+        [sortOptions]="sortOptions" [sortConfigs]="sortConfigs" (sortedData)="handleSortChange($event)">
+      </app-generic-sort>
       <div class="cards-container">
-        <mat-card *ngFor="let product of filteredProducts" class="product-card">
+        <mat-card *ngFor="let product of filteredAndSortedProducts" class="product-card">
           <mat-card-header>
             <mat-card-title>Name: {{product.name}}</mat-card-title>
             <mat-card-subtitle>Description: {{product.description || 'No Description'}}</mat-card-subtitle>
@@ -17,7 +20,8 @@
             <p>Available Quantity: {{product.quantity}}</p>
             <p *ngIf="product.quantity <= 0" class="out-of-stock">Out of Stock</p>
             <mat-card-actions>
-              <button mat-button [disabled]="product.quantity <= 0" (click)="selectProductForPurchase(product.id)">Purchase</button>
+              <button mat-button [disabled]="product.quantity <= 0"
+                (click)="selectProductForPurchase(product.id)">Purchase</button>
             </mat-card-actions>
           </mat-card-content>
         </mat-card>
