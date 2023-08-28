@@ -1,6 +1,7 @@
 import { Component, OnInit, } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '@services/product.service';
+import { ToastrService } from 'ngx-toastr';
 import { ProductDto } from 'src/app/shared/models/product-dto.interface';
 
 @Component({
@@ -17,7 +18,7 @@ export class PurchaseComponent implements OnInit {
   purchaseSuccess: boolean | null = null;
   productAvailableForPurchase: boolean = true;
 
-  constructor(private productService: ProductService, private route: ActivatedRoute) { }
+  constructor(private productService: ProductService, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('productId');
@@ -29,7 +30,6 @@ export class PurchaseComponent implements OnInit {
     }
 
     this.products = products;
-    this.updateSelectedProduct();
   }
 
   onProductSelect(productId: number): void {
@@ -51,12 +51,19 @@ export class PurchaseComponent implements OnInit {
       this.productService.purchaseProduct(this.selectedProductId, this.purchaseQuantity)
         .subscribe({
           next: () => {
+            const productIndex = this.products.findIndex(p => p.id === this.selectedProductId);
+
+            if (productIndex !== -1) {
+              this.products[productIndex].quantity -= this.purchaseQuantity;
+              this.updateSelectedProduct();
+            }
+            
             this.purchaseSuccess = true;
-            this.ngOnInit();
+            this.toastr.success('Purchase was successful!', 'Success');
           },
           error: (error) => {
             this.purchaseSuccess = false;
-            console.error('Purchase failed:', error);
+            this.toastr.error(error.data, 'Error');
           },
         });
     }

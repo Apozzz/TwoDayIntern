@@ -2,7 +2,7 @@
     <div class="form-container">
         <form (ngSubmit)="purchase()" class="purchase-form">
             <mat-form-field class="purchase-form-field">
-                <mat-label>Choose a Product</mat-label>
+                <mat-label>{{ 'CHOOSE_A_PRODUCT' | translate }}</mat-label>
                 <mat-select [ngModel]="selectedProductId" (selectionChange)="onProductSelect($event.value)"
                     name="product">
                     <mat-option *ngFor="let product of products" [value]="product.id">
@@ -15,7 +15,7 @@
                 <input matInput type="number" [(ngModel)]="purchaseQuantity" name="quantity">
             </mat-form-field>
 
-            <button mat-button [disabled]="!productAvailableForPurchase" (click)="purchase()" class="purchase-button">{{ 'PURCHASE' | translate }}</button>
+            <button mat-button [disabled]="!productAvailableForPurchase" class="purchase-button">{{ 'PURCHASE' | translate }}</button>
             <p *ngIf="!productAvailableForPurchase" class="purchase-paragraph">{{ 'OUT_OF_STOCK_OR_DOES_NOT_EXIST' | translate }}</p>
         </form>
     </div>
