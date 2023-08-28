@@ -1,6 +1,6 @@
 <div class="main-container">
     <div class="form-container">
-        <form (ngSubmit)="executePurchase()" class="purchase-form">
+        <form (ngSubmit)="purchase()" class="purchase-form">
             <mat-form-field class="purchase-form-field">
                 <mat-label>Choose a Product</mat-label>
                 <mat-select [ngModel]="selectedProductId" (selectionChange)="onProductSelect($event.value)"
@@ -15,8 +15,8 @@
                 <input matInput type="number" [(ngModel)]="purchaseQuantity" name="quantity">
             </mat-form-field>
 
-            <button mat-button [disabled]="!productAvailableForPurchase" (click)="executePurchase()" class="purchase-button">Purchase</button>
-            <p *ngIf="!productAvailableForPurchase" class="purchase-paragraph">Sorry, this product is out of stock.</p>
+            <button mat-button [disabled]="!productAvailableForPurchase" (click)="purchase()" class="purchase-button">Purchase</button>
+            <p *ngIf="!productAvailableForPurchase" class="purchase-paragraph">Sorry, this product is out of stock, or it does not exist</p>
         </form>
     </div>
 

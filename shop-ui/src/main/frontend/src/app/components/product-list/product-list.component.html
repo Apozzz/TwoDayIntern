@@ -1,13 +1,13 @@
 <div class="main-container">
-  <app-generic-filter *ngIf="originalData?.length" [data]="originalData" [fields]="filterFields"
+  <app-filter *ngIf="originalData?.length" [data]="originalData" [fields]="filterFields"
     (filterChanged)="handleFilterChange($event)">
-  </app-generic-filter>
+  </app-filter>
   <div class="products-container">
     <div class="products-list">
       <h1 class="product-list-header">Products Results From Warehouse</h1>
-      <app-generic-sort #sortComp *ngIf="originalData?.length" [data]="filteredAndSortedProducts"
+      <app-sort #sortComp *ngIf="originalData?.length" [data]="filteredAndSortedProducts"
         [sortOptions]="sortOptions" [sortConfigs]="sortConfigs" (sortedData)="handleSortChange($event)">
-      </app-generic-sort>
+      </app-sort>
       <div class="cards-container">
         <mat-card *ngFor="let product of filteredAndSortedProducts" class="product-card">
           <mat-card-header>

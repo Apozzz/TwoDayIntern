@@ -8,8 +8,8 @@ import { PurchaseComponent } from '@components/purchase/purchase.component';
 import { MaterialModule } from '@material/material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { GenericFilterComponent } from './components/generic-filter/generic-filter.component';
-import { GenericSortComponent } from './components/generic-sort/generic-sort.component';
+import { FilterComponent } from './components/filter/filter.component';
+import { SortComponent } from './components/sort/sort.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 
 @NgModule({
@@ -17,8 +17,8 @@ import { ProductListComponent } from './components/product-list/product-list.com
     AppComponent,
     ProductListComponent,
     PurchaseComponent,
-    GenericFilterComponent,
-    GenericSortComponent,
+    FilterComponent,
+    SortComponent,
   ],
   imports: [
     BrowserModule,

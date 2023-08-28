@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { GenericSortingService } from '@services/generic-sorting.service';
+import { SortingService } from '@services/sorting.service';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { SortConfig } from 'src/app/shared/models/sort-config.interface';
@@ -7,22 +7,22 @@ import { SortOption } from 'src/app/shared/models/sort-options.interface';
 import { isEqual } from 'lodash';
 
 @Component({
-  selector: 'app-generic-sort',
-  templateUrl: './generic-sort.component.html',
-  styleUrls: ['./generic-sort.component.less']
+  selector: 'app-sort',
+  templateUrl: './sort.component.html',
+  styleUrls: ['./sort.component.less']
 })
-export class GenericSortComponent<T> implements OnInit, OnChanges {
+export class SortComponent<T> implements OnInit, OnChanges {
 
-  private sortChangedSubject = new Subject<T[]>();
+  private sortSubject = new Subject<T[]>();
 
   @Input() data: T[] = [];
   @Input() sortOptions: SortOption[] = [];
   @Input() sortConfigs: SortConfig<T>[] = [];
-  @Output() sortedData = this.sortChangedSubject.pipe(debounceTime(1000));
+  @Output() sortedData = this.sortSubject.pipe(debounceTime(1000));
 
   currentSortOption: string = '';
 
-  constructor(private sortService: GenericSortingService<T>) { }
+  constructor(private sortService: SortingService<T>) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     const changesData = changes['data'];
@@ -47,7 +47,7 @@ export class GenericSortComponent<T> implements OnInit, OnChanges {
     }
 
     const sortedResults = this.sortService.sortData(this.data, this.sortConfigs, this.currentSortOption);
-    this.sortChangedSubject.next(sortedResults);
+    this.sortSubject.next(sortedResults);
   }
 
 }

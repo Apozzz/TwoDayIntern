@@ -21,16 +21,15 @@ export class PurchaseComponent implements OnInit {
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('productId');
+    const products = this.route.snapshot.data['products'];
 
     if (productId != null) {
       this.selectedProductId = +productId;
       this.updateSelectedProduct();
     }
 
-    this.productService.getProducts().subscribe(data => {
-      this.products = data;
-      this.updateSelectedProduct();
-    });
+    this.products = products;
+    this.updateSelectedProduct();
   }
 
   onProductSelect(productId: number): void {
@@ -40,14 +39,14 @@ export class PurchaseComponent implements OnInit {
 
   updateSelectedProduct(): void {
     this.selectedProduct = this.products.find(p => p.id === this.selectedProductId) || null;
-    if (this.selectedProduct && this.selectedProduct.quantity <= 0) {
+    if (this.selectedProduct && this.selectedProduct.quantity <= 0 || !this.selectedProduct) {
       this.productAvailableForPurchase = false;
     } else {
       this.productAvailableForPurchase = true;
     }
   }
 
-  executePurchase(): void {
+  purchase(): void {
     if (this.selectedProductId !== null) {
       this.productService.purchaseProduct(this.selectedProductId, this.purchaseQuantity)
         .subscribe({

@@ -4,7 +4,7 @@ import { SortConfig } from '../shared/models/sort-config.interface';
 @Injectable({
   providedIn: 'root'
 })
-export class GenericSortingService<T> {
+export class SortingService<T> {
 
   sortData(data: T[], sortConfigs: SortConfig<T>[], sortOption: string): T[] {
     const currentConfig = sortConfigs.find(config => config.value === sortOption);

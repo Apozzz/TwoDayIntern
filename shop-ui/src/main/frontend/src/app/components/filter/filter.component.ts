@@ -1,26 +1,26 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { GenericFilteringService } from "@services/generic-filtering.service";
+import { Component, Input, OnInit, Output } from "@angular/core";
+import { FilteringService } from "@services/filtering.service";
 import { Subject, debounceTime } from "rxjs";
 import { CriterionRange } from "src/app/shared/models/criterion-range.interface";
 import { RangeValueFilterCriterion } from "src/app/shared/models/range-value-filter-criterion.interface";
 import { SingleValueFilterCriterion } from "src/app/shared/models/single-value-filter-criterion.interface";
-import { GenericFilterCriterion } from "src/app/shared/types/generic-filter-criterion.type";
+import { FilterCriterion } from "src/app/shared/types/filter-criterion.type";
 
 @Component({
-  selector: 'app-generic-filter',
-  templateUrl: './generic-filter.component.html',
-  styleUrls: ['./generic-filter.component.less']
+  selector: 'app-filter',
+  templateUrl: './filter.component.html',
+  styleUrls: ['./filter.component.less']
 })
-export class GenericFilterComponent<T> implements OnInit {
+export class FilterComponent<T> implements OnInit {
 
-  private filterChangedSubject = new Subject<T[]>();
+  private filterSubject = new Subject<T[]>();
   @Input() data: T[] = [];
   @Input() fields: Array<keyof T> = [];
-  @Output() filterChanged = this.filterChangedSubject.pipe(debounceTime(1000));
+  @Output() filterChanged = this.filterSubject.pipe(debounceTime(1000));
   criterionRanges: CriterionRange<T>[] = [];
-  criteria: GenericFilterCriterion<T>[] = [];
+  criteria: FilterCriterion<T>[] = [];
 
-  constructor(private filterService: GenericFilteringService) { }
+  constructor(private filterService: FilteringService) { }
 
   ngOnInit() {
     this.criteria = this.filterService.initializeCriteriaFromData(this.data, this.fields);
@@ -29,14 +29,14 @@ export class GenericFilterComponent<T> implements OnInit {
 
   handleFilterChange() {
     const filteredData = this.filterService.filterData(this.data, this.criteria);
-    this.filterChangedSubject.next(filteredData);
+    this.filterSubject.next(filteredData);
   }
 
-  isSingleValueCriterion(criterion: GenericFilterCriterion<T>): criterion is SingleValueFilterCriterion<T> {
+  isSingleValueCriterion(criterion: FilterCriterion<T>): criterion is SingleValueFilterCriterion<T> {
     return 'value' in criterion;
   }
 
-  isRangeValueCriterion(criterion: GenericFilterCriterion<T>): criterion is RangeValueFilterCriterion<T> {
+  isRangeValueCriterion(criterion: FilterCriterion<T>): criterion is RangeValueFilterCriterion<T> {
     return 'minValue' in criterion && 'maxValue' in criterion;
   }
 

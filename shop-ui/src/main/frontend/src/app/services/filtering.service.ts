@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { GenericFilterCriterion } from '../shared/types/generic-filter-criterion.type';
+import { FilterCriterion } from '../shared/types/filter-criterion.type';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GenericFilteringService {
+export class FilteringService {
 
-  initializeCriteriaFromData<T>(data: T[], fields: Array<keyof T>): GenericFilterCriterion<T>[] {
+  initializeCriteriaFromData<T>(data: T[], fields: Array<keyof T>): FilterCriterion<T>[] {
     return fields.map(field => {
       if (typeof data[0][field] === 'number') {
         return {
@@ -25,10 +25,10 @@ export class GenericFilteringService {
 
   filterData<T>(
     data: T[],
-    criteria: GenericFilterCriterion<T>[]
+    criteria: FilterCriterion<T>[]
   ): T[] {
     return data.filter((item: T) => {
-      return criteria.every((criterion: GenericFilterCriterion<T>) => {
+      return criteria.every((criterion: FilterCriterion<T>) => {
         if ('value' in criterion) {
           return criterion.value === '' ? true : String(item[criterion.field]).includes(String(criterion.value));
         } else if ('minValue' in criterion && 'maxValue' in criterion) {
