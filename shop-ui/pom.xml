@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>com.twoday.wms</groupId>
-	<artifactId>ui</artifactId>
+	<artifactId>shop-ui</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>frontend</name>
     <build>
