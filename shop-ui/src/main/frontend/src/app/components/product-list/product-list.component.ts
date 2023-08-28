@@ -40,12 +40,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
     const products = this.route.snapshot.data['products'];
     this.originalData = products;
     this.filteredAndSortedProducts = [...this.originalData];
-    // this.route.snapshot.data['products']
-    //   .pipe(takeUntil(this.unsubscribe$))
-    //   .subscribe((data: ProductDto[]) => {
-    //     this.originalData = data;
-    //     this.filteredAndSortedProducts = [...this.originalData];
-    //   });
   }
 
   handleFilterChange(filteredProducts: ProductDto[]) {
