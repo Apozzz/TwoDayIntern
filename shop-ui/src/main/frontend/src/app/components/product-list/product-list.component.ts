@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GenericSortComponent } from '@components/generic-sort/generic-sort.component';
 import { ProductService } from '@services/product.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -24,8 +24,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
   @ViewChild('sortComp', { static: false }) sortComponent!: GenericSortComponent<any>;
 
   constructor(
-    private productService: ProductService,
-    private router: Router
+    //private productService: ProductService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -36,17 +37,19 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   fetchProducts(): void {
-    this.productService.getProducts()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(data => {
-        this.originalData = data;
-        this.filteredAndSortedProducts = [...this.originalData];
-      });
+    const products = this.route.snapshot.data['products'];
+    this.originalData = products;
+    this.filteredAndSortedProducts = [...this.originalData];
+    // this.route.snapshot.data['products']
+    //   .pipe(takeUntil(this.unsubscribe$))
+    //   .subscribe((data: ProductDto[]) => {
+    //     this.originalData = data;
+    //     this.filteredAndSortedProducts = [...this.originalData];
+    //   });
   }
 
   handleFilterChange(filteredProducts: ProductDto[]) {
     this.filteredAndSortedProducts = filteredProducts;
-    //this.sortComponent.handleSortChange();
   }
 
   handleSortChange(sortedProducts: ProductDto[]): void {
