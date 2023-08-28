@@ -1,0 +1,35 @@
+<div class="main-container">
+    <div class="form-container">
+        <form (ngSubmit)="purchase()" class="purchase-form">
+            <mat-form-field class="purchase-form-field">
+                <mat-label>Choose a Product</mat-label>
+                <mat-select [ngModel]="selectedProductId" (selectionChange)="onProductSelect($event.value)"
+                    name="product">
+                    <mat-option *ngFor="let product of products" [value]="product.id">
+                        {{ product.name }}, Quantity - {{ product.quantity }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Quantity</mat-label>
+                <input matInput type="number" [(ngModel)]="purchaseQuantity" name="quantity">
+            </mat-form-field>
+
+            <button mat-button [disabled]="!productAvailableForPurchase" (click)="purchase()" class="purchase-button">Purchase</button>
+            <p *ngIf="!productAvailableForPurchase" class="purchase-paragraph">Sorry, this product is out of stock, or it does not exist</p>
+        </form>
+    </div>
+
+    <mat-card *ngIf="selectedProduct" class="purchase-product-card">
+        <mat-card-header>
+            <mat-card-title>{{selectedProduct.name}}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <p class="purchase-paragraph"><strong class="purchase-strong">Description:</strong> {{selectedProduct.description}}</p>
+            <p class="purchase-paragraph"><strong class="purchase-strong">Price:</strong> ${{selectedProduct.price}}</p>
+            <p class="purchase-paragraph"><strong class="purchase-strong">Final Price:</strong> ${{selectedProduct.finalPrice}}</p>
+            <p class="purchase-paragraph"><strong class="purchase-strong">Quantity:</strong> {{selectedProduct.quantity}}</p>
+        </mat-card-content>
+    </mat-card>
+</div>

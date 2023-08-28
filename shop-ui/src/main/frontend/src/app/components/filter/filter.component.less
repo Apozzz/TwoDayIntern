@@ -1,0 +1,52 @@
+@import "../../../styles/base/colors.less";
+@import "../../../styles/base/spacing.less";
+
+.mat-sidenav {
+    width: @side-nav-width;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    max-height: 100vh;
+}
+
+.sidenav-container {
+    height: @side-nav-container-height;
+    overflow: hidden;
+}
+
+.mat-sidenav-container {
+    flex: 1;
+    top: 70px;
+    overflow: hidden;
+}
+
+.product-filter-slider {
+    width: @width-high-90-pc;
+    box-sizing: border-box;
+    margin-right: 0.5em;
+}
+
+.filter-section {
+    padding: @general-padding;
+    background-color: @color-light-gray;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px @color-shadow-light;
+}
+
+.filter-title {
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: @color-gray;
+}
+
+.filter-input {
+    width: @width-medium-40-pc;
+    margin-right: 10%;
+    display: inline-block;
+}
+
+.slider-container {
+    margin-top: 16px;
+    padding: 0 16px;
+}
