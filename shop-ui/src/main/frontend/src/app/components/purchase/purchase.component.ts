@@ -23,6 +23,7 @@ export class PurchaseComponent implements OnInit {
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('productId');
     const products = this.route.snapshot.data['products'];
+    const products = this.route.snapshot.data['products'];
 
     if (productId != null) {
       this.selectedProductId = +productId;
@@ -40,12 +41,14 @@ export class PurchaseComponent implements OnInit {
   updateSelectedProduct(): void {
     this.selectedProduct = this.products.find(p => p.id === this.selectedProductId) || null;
     if (this.selectedProduct && this.selectedProduct.quantity <= 0 || !this.selectedProduct) {
+    if (this.selectedProduct && this.selectedProduct.quantity <= 0 || !this.selectedProduct) {
       this.productAvailableForPurchase = false;
     } else {
       this.productAvailableForPurchase = true;
     }
   }
 
+  purchase(): void {
   purchase(): void {
     if (this.selectedProductId !== null) {
       this.productService.purchaseProduct(this.selectedProductId, this.purchaseQuantity)
