@@ -61,7 +61,6 @@ class ReportSchedulerServiceTest {
 
     @Test
     void testGenerateCsvReport() throws IOException {
-        // Mocks
         PurchaseDto mockPurchaseDto = new PurchaseDto();
         List<PurchaseDto> mockPurchases = Arrays.asList(mockPurchaseDto);
 

@@ -21,6 +21,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.twoday.wms.warehouse.report.ReportController;
 import com.twoday.wms.warehouse.report.interfaces.ReportFileNameService;
@@ -50,6 +53,11 @@ public class ReportControllerTest {
         listAppender = new ListAppender<>();
         listAppender.start();
         logger.addAppender(listAppender);
+        SecurityContext securityContext = mock(SecurityContext.class);
+        Authentication authentication = mock(Authentication.class);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+        when(authentication.getName()).thenReturn("testUser");
     }
 
     @AfterEach
@@ -74,7 +82,7 @@ public class ReportControllerTest {
         verify(fileNameService, times(1)).getFileName(dateTime);
         List<ILoggingEvent> logsList = listAppender.list;
         assertEquals(2, logsList.size());
-        assertEquals("Received request to fetch purchases report. Date-Time: 20230810-1200",
+        assertEquals("Received request from User testUser to fetch purchases report. Date-Time: 20230810-1200",
                 logsList.get(0).getFormattedMessage());
         assertEquals("Fetching report file: null",
                 logsList.get(1).getFormattedMessage());
