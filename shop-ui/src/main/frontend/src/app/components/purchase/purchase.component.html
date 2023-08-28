@@ -1,0 +1,35 @@
+<div class="main-container">
+    <div class="form-container">
+        <form (ngSubmit)="purchase()" class="purchase-form">
+            <mat-form-field class="purchase-form-field">
+                <mat-label>Choose a Product</mat-label>
+                <mat-select [ngModel]="selectedProductId" (selectionChange)="onProductSelect($event.value)"
+                    name="product">
+                    <mat-option *ngFor="let product of products" [value]="product.id">
+                        {{ product.name }}, {{ 'QUANTITY' | translate }} - {{ product.quantity }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>{{ 'QUANTITY' | translate }}</mat-label>
+                <input matInput type="number" [(ngModel)]="purchaseQuantity" name="quantity">
+            </mat-form-field>
+
+            <button mat-button [disabled]="!productAvailableForPurchase" (click)="purchase()" class="purchase-button">{{ 'PURCHASE' | translate }}</button>
+            <p *ngIf="!productAvailableForPurchase" class="purchase-paragraph">{{ 'OUT_OF_STOCK_OR_DOES_NOT_EXIST' | translate }}</p>
+        </form>
+    </div>
+
+    <mat-card *ngIf="selectedProduct" class="purchase-product-card">
+        <mat-card-header>
+            <mat-card-title>{{selectedProduct.name}}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <p class="purchase-paragraph"><strong class="purchase-strong">{{ 'DESCRIPTION' | translate }}:</strong> {{selectedProduct.description}}</p>
+            <p class="purchase-paragraph"><strong class="purchase-strong">{{ 'PRICE' | translate }}:</strong> ${{selectedProduct.price}}</p>
+            <p class="purchase-paragraph"><strong class="purchase-strong">{{ 'FINAL_PRICE' | translate }}:</strong> ${{selectedProduct.finalPrice}}</p>
+            <p class="purchase-paragraph"><strong class="purchase-strong">{{ 'QUANTITY' | translate }}:</strong> {{selectedProduct.quantity}}</p>
+        </mat-card-content>
+    </mat-card>
+</div>

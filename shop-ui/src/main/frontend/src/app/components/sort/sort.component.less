@@ -1,0 +1,26 @@
+@import "../../../styles/base/colors.less";
+
+.sorting-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1em;
+    background: @primary-backgroud-color;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px @color-shadow-light;
+    transition: all 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 6px 8px @color-shadow-dark;
+    }
+
+    .sort-label {
+        font-size: 16px;
+        margin-right: 1em;
+        font-weight: 500;
+    }
+
+    .sort-option {
+        padding: 0.5em 1em;
+    }
+}

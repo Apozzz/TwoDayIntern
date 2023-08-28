@@ -1,0 +1,30 @@
+.language-selector {
+    display: flex;
+    align-items: center;
+    padding: 0 1em;
+
+    label {
+        font-size: 0.9em;
+        margin-right: 0.5em;
+        color: rgba(255, 255, 255, 0.8);  // Lighter white for the label
+    }
+
+    select {
+        padding: 0.2em 0.5em;
+        border: none;
+        background-color: rgba(255, 255, 255, 0.1); // Slight white for background
+        color: white;
+        border-radius: 3px;
+        font-size: 0.9em;
+
+        &:focus, &:hover {
+            background-color: rgba(255, 255, 255, 0.2); // Slight white tint on hover/focus
+        }
+
+        option {
+            padding: 0.5em 1em;
+            background-color: #424242; // Dark gray for dropdown background
+            color: white;
+        }
+    }
+}

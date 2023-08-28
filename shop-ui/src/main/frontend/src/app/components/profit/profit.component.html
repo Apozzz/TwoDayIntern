@@ -1,0 +1,27 @@
+<form class="graph-container">
+    <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="{{ 'CHOOSE_A_DATE' | translate }}" [formControl]="selectedDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker startView="multi-year" (yearSelected)="chosenYearHandler($event, picker)"
+            (monthSelected)="chosenMonthHandler($event, picker)">
+        </mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>{{ 'CHART_TYPE' | translate }}</mat-label>
+        <mat-select [(value)]="selectedChartType">
+            <mat-option *ngFor="let type of chartTypes" [value]="type.value">
+                {{type.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</form>
+<div class="slide-container">
+    <span>{{ 'MONTHLY' | translate }}</span>
+    <mat-slide-toggle (change)="onToggleChange($event)" [checked]="isYearlyViewMode"></mat-slide-toggle>
+    <span>{{ 'YEARLY' | translate }}</span>
+</div>
+<app-profit-graph [isYearlyViewMode]="isYearlyViewMode" [chartData]="profitData" [chartType]="selectedChartType"
+    [attributes]="attributeLabel"></app-profit-graph>
+<app-profit-table [isYearlyViewMode]="isYearlyViewMode" [attributes]="attributeLabel"
+    [tableColumns]="getDataTableColumns()" [tableData]="profitData">
+</app-profit-table>
