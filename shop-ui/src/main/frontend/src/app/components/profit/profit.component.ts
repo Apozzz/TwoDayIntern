@@ -26,11 +26,12 @@ export class ProfitComponent implements OnInit, OnDestroy {
   selectedDate = new FormControl(moment().startOf('year'));
   profitData: Record<string, PurchaseDto[]> = {};
   attributeLabel: any[] = [];
-  selectedChartType: any = 'line';
+  selectedChartType: string = 'line';
   chartTypes: any[] = this.customTranslationService.translateGraphTypes(GRAPH_TYPES);
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private profitService: ProfitService,
     private customTranslationService: CustomTranslationService
@@ -42,7 +43,6 @@ export class ProfitComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.profitData = data['profitData'];
       });
-
     this.isYearlyViewMode = this.profitService.getSelectedGraphsViewMode();
     const savedDate = this.profitService.getSelectedDateByViewMode();
     this.setDateValue(savedDate);
@@ -54,17 +54,19 @@ export class ProfitComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
+  navigateToGraph(date: moment.Moment): void {
+    const year = date.year();
+    const month = date.month() + 1;
+    const url = this.isYearlyViewMode
+      ? `/graphs/${year}`
+      : `/graphs/${year}/${month}`;
+    this.router.navigate([url]);
+  }
+
   onToggleChange(event: any): void {
     this.isYearlyViewMode = event.checked;
     this.profitService.setSelectedGraphsViewMode(this.isYearlyViewMode);
-    const selectedDateValue = this.selectedDate.value!;
-
-    if (this.isYearlyViewMode) {
-      this.router.navigate([`/graphs/${selectedDateValue.year()}`]);
-      return;
-    }
-
-    this.router.navigate([`/graphs/${selectedDateValue.year()}/${selectedDateValue.month()}`]);
+    this.navigateToGraph(this.selectedDate.value!);
   }
 
   chosenYearHandler(selectedDate: moment.Moment, picker: MatDatepicker<moment.Moment>): void {
@@ -72,7 +74,7 @@ export class ProfitComponent implements OnInit, OnDestroy {
       this.selectedDate.setValue(moment(selectedDate));
       const year = this.selectedDate.value!.year();
       this.profitService.setSelectedYearly(year.toString());
-      this.router.navigate([`/graphs/${year}`]);
+      this.navigateToGraph(this.selectedDate.value!);
       picker.close();
     }
   }
@@ -80,10 +82,8 @@ export class ProfitComponent implements OnInit, OnDestroy {
   chosenMonthHandler(selectedDate: moment.Moment, picker: MatDatepicker<moment.Moment>): void {
     if (!this.isYearlyViewMode) {
       this.selectedDate.setValue(moment(selectedDate));
-      const year = this.selectedDate.value!.year();
-      const month = this.selectedDate.value!.month() + 1;
       this.profitService.setSelectedMonthly(selectedDate.toDate());
-      this.router.navigate([`/graphs/${year}/${month}`]);
+      this.navigateToGraph(this.selectedDate.value!);
       picker.close();
     }
   }
@@ -103,13 +103,10 @@ export class ProfitComponent implements OnInit, OnDestroy {
 
   getDataTableColumns(): string[] {
     const tableColumns = [];
-
     tableColumns.push(this.isYearlyViewMode ? 'month' : 'day');
-
     this.attributeLabel.forEach(element => {
       tableColumns.push(element.label);
     });
-
     return tableColumns;
   }
 

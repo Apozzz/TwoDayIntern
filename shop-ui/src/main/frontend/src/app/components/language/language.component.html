@@ -1,6 +1,6 @@
 <div class="language-selector">
     <label>{{ 'LANGUAGE' | translate }}:</label>
-    <select [(ngModel)]="currentLanguage" (change)="changeLanguage($event)">
+    <select [(ngModel)]="currentLanguage" (change)="changeLanguage()">
         <option *ngFor="let lang of languages" [value]="lang.code">{{ lang.label }}</option>
     </select>
 </div>

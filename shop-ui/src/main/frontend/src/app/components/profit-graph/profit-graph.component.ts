@@ -5,6 +5,7 @@ import { LineGraphService } from '@services/line-graph.service';
 import { ChartConfiguration } from 'chart.js';
 import { Subscription } from 'rxjs';
 
+const DAYS_IN_MONTH = 31;
 
 @Component({
   selector: 'app-profit-graph',
@@ -14,7 +15,7 @@ import { Subscription } from 'rxjs';
 export class ProfitGraphComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() isYearlyViewMode: boolean = true;
-  @Input() chartData: any;
+  @Input() chartData: Record<string, any> = [];
   @Input() chartType: any = 'line';
   @Input() attributes: { attribute: string; label: string; }[] = [];
   @Input() chartLegend: boolean = true;
@@ -57,9 +58,9 @@ export class ProfitGraphComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   updateGraphLabels(): void {
-    this.isYearlyViewMode ?
-      this.chartDisplayData.labels = MONTH_NAMES.map(month => this.translate.instant(`MONTHS.${month}`))
-      : this.chartDisplayData.labels = Array.from({ length: 31 }, (_, i) => (i + 1).toString());
+    this.chartDisplayData.labels = this.isYearlyViewMode 
+      ? MONTH_NAMES.map(month => this.translate.instant(`MONTHS.${month}`))
+      : Array.from({ length: DAYS_IN_MONTH }, (_, i) => (i + 1).toString());
   }
 
   populateChartData(): void {

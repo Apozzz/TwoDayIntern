@@ -1,26 +1,18 @@
 import { Injectable } from '@angular/core';
 import { PurchaseDto } from './purchase.service';
+import { DataAggregationService } from './data-aggregation.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LineGraphService {
 
-  generateYearlyDataset(attribute: string, label: string, data: Record<number, PurchaseDto[]>): any {
-    const sumByAttribute = (purchases: any[], attribute: string) => {
-      return purchases.reduce((acc, purchase) => acc + purchase[attribute], 0);
-    }
+  constructor(private dataAggregationService: DataAggregationService) { }
 
-    const extractedData = [];
-
-    for (let i = 1; i <= 12; i++) {
-      if (data[i]) {
-        extractedData.push(sumByAttribute(data[i], attribute));
-      } else {
-        extractedData.push(0);
-      }
-    }
-
+  generateDataset(attribute: string, label: string, data: Record<number, PurchaseDto[]>, iterations: number): any {
+    const timeUnits = Array.from({ length: iterations }, (_, i) => i + 1);
+    const aggregatedData = this.dataAggregationService.generateAggregatedData<PurchaseDto>(timeUnits, [{ attribute, label }], data);
+    const extractedData = aggregatedData.map(data => data[label]);
     const randomBorderColor = this.getRandomColor();
     const transparentBackgroundColor = this.getTransparentColor(randomBorderColor);
 
@@ -34,34 +26,12 @@ export class LineGraphService {
     };
   }
 
+  generateYearlyDataset(attribute: string, label: string, data: Record<number, PurchaseDto[]>): any {
+    return this.generateDataset(attribute, label, data, 12);
+  }
+
   generateMonthlyDataset(attribute: string, label: string, data: Record<number, PurchaseDto[]>): any {
-    const sumByAttribute = (purchases: any[], attribute: string) => {
-      return purchases.reduce((acc, purchase) => acc + purchase[attribute], 0);
-    }
-
-    const extractedData = [];
-
-    for (let i = 1; i <= 31; i++) {
-      if (data[i]) {
-        extractedData.push(sumByAttribute(data[i], attribute));
-      } else {
-        extractedData.push(0);
-      }
-    }
-
-    console.log(extractedData);
-
-    const randomBorderColor = this.getRandomColor();
-    const transparentBackgroundColor = this.getTransparentColor(randomBorderColor);
-
-    return {
-      data: extractedData,
-      label: label,
-      borderColor: randomBorderColor,
-      backgroundColor: transparentBackgroundColor,
-      fill: false,
-      tension: 0.5,
-    };
+    return this.generateDataset(attribute, label, data, 31);
   }
 
   getRandomColor(): string {

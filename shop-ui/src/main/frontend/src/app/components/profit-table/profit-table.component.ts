@@ -12,7 +12,7 @@ import { MONTH_NAMES } from '@constants/month-names.constants';
   templateUrl: './profit-table.component.html',
   styleUrls: ['./profit-table.component.less']
 })
-export class GenericTableComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ProfitTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() isYearlyViewMode: boolean = true;
   @Input() tableData: any;

@@ -15,25 +15,22 @@ export class CustomTranslationService {
   }
 
   translateAttributes(attributes: { attribute: string; label: string; }[]): { attribute: string; label: string; }[] {
-    return attributes.map(attr => ({
-      ...attr,
-      label: this.translate.instant(attr.label),
-    }));
+    return this.genericTranslate(attributes, 'label');
   }
 
   translateSortOptions(sortOptions: SortOption[]): SortOption[] {
-    return sortOptions.map(option => ({
-      ...option,
-      label: this.translate.instant(option.label),
-    }));
+    return this.genericTranslate(sortOptions, 'label');
   }
 
   translateGraphTypes(graphTypes: any[]): any[] {
-    console.log(graphTypes);
-    return graphTypes.map(type => ({
-      ...type,
-      viewValue: this.translate.instant(type.viewValue),
-    })); 
+    return this.genericTranslate(graphTypes, 'viewValue');
   }
-  
+
+  private genericTranslate<T>(items: T[], key: keyof T): T[] {
+    return items.map(item => ({
+      ...item,
+      [key]: this.translate.instant(item[key] as unknown as string)
+    }));
+  }
+
 }

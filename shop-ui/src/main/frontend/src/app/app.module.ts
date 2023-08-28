@@ -16,7 +16,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { GenericTableComponent } from './components/profit-table/profit-table.component';
+import { ProfitTableComponent } from './components/profit-table/profit-table.component';
 import { ProfitComponent } from './components/profit/profit.component';
 import { FilterComponent } from '@components/filter/filter.component';
 import { SortComponent } from '@components/sort/sort.component';
@@ -35,7 +35,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SortComponent,
     LanguageComponent,
     ProfitGraphComponent,
-    GenericTableComponent,
+    ProfitTableComponent,
     ProfitComponent,
   ],
   imports: [

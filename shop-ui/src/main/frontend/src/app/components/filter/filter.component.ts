@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input, OnInit, Output } from "@angular/core";
 import { FilteringService } from "@services/filtering.service";
 import { Subject, debounceTime } from "rxjs";
 import { CriterionRange } from "src/app/shared/models/criterion-range.interface";
@@ -9,7 +9,7 @@ import { FilterCriterion } from "src/app/shared/types/filter-criterion.type";
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.less']
+  styleUrls: ['./filter.component.less'],
 })
 export class FilterComponent<T> implements OnInit {
 

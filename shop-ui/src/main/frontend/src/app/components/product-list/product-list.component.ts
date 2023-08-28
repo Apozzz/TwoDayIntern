@@ -1,8 +1,7 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SortComponent } from '@components/sort/sort.component';
 import { CustomTranslationService } from '@services/custom-translation.service';
-import { Subject } from 'rxjs';
 import { ProductDto } from 'src/app/shared/models/product-dto.interface';
 import { SortConfig } from 'src/app/shared/models/sort-config.interface';
 import { SortOption } from 'src/app/shared/models/sort-options.interface';
@@ -12,10 +11,11 @@ import { SortOption } from 'src/app/shared/models/sort-options.interface';
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.less']
 })
-export class ProductListComponent implements OnInit, OnDestroy {
+export class ProductListComponent implements OnInit {
 
   originalData: ProductDto[] = [];
   filteredAndSortedProducts: ProductDto[] = [];
+  
   sortOptions: SortOption[] = this.customTranslationService.translateSortOptions([
     { value: 'name-asc', label: 'NAME_LOW_TO_HIGH' },
     { value: 'quantity-asc', label: 'QUANTITY_LOW_TO_HIGH' },
@@ -23,6 +23,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     { value: 'final-price-asc', label: 'FINAL_PRICE_LOW_TO_HIGH' },
     { value: 'final-price-desc', label: 'FINAL_PRICE_HIGH_TO_LOW' },
   ]);
+
   sortConfigs: SortConfig<ProductDto>[] = [
     {
       value: 'name-asc',
@@ -45,8 +46,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
       comparator: (a, b) => b.finalPrice - a.finalPrice
     },
   ];
+
   filterFields: Array<keyof ProductDto> = ['name', 'quantity', 'finalPrice'];
-  private unsubscribe$ = new Subject<void>();
 
   @ViewChild('sortComp', { static: false }) sortComponent!: SortComponent<any>;
 
@@ -61,8 +62,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   fetchProducts(): void {
-    const products = this.route.snapshot.data['products'];
-    this.originalData = products;
+    this.originalData = this.route.snapshot.data['products'];
     this.filteredAndSortedProducts = [...this.originalData];
   }
 
@@ -76,11 +76,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   selectProductForPurchase(productId: number): void {
     this.router.navigate(['/purchase', productId]);
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
   }
 
 }
