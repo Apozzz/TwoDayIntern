@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalStorageService {
 
+  constructor(private toastr: ToastrService) {}
+
   set(key: string, value: any): void {
     try {
-      const serializedValue = JSON.stringify(value);
-      localStorage.setItem(key, serializedValue);
+      localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
-      console.error('Could not set the localStorage item:', error);
+      this.toastr.error(`Could not set the localStorage item: ${error}`, 'Error');
     }
   }
 
@@ -19,7 +21,7 @@ export class LocalStorageService {
       const serializedValue = localStorage.getItem(key);
       return serializedValue ? JSON.parse(serializedValue) as T : null;
     } catch (error) {
-      console.error('Could not get the localStorage item:', error);
+      this.toastr.error(`Could not get the localStorage item: ${error}`, 'Error');
       return null;
     }
   }
@@ -28,7 +30,7 @@ export class LocalStorageService {
     try {
       localStorage.removeItem(key);
     } catch (error) {
-      console.error('Could not remove the localStorage item:', error);
+      this.toastr.error(`Could not remove the localStorage item: ${error}`, 'Error');
     }
   }
 
@@ -36,7 +38,7 @@ export class LocalStorageService {
     try {
       localStorage.clear();
     } catch (error) {
-      console.error('Could not clear the localStorage:', error);
+      this.toastr.error(`Could not clear the localStorage: ${error}`, 'Error');
     }
   }
 }

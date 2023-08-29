@@ -1,7 +1,8 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnDestroy, OnInit, } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '@services/product.service';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { ProductDto } from 'src/app/shared/models/product-dto.interface';
 
 @Component({
@@ -9,7 +10,7 @@ import { ProductDto } from 'src/app/shared/models/product-dto.interface';
   templateUrl: './purchase.component.html',
   styleUrls: ['./purchase.component.less']
 })
-export class PurchaseComponent implements OnInit {
+export class PurchaseComponent implements OnInit, OnDestroy {
 
   products: ProductDto[] = [];
   selectedProductId: number | null = null;
@@ -17,6 +18,7 @@ export class PurchaseComponent implements OnInit {
   purchaseQuantity: number = 1;
   purchaseSuccess: boolean | null = null;
   productAvailableForPurchase: boolean = true;
+  private subscription = new Subscription();
 
   constructor(private productService: ProductService, private route: ActivatedRoute, private toastr: ToastrService) { }
 
@@ -30,6 +32,10 @@ export class PurchaseComponent implements OnInit {
     }
 
     this.products = products;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   onProductSelect(productId: number): void {
@@ -49,24 +55,25 @@ export class PurchaseComponent implements OnInit {
 
   purchase(): void {
     if (this.selectedProductId !== null) {
-      this.productService.purchaseProduct(this.selectedProductId, this.purchaseQuantity)
-        .subscribe({
-          next: () => {
-            const productIndex = this.products.findIndex(p => p.id === this.selectedProductId);
+      this.subscription.add(
+        this.productService.purchaseProduct(this.selectedProductId, this.purchaseQuantity)
+          .subscribe({
+            next: () => {
+              const productIndex = this.products.findIndex(p => p.id === this.selectedProductId);
 
-            if (productIndex !== -1) {
-              this.products[productIndex].quantity -= this.purchaseQuantity;
-              this.updateSelectedProduct();
-            }
-            
-            this.purchaseSuccess = true;
-            this.toastr.success('Purchase was successful!', 'Success');
-          },
-          error: (error) => {
-            this.purchaseSuccess = false;
-            this.toastr.error(error.data, 'Error');
-          },
-        });
+              if (productIndex !== -1) {
+                this.products[productIndex].quantity -= this.purchaseQuantity;
+                this.updateSelectedProduct();
+              }
+
+              this.purchaseSuccess = true;
+              this.toastr.success('Purchase was successful!', 'Success');
+            },
+            error: (error) => {
+              this.purchaseSuccess = false;
+              this.toastr.error(error.data, 'Error');
+            },
+          }));
     }
   }
 }

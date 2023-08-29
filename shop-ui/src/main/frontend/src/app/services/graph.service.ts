@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { PurchaseDto } from './purchase.service';
 import { DataAggregationService } from './data-aggregation.service';
+import { GraphDataset } from '../shared/models/graph-dataset.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LineGraphService {
+export class GraphService {
 
   constructor(private dataAggregationService: DataAggregationService) { }
 
-  generateDataset(attribute: string, label: string, data: Record<number, PurchaseDto[]>, iterations: number): any {
+  generateDataset(attribute: string, label: string, data: Record<number, PurchaseDto[]>, iterations: number): GraphDataset {
     const timeUnits = Array.from({ length: iterations }, (_, i) => i + 1);
     const aggregatedData = this.dataAggregationService.generateAggregatedData<PurchaseDto>(timeUnits, [{ attribute, label }], data);
     const extractedData = aggregatedData.map(data => data[label]);

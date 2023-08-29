@@ -1,17 +1,13 @@
-<mat-form-field>
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Filter">
+<mat-form-field class="profit-form-field">
+  <mat-label>{{ 'FILTER' | translate }}</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="{{ 'FILTER' | translate }}">
 </mat-form-field>
-
-<mat-table [dataSource]="dataSource" matSort>
-
+<mat-table [dataSource]="dataSource" matSort class="profit-table">
   <ng-container *ngFor="let column of tableColumns" [matColumnDef]="column">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ column | titlecase }} </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{ element[column] }} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ column | translate | titlecase }} </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{ element[column] | translate }} </mat-cell>
   </ng-container>
-
   <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: tableColumns;"></mat-row>
 </mat-table>
-
 <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

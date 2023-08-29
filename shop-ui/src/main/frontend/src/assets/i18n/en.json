@@ -53,5 +53,8 @@
   "LINE_CHART": "Line Chart",
   "BAR_CHART": "Bar Chart",
   "RADAR_CHART": "Radar Chart",
-  "CHOOSE_A_PRODUCT": "Choose a Product"
+  "CHOOSE_A_PRODUCT": "Choose a Product",
+  "FILTER": "Filter",
+  "DAY": "Day",
+  "MONTH": "Month"
 }

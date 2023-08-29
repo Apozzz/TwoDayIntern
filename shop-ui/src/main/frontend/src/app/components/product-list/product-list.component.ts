@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SortComponent } from '@components/sort/sort.component';
-import { CustomTranslationService } from '@services/custom-translation.service';
 import { ProductDto } from 'src/app/shared/models/product-dto.interface';
 import { SortConfig } from 'src/app/shared/models/sort-config.interface';
 import { SortOption } from 'src/app/shared/models/sort-options.interface';
@@ -16,13 +15,13 @@ export class ProductListComponent implements OnInit {
   originalData: ProductDto[] = [];
   filteredAndSortedProducts: ProductDto[] = [];
   
-  sortOptions: SortOption[] = this.customTranslationService.translateSortOptions([
+  sortOptions: SortOption[] = [
     { value: 'name-asc', label: 'NAME_LOW_TO_HIGH' },
     { value: 'quantity-asc', label: 'QUANTITY_LOW_TO_HIGH' },
     { value: 'quantity-desc', label: 'QUANTITY_HIGH_TO_LOW' },
     { value: 'final-price-asc', label: 'FINAL_PRICE_LOW_TO_HIGH' },
     { value: 'final-price-desc', label: 'FINAL_PRICE_HIGH_TO_LOW' },
-  ]);
+  ];
 
   sortConfigs: SortConfig<ProductDto>[] = [
     {
@@ -54,7 +53,6 @@ export class ProductListComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private customTranslationService: CustomTranslationService,
   ) { }
 
   ngOnInit(): void {

@@ -37,7 +37,7 @@ export class LanguageComponent implements OnInit {
   }
 
   private isSupportedLanguage(langCode: string | null): boolean {
-    return !!langCode && this.languages.some(lang => lang.code === langCode);
+    return langCode !== null && this.languages.some(lang => lang.code === langCode);
   }
 
 }

@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { Observable, map } from 'rxjs';
-import { ProductDto } from './product.service';
+import { PurchaseDto } from '../shared/models/purchase-dto.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -57,18 +57,5 @@ export class PurchaseService {
   }
 
 }
+export { PurchaseDto };
 
-export interface PurchaseDto {
-  id: number;
-  user: UserDto;
-  product: ProductDto;
-  quantity: number;
-  totalPrice: number;
-  timeStamp: string;
-}
-
-export interface UserDto {
-  id: number;
-  username: string;
-  password: string;
-}

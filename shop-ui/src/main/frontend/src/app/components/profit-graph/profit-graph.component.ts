@@ -1,9 +1,10 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { MONTH_NAMES } from '@constants/month-names.constants';
 import { TranslateService } from '@ngx-translate/core';
-import { LineGraphService } from '@services/line-graph.service';
+import { GraphService } from '@services/graph.service';
 import { ChartConfiguration } from 'chart.js';
 import { Subscription } from 'rxjs';
+import { AttributeConfig } from 'src/app/shared/models/attribute-config.interface';
 
 const DAYS_IN_MONTH = 31;
 
@@ -15,29 +16,29 @@ const DAYS_IN_MONTH = 31;
 export class ProfitGraphComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() isYearlyViewMode: boolean = true;
-  @Input() chartData: Record<string, any> = [];
-  @Input() chartType: any = 'line';
-  @Input() attributes: { attribute: string; label: string; }[] = [];
-  @Input() chartLegend: boolean = true;
-  @Input() chartPlugins: any[] = [];
-  @Input() chartOptions: ChartConfiguration['options'] = {
+  @Input() data: Record<string, any> = [];
+  @Input() type: any = 'line';
+  @Input() attributes: AttributeConfig[] = [];
+  @Input() legend: boolean = true;
+  @Input() plugins: any[] = [];
+  @Input() options: ChartConfiguration['options'] = {
     responsive: true
   };
   
-  chartDisplayData: ChartConfiguration['data'] = {
+  displayData: ChartConfiguration['data'] = {
     labels: [],
     datasets: []
   };
 
-  private subscriptions = new Subscription();
+  private subscription = new Subscription();
 
   constructor(
     private translate: TranslateService,
-    private lineGraphService: LineGraphService
+    private graphService: GraphService
   ) {}
 
   ngOnInit(): void {
-    this.subscriptions.add(
+    this.subscription.add(
       this.translate.onLangChange.subscribe(() => {
         this.updateGraphLabels();
       })
@@ -54,27 +55,27 @@ export class ProfitGraphComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   updateGraphLabels(): void {
-    this.chartDisplayData.labels = this.isYearlyViewMode 
+    this.displayData.labels = this.isYearlyViewMode 
       ? MONTH_NAMES.map(month => this.translate.instant(`MONTHS.${month}`))
       : Array.from({ length: DAYS_IN_MONTH }, (_, i) => (i + 1).toString());
   }
 
   populateChartData(): void {
-    if (!this.chartData) {
+    if (!this.data) {
       return;
     }
 
     const datasets = this.isYearlyViewMode ? 
-      this.attributes.map(pair => this.lineGraphService.generateYearlyDataset(pair.attribute, this.translate.instant(pair.label), this.chartData))
-      : this.attributes.map(pair => this.lineGraphService.generateMonthlyDataset(pair.attribute, this.translate.instant(pair.label), this.chartData));
+      this.attributes.map(pair => this.graphService.generateYearlyDataset(pair.attribute, this.translate.instant(pair.label), this.data))
+      : this.attributes.map(pair => this.graphService.generateMonthlyDataset(pair.attribute, this.translate.instant(pair.label), this.data));
     
 
-    this.chartDisplayData = {
-      ...this.chartDisplayData,
+    this.displayData = {
+      ...this.displayData,
       datasets: datasets,
     };
   }

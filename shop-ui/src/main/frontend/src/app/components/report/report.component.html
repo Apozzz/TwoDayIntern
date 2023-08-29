@@ -1,10 +1,10 @@
-<form [formGroup]="reportForm">
-    <mat-form-field>
+<form [formGroup]="reportForm" class="report-form">
+    <mat-form-field class="report-form-field">
         <input matInput [matDatetimepicker]="picker" formControlName="dateTime" 
-               [placeholder]="'CHOOSE_DATE_TIME' | translate">
+               [placeholder]="'CHOOSE_DATE_TIME' | translate" class="report-input">
         <mat-datetimepicker-toggle matSuffix [for]="picker"></mat-datetimepicker-toggle>
-        <mat-datetimepicker #picker type="datetime"></mat-datetimepicker>
-        <button matButton (click)="downloadReport()">
+        <mat-datetimepicker #picker type="datetime" class="report-datetimepicker-toggle"></mat-datetimepicker>
+        <button matButton (click)="downloadReport()" class="report-button">
             {{ 'DOWNLOAD_CSV_REPORT' | translate }}
         </button>
     </mat-form-field>

@@ -6,11 +6,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DATE_YEAR_MONTH_FORMAT } from '@constants/date-formats.constants';
 import { GRAPH_TYPES } from '@constants/graph-types.constants';
 import { GRAPHS_ATTRIBUTE_LABEL_MONTHLY, GRAPHS_ATTRIBUTE_LABEL_YEARLY } from '@constants/graphs-attribute-label.constants';
-import { CustomTranslationService } from '@services/custom-translation.service';
 import { ProfitService } from '@services/profit.service';
 import { PurchaseDto } from '@services/purchase.service';
 import * as moment from 'moment';
-import { Subject, takeUntil } from 'rxjs';
+import { Moment } from 'moment';
+import { Subject, Subscription, takeUntil } from 'rxjs';
+import { AttributeConfig } from 'src/app/shared/models/attribute-config.interface';
 
 @Component({
   selector: 'app-profit',
@@ -25,36 +26,33 @@ export class ProfitComponent implements OnInit, OnDestroy {
   isYearlyViewMode: boolean = false;
   selectedDate = new FormControl(moment().startOf('year'));
   profitData: Record<string, PurchaseDto[]> = {};
-  attributeLabel: any[] = [];
+  attributeLabel: AttributeConfig[] = [];
   selectedChartType: string = 'line';
-  chartTypes: any[] = this.customTranslationService.translateGraphTypes(GRAPH_TYPES);
-  private unsubscribe$ = new Subject<void>();
+  chartTypes: any[] = GRAPH_TYPES;
+  private subscription = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private profitService: ProfitService,
-    private customTranslationService: CustomTranslationService
   ) { }
 
   ngOnInit(): void {
-    this.route.data
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(data => {
-        this.profitData = data['profitData'];
-      });
+    this.subscription.add(
+      this.route.data
+        .subscribe(data => {
+          this.profitData = data['profitData'];
+        }));
     this.isYearlyViewMode = this.profitService.getSelectedGraphsViewMode();
-    const savedDate = this.profitService.getSelectedDateByViewMode();
-    this.setDateValue(savedDate);
-    this.attributeLabel = this.customTranslationService.translateAttributes(this.isYearlyViewMode ? GRAPHS_ATTRIBUTE_LABEL_YEARLY : GRAPHS_ATTRIBUTE_LABEL_MONTHLY);
+    this.setDateValue(this.profitService.getSelectedDateByViewMode());
+    this.attributeLabel = this.isYearlyViewMode ? GRAPHS_ATTRIBUTE_LABEL_YEARLY : GRAPHS_ATTRIBUTE_LABEL_MONTHLY;
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.subscription.unsubscribe();
   }
 
-  navigateToGraph(date: moment.Moment): void {
+  navigateToGraph(date: Moment): void {
     const year = date.year();
     const month = date.month() + 1;
     const url = this.isYearlyViewMode
@@ -69,17 +67,16 @@ export class ProfitComponent implements OnInit, OnDestroy {
     this.navigateToGraph(this.selectedDate.value!);
   }
 
-  chosenYearHandler(selectedDate: moment.Moment, picker: MatDatepicker<moment.Moment>): void {
+  handleYear(selectedDate: Moment, picker: MatDatepicker<Moment>): void {
     if (this.isYearlyViewMode) {
       this.selectedDate.setValue(moment(selectedDate));
-      const year = this.selectedDate.value!.year();
-      this.profitService.setSelectedYearly(year.toString());
+      this.profitService.setSelectedYearly(this.selectedDate.value!.year().toString());
       this.navigateToGraph(this.selectedDate.value!);
       picker.close();
     }
   }
 
-  chosenMonthHandler(selectedDate: moment.Moment, picker: MatDatepicker<moment.Moment>): void {
+  handleMonth(selectedDate: Moment, picker: MatDatepicker<Moment>): void {
     if (!this.isYearlyViewMode) {
       this.selectedDate.setValue(moment(selectedDate));
       this.profitService.setSelectedMonthly(selectedDate.toDate());
@@ -103,7 +100,7 @@ export class ProfitComponent implements OnInit, OnDestroy {
 
   getDataTableColumns(): string[] {
     const tableColumns = [];
-    tableColumns.push(this.isYearlyViewMode ? 'month' : 'day');
+    tableColumns.push(this.isYearlyViewMode ? 'MONTH' : 'DAY');
     this.attributeLabel.forEach(element => {
       tableColumns.push(element.label);
     });

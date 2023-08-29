@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, OnDestroy } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ReportService } from '@services/report.service';
-import { formatDateForReport } from '@utils/date-util';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-report',
@@ -19,7 +20,8 @@ export class ReportComponent implements OnDestroy {
   constructor(
     private reportService: ReportService,
     private fb: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private datePipe: DatePipe
   ) { }
 
   get dateTimeControl(): AbstractControl | null {
@@ -38,7 +40,13 @@ export class ReportComponent implements OnDestroy {
       return;
     }
 
-    const formattedDate = formatDateForReport(selectedDateTime);
+    const formattedDate = this.datePipe.transform(selectedDateTime, 'yyyyMMdd-HHmm');
+
+    if (!formattedDate) {
+        this.toastr.error('Failed to format the date.', 'Error');
+        return;
+    }
+
     const reportSubscription = this.reportService.downloadCsvReport(formattedDate).subscribe({
       next: response => {
         this.promptUserToDownloadFile(response);
@@ -62,9 +70,8 @@ export class ReportComponent implements OnDestroy {
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     const now = new Date();
-    const formattedDate = `${now.getFullYear()}-${this.padNumber(now.getMonth() + 1)}-${this.padNumber(now.getDate())}_${this.padNumber(now.getHours())}-${this.padNumber(now.getMinutes())}`;
     link.href = url;
-    link.download = `report-${formattedDate}.csv`;
+    link.download = `report-${this.datePipe.transform(now, 'yyyyMMdd-HHmm')}.csv`;
     link.click();
     link.remove();
     window.URL.revokeObjectURL(url);

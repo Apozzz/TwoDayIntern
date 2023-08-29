@@ -11,13 +11,13 @@ export class TableService {
 
   generateYearlyTableData(months: string[], attributes: { attribute: string; label: string; }[], data: Record<number, PurchaseDto[]>): any[] {
     const aggregatedData = this.dataAggregationService.generateAggregatedData<PurchaseDto>(months, attributes, data);
-    return aggregatedData.map((data, index) => ({ month: months[index], ...data }));
+    return aggregatedData.map((data, index) => ({ MONTH: months[index], ...data }));
   }
 
   generateMonthlyTableData(attributes: { attribute: string; label: string; }[], data: Record<number, PurchaseDto[]>): any[] {
     const days = Array.from({ length: 31 }, (_, i) => i + 1);
     const aggregatedData = this.dataAggregationService.generateAggregatedData<PurchaseDto>(days, attributes, data);
-    return aggregatedData.map((data, index) => ({ day: days[index], ...data }));
+    return aggregatedData.map((data, index) => ({ DAY: days[index], ...data }));
   }
   
 }
