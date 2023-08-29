@@ -11,7 +11,7 @@ export class PurchaseService {
 
   private baseUrl: string = `${environment.apiBaseUrl}/purchases`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getYearlyPurchases(yearDate: string): Observable<Record<string, PurchaseDto[]>> {
     let params = new HttpParams()

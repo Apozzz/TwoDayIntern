@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, Output } from "@angular/core";
+import { Component, Input, OnInit, Output } from "@angular/core";
 import { FilteringService } from "@services/filtering.service";
 import { Subject, debounceTime } from "rxjs";
 import { CriterionRange } from "src/app/shared/models/criterion-range.interface";

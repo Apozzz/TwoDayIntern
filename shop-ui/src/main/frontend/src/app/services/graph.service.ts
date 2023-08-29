@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { PurchaseDto } from './purchase.service';
-import { DataAggregationService } from './data-aggregation.service';
 import { GraphDataset } from '../shared/models/graph-dataset.interface';
+import { DataAggregationService } from './data-aggregation.service';
+import { PurchaseDto } from './purchase.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class GraphService {
       tension: 0.5,
     };
   }
-  
+
   getRandomColor(): string {
     const letters = '0123456789ABCDEF';
     let color = '#';

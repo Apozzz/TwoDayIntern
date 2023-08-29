@@ -1,11 +1,11 @@
-import { Component, Input, OnInit, SimpleChanges, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
-import { TableService } from '@services/table.service';
 import { MONTH_NAMES } from '@constants/month-names.constants';
+import { TranslateService } from '@ngx-translate/core';
+import { TableService } from '@services/table.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profit-table',

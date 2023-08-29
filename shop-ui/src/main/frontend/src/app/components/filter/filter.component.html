@@ -23,8 +23,10 @@
                 <div class="slider-container">
                     <mat-slider [min]="getCriterionRange(criterion.field).min"
                         [max]="getCriterionRange(criterion.field).max" step="1" class="product-filter-slider">
-                        <input matSliderStartThumb [(ngModel)]="criterion.minValue" (ngModelChange)="handleFilterChange()">
-                        <input matSliderEndThumb [(ngModel)]="criterion.maxValue" (ngModelChange)="handleFilterChange()">
+                        <input matSliderStartThumb [(ngModel)]="criterion.minValue"
+                            (ngModelChange)="handleFilterChange()">
+                        <input matSliderEndThumb [(ngModel)]="criterion.maxValue"
+                            (ngModelChange)="handleFilterChange()">
                     </mat-slider>
                 </div>
             </div>

@@ -43,8 +43,8 @@ export class ReportComponent implements OnDestroy {
     const formattedDate = this.datePipe.transform(selectedDateTime, 'yyyyMMdd-HHmm');
 
     if (!formattedDate) {
-        this.toastr.error('Failed to format the date.', 'Error');
-        return;
+      this.toastr.error('Failed to format the date.', 'Error');
+      return;
     }
 
     const reportSubscription = this.reportService.downloadCsvReport(formattedDate).subscribe({

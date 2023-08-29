@@ -1,10 +1,10 @@
 import { Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { SortingService } from '@services/sorting.service';
+import { isEqual } from 'lodash';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { SortConfig } from 'src/app/shared/models/sort-config.interface';
 import { SortOption } from 'src/app/shared/models/sort-options.interface';
-import { isEqual } from 'lodash';
 
 @Component({
   selector: 'app-sort',

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { LocalStorageService } from './local-storage.service';
 import { LOCAL_STORAGE_KEYS } from '@constants/local-storage-keys.constants';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfitService {
 
-  constructor(private localStorageService: LocalStorageService) {}
+  constructor(private localStorageService: LocalStorageService) { }
 
   getSelectedDateByViewMode(): string {
     const viewMode = this.getSelectedGraphsViewMode();
@@ -37,7 +37,7 @@ export class ProfitService {
       monthly = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
       this.localStorageService.set(LOCAL_STORAGE_KEYS.SELECTED_PURCHASE_GRAPH_MONTHLY, monthly);
     }
-    
+
     return monthly;
   }
 

@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 export const profitResolver: ResolveFn<Observable<Record<string, PurchaseDto[]>>> = () => {
   const purchaseService = inject(PurchaseService);
   const profitService = inject(ProfitService)
-
   const viewMode = profitService.getSelectedGraphsViewMode();
 
   return viewMode ?

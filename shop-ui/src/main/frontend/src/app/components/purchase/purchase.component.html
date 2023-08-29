@@ -15,8 +15,10 @@
                 <input matInput type="number" [(ngModel)]="purchaseQuantity" name="quantity">
             </mat-form-field>
 
-            <button mat-button [disabled]="!productAvailableForPurchase" class="purchase-button">{{ 'PURCHASE' | translate }}</button>
-            <p *ngIf="!productAvailableForPurchase" class="purchase-paragraph">{{ 'OUT_OF_STOCK_OR_DOES_NOT_EXIST' | translate }}</p>
+            <button mat-button [disabled]="!productAvailableForPurchase" class="purchase-button">{{ 'PURCHASE' |
+                translate }}</button>
+            <p *ngIf="!productAvailableForPurchase" class="purchase-paragraph">{{ 'OUT_OF_STOCK_OR_DOES_NOT_EXIST' |
+                translate }}</p>
         </form>
     </div>
 
@@ -26,10 +28,14 @@
         </mat-card-header>
 
         <mat-card-content>
-            <p class="purchase-paragraph"><strong class="purchase-strong">{{ 'DESCRIPTION' | translate }}:</strong> {{selectedProduct.description}}</p>
-            <p class="purchase-paragraph"><strong class="purchase-strong">{{ 'PRICE' | translate }}:</strong> ${{selectedProduct.price}}</p>
-            <p class="purchase-paragraph"><strong class="purchase-strong">{{ 'FINAL_PRICE' | translate }}:</strong> ${{selectedProduct.finalPrice}}</p>
-            <p class="purchase-paragraph"><strong class="purchase-strong">{{ 'QUANTITY' | translate }}:</strong> {{selectedProduct.quantity}}</p>
+            <p class="purchase-paragraph"><strong class="purchase-strong">{{ 'DESCRIPTION' | translate }}:</strong>
+                {{selectedProduct.description}}</p>
+            <p class="purchase-paragraph"><strong class="purchase-strong">{{ 'PRICE' | translate }}:</strong>
+                ${{selectedProduct.price}}</p>
+            <p class="purchase-paragraph"><strong class="purchase-strong">{{ 'FINAL_PRICE' | translate }}:</strong>
+                ${{selectedProduct.finalPrice}}</p>
+            <p class="purchase-paragraph"><strong class="purchase-strong">{{ 'QUANTITY' | translate }}:</strong>
+                {{selectedProduct.quantity}}</p>
         </mat-card-content>
     </mat-card>
 </div>

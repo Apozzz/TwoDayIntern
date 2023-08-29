@@ -24,7 +24,7 @@ export class ProfitGraphComponent implements OnInit, OnDestroy, OnChanges {
   @Input() options: ChartConfiguration['options'] = {
     responsive: true
   };
-  
+
   displayData: ChartConfiguration['data'] = {
     labels: [],
     datasets: []
@@ -35,7 +35,7 @@ export class ProfitGraphComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private translate: TranslateService,
     private graphService: GraphService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.subscription.add(
@@ -49,7 +49,7 @@ export class ProfitGraphComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['chartData'] && !changes['chartData'].isFirstChange()) {
+    if (changes['data'] && !changes['data'].isFirstChange()) {
       this.populateChartData();
     }
   }
@@ -59,7 +59,7 @@ export class ProfitGraphComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   updateGraphLabels(): void {
-    this.displayData.labels = this.isYearlyViewMode 
+    this.displayData.labels = this.isYearlyViewMode
       ? MONTH_NAMES.map(month => this.translate.instant(`MONTHS.${month}`))
       : Array.from({ length: DAYS_IN_MONTH }, (_, i) => (i + 1).toString());
   }
@@ -69,10 +69,10 @@ export class ProfitGraphComponent implements OnInit, OnDestroy, OnChanges {
       return;
     }
 
-    const datasets = this.isYearlyViewMode ? 
+    const datasets = this.isYearlyViewMode ?
       this.attributes.map(pair => this.graphService.generateDataset(pair.attribute, this.translate.instant(pair.label), this.data, 12))
       : this.attributes.map(pair => this.graphService.generateDataset(pair.attribute, this.translate.instant(pair.label), this.data, 31));
-    
+
 
     this.displayData = {
       ...this.displayData,

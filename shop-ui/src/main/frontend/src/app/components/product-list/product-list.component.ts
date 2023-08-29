@@ -14,7 +14,7 @@ export class ProductListComponent implements OnInit {
 
   originalData: ProductDto[] = [];
   filteredAndSortedProducts: ProductDto[] = [];
-  
+
   sortOptions: SortOption[] = [
     { value: 'name-asc', label: 'NAME_LOW_TO_HIGH' },
     { value: 'quantity-asc', label: 'QUANTITY_LOW_TO_HIGH' },

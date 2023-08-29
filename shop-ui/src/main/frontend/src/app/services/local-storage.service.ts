@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class LocalStorageService {
 
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService) { }
 
   set(key: string, value: any): void {
     try {

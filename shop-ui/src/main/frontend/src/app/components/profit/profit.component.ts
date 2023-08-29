@@ -10,7 +10,7 @@ import { ProfitService } from '@services/profit.service';
 import { PurchaseDto } from '@services/purchase.service';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AttributeConfig } from 'src/app/shared/models/attribute-config.interface';
 
 @Component({
@@ -43,6 +43,7 @@ export class ProfitComponent implements OnInit, OnDestroy {
         .subscribe(data => {
           this.profitData = data['profitData'];
         }));
+
     this.isYearlyViewMode = this.profitService.getSelectedGraphsViewMode();
     this.setDateValue(this.profitService.getSelectedDateByViewMode());
     this.attributeLabel = this.isYearlyViewMode ? GRAPHS_ATTRIBUTE_LABEL_YEARLY : GRAPHS_ATTRIBUTE_LABEL_MONTHLY;
