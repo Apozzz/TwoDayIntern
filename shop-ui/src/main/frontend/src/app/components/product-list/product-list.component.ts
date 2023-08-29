@@ -73,7 +73,7 @@ export class ProductListComponent implements OnInit {
   }
 
   selectProductForPurchase(productId: number): void {
-    this.router.navigate(['/purchase', productId]);
+    this.router.navigate(['/purchases', productId]);
   }
 
 }

@@ -26,15 +26,7 @@ export class GraphService {
       tension: 0.5,
     };
   }
-
-  generateYearlyDataset(attribute: string, label: string, data: Record<number, PurchaseDto[]>): any {
-    return this.generateDataset(attribute, label, data, 12);
-  }
-
-  generateMonthlyDataset(attribute: string, label: string, data: Record<number, PurchaseDto[]>): any {
-    return this.generateDataset(attribute, label, data, 31);
-  }
-
+  
   getRandomColor(): string {
     const letters = '0123456789ABCDEF';
     let color = '#';

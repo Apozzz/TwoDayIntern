@@ -25,13 +25,12 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('productId');
     const products = this.route.snapshot.data['products'];
+    this.products = products.filter((p: ProductDto) => p.quantity > 0);
 
     if (productId != null) {
       this.selectedProductId = +productId;
       this.updateSelectedProduct();
     }
-
-    this.products = products;
   }
 
   ngOnDestroy(): void {
@@ -63,6 +62,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
 
               if (productIndex !== -1) {
                 this.products[productIndex].quantity -= this.purchaseQuantity;
+                this.products = this.products.filter((p: ProductDto) => p.quantity > 0);
                 this.updateSelectedProduct();
               }
 
@@ -71,7 +71,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
             },
             error: (error) => {
               this.purchaseSuccess = false;
-              this.toastr.error(error.data, 'Error');
+              this.toastr.error('There was an error when purchasing selected Product', 'Error');
             },
           }));
     }

@@ -70,8 +70,8 @@ export class ProfitGraphComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     const datasets = this.isYearlyViewMode ? 
-      this.attributes.map(pair => this.graphService.generateYearlyDataset(pair.attribute, this.translate.instant(pair.label), this.data))
-      : this.attributes.map(pair => this.graphService.generateMonthlyDataset(pair.attribute, this.translate.instant(pair.label), this.data));
+      this.attributes.map(pair => this.graphService.generateDataset(pair.attribute, this.translate.instant(pair.label), this.data, 12))
+      : this.attributes.map(pair => this.graphService.generateDataset(pair.attribute, this.translate.instant(pair.label), this.data, 31));
     
 
     this.displayData = {
