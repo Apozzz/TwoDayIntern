@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.twoday.wms.dto.PurchaseDto;
-import com.twoday.wms.warehouse.purchase.Purchase;
 import com.twoday.wms.warehouse.report.ReportGeneratorServiceImpl;
 import com.twoday.wms.warehouse.report.generators.CsvHeaderGenerator;
 import com.twoday.wms.warehouse.report.generators.CsvRowGenerator;
@@ -41,14 +40,14 @@ public class ReportGeneratorServiceImplTest {
     @Test
     void testGenerateCSV() {
         PurchaseDto mockPurchase = new PurchaseDto();
-        when(csvHeaderGenerator.generateCSVHeader(Purchase.class)).thenReturn("mock-header");
+        when(csvHeaderGenerator.generateCSVHeader(PurchaseDto.class)).thenReturn("mock-header");
         when(csvRowGenerator.generateCSVRow(mockPurchase)).thenReturn("mock-row");
 
         String result = service.generateCSV(Arrays.asList(mockPurchase));
 
         assertEquals("mock-header" + NEW_LINE + "mock-row" + NEW_LINE, result);
 
-        verify(csvHeaderGenerator, times(1)).generateCSVHeader(Purchase.class);
+        verify(csvHeaderGenerator, times(1)).generateCSVHeader(PurchaseDto.class);
         verify(csvRowGenerator, times(1)).generateCSVRow(mockPurchase);
     }
 

@@ -28,6 +28,9 @@
       "@environments/*": ["src/environments/*"],
       "@components/*": ["src/app/components/*"],
       "@material/*": ["src/app/material/*"],
+      "@utils/*": ["src/app/utils/*"],
+      "@constants/*": ["src/constants/*"],
+      "@resolvers/*": ["src/app/resolvers/*"],
     },
   },
   "angularCompilerOptions": {

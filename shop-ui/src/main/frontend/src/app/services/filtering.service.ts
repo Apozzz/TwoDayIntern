@@ -43,7 +43,7 @@ export class FilteringService {
 
           return true;
         }
-        
+
         return true;
       });
     });

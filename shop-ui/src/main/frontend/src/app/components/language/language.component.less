@@ -1,0 +1,32 @@
+@import "../../../styles/base/colors.less";
+
+.language-selector {
+    display: flex;
+    align-items: center;
+    padding: 0 1em;
+
+    .language-label {
+        font-size: 0.9em;
+        margin-right: 0.5em;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .language-select {
+        padding: 0.2em 0.5em;
+        border: none;
+        background-color: @color-shadow-light;
+        color: @primary-backgroud-color;
+        border-radius: 3px;
+        font-size: 0.9em;
+
+        &:focus, &:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .language-option {
+            padding: 0.5em 1em;
+            background-color: #424242;
+            color: @primary-backgroud-color;
+        }
+    }
+}

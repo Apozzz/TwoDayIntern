@@ -9,7 +9,7 @@ import { FilterCriterion } from "src/app/shared/types/filter-criterion.type";
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.less']
+  styleUrls: ['./filter.component.less'],
 })
 export class FilterComponent<T> implements OnInit {
 

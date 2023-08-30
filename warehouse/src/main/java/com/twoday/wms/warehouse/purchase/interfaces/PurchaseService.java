@@ -1,11 +1,14 @@
 package com.twoday.wms.warehouse.purchase.interfaces;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import com.twoday.wms.warehouse.purchase.Purchase;
+import com.twoday.wms.dto.PurchaseDto;
 
 public interface PurchaseService {
     
-    List<Purchase> findTop25ByOrderByIdDesc();
+    List<PurchaseDto> findAllWithTimestampBetween(LocalDateTime startDate, LocalDateTime endDate);
+    List<PurchaseDto> getAllPurchasesForYearRangeFromGivenYear(Integer yearDate);
+    List<PurchaseDto> getAllPurchasesForMonthRangeFromGivenMonth(String monthDate);
 
 }

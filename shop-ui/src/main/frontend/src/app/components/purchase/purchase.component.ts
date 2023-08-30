@@ -1,6 +1,8 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnDestroy, OnInit, } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '@services/product.service';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { ProductDto } from 'src/app/shared/models/product-dto.interface';
 
 @Component({
@@ -8,7 +10,7 @@ import { ProductDto } from 'src/app/shared/models/product-dto.interface';
   templateUrl: './purchase.component.html',
   styleUrls: ['./purchase.component.less']
 })
-export class PurchaseComponent implements OnInit {
+export class PurchaseComponent implements OnInit, OnDestroy {
 
   products: ProductDto[] = [];
   selectedProductId: number | null = null;
@@ -16,20 +18,23 @@ export class PurchaseComponent implements OnInit {
   purchaseQuantity: number = 1;
   purchaseSuccess: boolean | null = null;
   productAvailableForPurchase: boolean = true;
+  private subscription = new Subscription();
 
-  constructor(private productService: ProductService, private route: ActivatedRoute) { }
+  constructor(private productService: ProductService, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('productId');
     const products = this.route.snapshot.data['products'];
+    this.products = products.filter((p: ProductDto) => p.quantity > 0);
 
     if (productId != null) {
       this.selectedProductId = +productId;
       this.updateSelectedProduct();
     }
+  }
 
-    this.products = products;
-    this.updateSelectedProduct();
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   onProductSelect(productId: number): void {
@@ -39,6 +44,7 @@ export class PurchaseComponent implements OnInit {
 
   updateSelectedProduct(): void {
     this.selectedProduct = this.products.find(p => p.id === this.selectedProductId) || null;
+
     if (this.selectedProduct && this.selectedProduct.quantity <= 0 || !this.selectedProduct) {
       this.productAvailableForPurchase = false;
     } else {
@@ -48,17 +54,26 @@ export class PurchaseComponent implements OnInit {
 
   purchase(): void {
     if (this.selectedProductId !== null) {
-      this.productService.purchaseProduct(this.selectedProductId, this.purchaseQuantity)
-        .subscribe({
-          next: () => {
-            this.purchaseSuccess = true;
-            this.ngOnInit();
-          },
-          error: (error) => {
-            this.purchaseSuccess = false;
-            console.error('Purchase failed:', error);
-          },
-        });
+      this.subscription.add(
+        this.productService.purchaseProduct(this.selectedProductId, this.purchaseQuantity)
+          .subscribe({
+            next: () => {
+              const productIndex = this.products.findIndex(p => p.id === this.selectedProductId);
+
+              if (productIndex !== -1) {
+                this.products[productIndex].quantity -= this.purchaseQuantity;
+                this.products = this.products.filter((p: ProductDto) => p.quantity > 0);
+                this.updateSelectedProduct();
+              }
+
+              this.purchaseSuccess = true;
+              this.toastr.success('Purchase was successful!', 'Success');
+            },
+            error: (error) => {
+              this.purchaseSuccess = false;
+              this.toastr.error('There was an error when purchasing selected Product', 'Error');
+            },
+          }));
     }
   }
 }

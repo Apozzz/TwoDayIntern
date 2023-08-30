@@ -11,28 +11,33 @@ public class PurchaseDto {
     private Long id;
 
     @CsvFields({
-        @CsvField(name = "User ID", nestedField = "id", order = 2),
-        @CsvField(name = "User Name", nestedField = "username", quote = true, order = 3)
+            @CsvField(name = "User ID", nestedField = "id", order = 2),
+            @CsvField(name = "User Name", nestedField = "username", quote = true, order = 3)
     })
     private UserDto user;
 
     @CsvFields({
-        @CsvField(name = "Product ID", nestedField = "id", order = 4),
-        @CsvField(name = "Product Name", nestedField = "name", quote = true, order = 5)
+            @CsvField(name = "Product ID", nestedField = "id", order = 4),
+            @CsvField(name = "Product Name", nestedField = "name", quote = true, order = 5)
     })
     private ProductDto product;
 
     @CsvField(name = "Quantity", order = 6)
     private Integer quantity;
 
-    @CsvField(name = "Time Stamp", order = 7)
+    @CsvField(name = "Total Price", order = 7)
+    private Float totalPrice;
+
+    @CsvField(name = "Time Stamp", order = 8)
     private LocalDateTime timeStamp;
 
-    public PurchaseDto(Long id, UserDto user, ProductDto product, Integer quantity, LocalDateTime timeStamp) {
+    public PurchaseDto(Long id, UserDto user, ProductDto product, Integer quantity, Float totalPrice,
+            LocalDateTime timeStamp) {
         this.id = id;
         this.user = user;
         this.product = product;
         this.quantity = quantity;
+        this.totalPrice = totalPrice;
         this.timeStamp = timeStamp;
     }
 
@@ -53,6 +58,14 @@ public class PurchaseDto {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Float getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Float totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public LocalDateTime getTimeStamp() {
@@ -82,7 +95,7 @@ public class PurchaseDto {
     @Override
     public String toString() {
         return "PurchaseDto [id=" + id + ", user=" + user + ", product=" + product + ", quantity=" + quantity
-                + ", timeStamp=" + timeStamp + "]";
+                + ", totalPrice=" + totalPrice + ", timeStamp=" + timeStamp + "]";
     }
-    
+
 }

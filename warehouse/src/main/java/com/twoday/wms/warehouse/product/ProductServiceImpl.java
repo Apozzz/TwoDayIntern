@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
         Purchase purchase = new Purchase(user, product, quantity, finalPrice * quantity, LocalDateTime.now());
         purchaseRepository.save(purchase);
 
-        return productConverter.toDto(productRepository.save(product));
+        return productConverter.toDto(product);
     }
 
     @Override

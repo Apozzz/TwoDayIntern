@@ -5,26 +5,28 @@
                 <mat-form-field appearance="outline">
                     <mat-label>{{criterion.field}}</mat-label>
                     <input matInput [(ngModel)]="criterion.value" (ngModelChange)="handleFilterChange()">
-                    <mat-icon matPrefix>search</mat-icon>
+                    <mat-icon matPrefix>{{ 'SEARCH' | translate }}</mat-icon>
                 </mat-form-field>
             </div>
             <div *ngIf="isRangeValueCriterion(criterion)" class="filter-section">
-                <div class="filter-title">{{criterion.field}}</div>
+                <div class="filter-title">{{ criterion.field}}</div>
                 <mat-form-field appearance="outline" class="filter-input">
-                    <mat-label>From</mat-label>
+                    <mat-label>{{ 'FROM' | translate }}</mat-label>
                     <input matInput type="text" [(ngModel)]="criterion.minValue" (ngModelChange)="handleFilterChange()">
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" class="filter-input">
-                    <mat-label>To</mat-label>
+                    <mat-label>{{ 'TO' | translate }}</mat-label>
                     <input matInput type="text" [(ngModel)]="criterion.maxValue" (ngModelChange)="handleFilterChange()">
                 </mat-form-field>
 
                 <div class="slider-container">
                     <mat-slider [min]="getCriterionRange(criterion.field).min"
                         [max]="getCriterionRange(criterion.field).max" step="1" class="product-filter-slider">
-                        <input matSliderStartThumb [(ngModel)]="criterion.minValue" (ngModelChange)="handleFilterChange()">
-                        <input matSliderEndThumb [(ngModel)]="criterion.maxValue" (ngModelChange)="handleFilterChange()">
+                        <input matSliderStartThumb [(ngModel)]="criterion.minValue"
+                            (ngModelChange)="handleFilterChange()">
+                        <input matSliderEndThumb [(ngModel)]="criterion.maxValue"
+                            (ngModelChange)="handleFilterChange()">
                     </mat-slider>
                 </div>
             </div>

@@ -1,13 +1,22 @@
 import { NgModule } from '@angular/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSliderModule } from '@angular/material/slider';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDatetimepickerModule, MatNativeDatetimeModule } from '@mat-datetimepicker/core';
+import { MatMomentDatetimeModule } from '@mat-datetimepicker/moment';
 
 @NgModule({
   imports: [
@@ -20,6 +29,16 @@ import { MatIconModule } from '@angular/material/icon';
     MatSidenavModule,
     MatSliderModule,
     MatIconModule,
+    MatDatepickerModule,
+    MatDatetimepickerModule,
+    MatNativeDatetimeModule,
+    ReactiveFormsModule,
+    MatMomentDateModule,
+    MatMomentDatetimeModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatSlideToggleModule,
   ],
   exports: [
     MatToolbarModule,
@@ -31,6 +50,16 @@ import { MatIconModule } from '@angular/material/icon';
     MatSidenavModule,
     MatSliderModule,
     MatIconModule,
+    MatDatepickerModule,
+    MatDatetimepickerModule,
+    MatNativeDatetimeModule,
+    ReactiveFormsModule,
+    MatMomentDateModule,
+    MatMomentDatetimeModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatSlideToggleModule,
   ]
 })
 export class MaterialModule { }

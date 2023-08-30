@@ -166,7 +166,7 @@ public class WarehouseControllerTest {
                                 .andExpect(jsonPath("$.id", is(1)))
                                 .andExpect(jsonPath("$.name", is("Scissors")));
                 assertLogMessages(
-                                "Attempting to save product with details: ProductDto [id=1, name=Scissors, description=Very sharp, price=9.99, quantity=10] for warehouse ID: 1...",
+                                "Attempting to save product with details: ProductDto [id=1, name=Scissors, description=Very sharp, price=9.99, final price=9.99, quantity=10] for warehouse ID: 1...",
                                 "Successfully saved product with ID: 1 for warehouse ID: 1.");
                 Mockito.verify(productService, Mockito.times(1)).saveProductByWarehouseId(Mockito.any(Long.class),
                                 Mockito.any(ProductDto.class));
@@ -177,13 +177,16 @@ public class WarehouseControllerTest {
                 Long warehouseId = 1L;
                 Long productId = 2L;
                 Integer quantity = 5;
+                Float finalPrice = 11.99f;
                 when(productService.purchaseProduct(Mockito.any(Long.class), Mockito.any(Integer.class),
                                 Mockito.any(String.class), Mockito.anyFloat())).thenReturn(sampleProductDto);
                 mockMvc.perform(
                                 MockMvcRequestBuilders
                                                 .post("/v1/warehouses/%s/products/%s/purchase".formatted(warehouseId,
                                                                 productId))
-                                                .with(httpBasic("ra", "ra")).param("quantity", quantity.toString())
+                                                .with(httpBasic("ra", "ra"))
+                                                .param("quantity", quantity.toString())
+                                                .param("finalPrice", finalPrice.toString())
                                                 .contentType(MediaType.APPLICATION_JSON))
                                 .andExpect(status().isCreated())
                                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -191,9 +194,10 @@ public class WarehouseControllerTest {
                                 .andExpect(jsonPath("$.name", is("Scissors")))
                                 .andExpect(jsonPath("$.description", is("Very sharp")))
                                 .andExpect(jsonPath("$.price", is(9.99)))
+                                .andExpect(jsonPath("$.finalPrice", is(9.99)))
                                 .andExpect(jsonPath("$.quantity", is(10)));
                 assertLogMessages(
-                                "User ra is attempting to purchase product ID: 2 from warehouse ID: 1 with quantity: 5...",
+                                "User ra is attempting to purchase product ID: 2 from warehouse ID: 1 with quantity: 5 and final product price: 11.99...",
                                 "User ra successfully purchased product ID: 2 from warehouse ID: 1.");
                 Mockito.verify(productService, Mockito.times(1)).purchaseProduct(Mockito.any(Long.class),
                                 Mockito.any(Integer.class), Mockito.any(String.class), Mockito.anyFloat());

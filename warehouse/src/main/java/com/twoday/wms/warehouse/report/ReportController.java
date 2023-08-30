@@ -5,6 +5,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,14 +33,18 @@ public class ReportController {
         @GetMapping("/purchases/csv")
         public ResponseEntity<Resource> getPurchasesReport(
                         @RequestParam(name = "dateTime", required = false) String dateTime) {
-                log.info("Received request to fetch purchases report. Date-Time: {}", dateTime);
-        Resource resource = new FileSystemResource(fileService.determineCorrectFile(dateTime));
-        log.info("Fetching report file: {}", resource.getFilename());
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        CONTENT_DISPOSITION_ATTACHMENT.formatted(fileNameService.getFileName(dateTime)))
-                .contentType(MediaType.parseMediaType(CSV_MIME_TYPE))
-                .body(resource);
-    }
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                String currentPrincipalName = authentication.getName();
+                log.info("Received request from User {} to fetch purchases report. Date-Time: {}", currentPrincipalName,
+                                dateTime);
+                Resource resource = new FileSystemResource(fileService.determineCorrectFile(dateTime));
+                log.info("Fetching report file: {}", resource.getFilename());
+                return ResponseEntity.ok()
+                                .header(HttpHeaders.CONTENT_DISPOSITION,
+                                                CONTENT_DISPOSITION_ATTACHMENT
+                                                                .formatted(fileNameService.getFileName(dateTime)))
+                                .contentType(MediaType.parseMediaType(CSV_MIME_TYPE))
+                                .body(resource);
+        }
 
 }

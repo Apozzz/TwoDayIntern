@@ -3,6 +3,11 @@ package com.twoday.wms.warehouse.report;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -75,12 +80,12 @@ public class ReportFileServiceImpl implements ReportFileService {
             return file;
         } catch (RuntimeException e) {
             throw new InvalidDateTimeFormatException("%s Consider using the last generated report date: %s"
-                    .formatted(e.getMessage(), getLastGeneratedReportDate()));
+                    .formatted(e.getMessage(), getLastGeneratedBasicReportDate()));
         }
     }
 
     @Override
-    public String getLastGeneratedReportDate() {
+    public String getLastGeneratedBasicReportDate() {
         File latestReport = getLatestFile();
         String fileName = latestReport.getName();
         String[] parts = fileName.split(FILENAME_SEPARATOR, SPLIT_LIMIT);
@@ -89,6 +94,14 @@ public class ReportFileServiceImpl implements ReportFileService {
             return parts[SECOND_PART_INDEX].replace(CSV_EXTENSION, EMPTY_STRING);
         }
         throw new ReportFileException(UNABLE_TO_EXTRACT_DATE);
+    }
+
+    @Override
+    public LocalDateTime getLastGeneratedStandardReportDate() throws IOException {
+        File latestReport = getLatestFile();
+        Instant instant = Files.readAttributes(latestReport.toPath(), BasicFileAttributes.class).creationTime()
+                .toInstant();
+        return instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 
 }
